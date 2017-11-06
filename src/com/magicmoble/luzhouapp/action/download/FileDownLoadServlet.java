@@ -70,6 +70,7 @@ public class FileDownLoadServlet extends HttpServlet {
 			while ((length = input.read(b)) != -1) {
 				outputStream.write(b, 0, length);
 			}
+			outputStream.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

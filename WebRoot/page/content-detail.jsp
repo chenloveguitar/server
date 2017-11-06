@@ -172,46 +172,46 @@
 						作者<span style="margin-left:25px;"><select class="selectpicker" data-live-search="true" title="请选择或输入作者昵称"></select></span>
 				</p>
 				<div>
-					<div class="service" style="display: none;">
+					<div class="service" style="display: ${table_name eq 'fuwu' ? 'display' : 'none'};">
 						<p class="content-title">
 							价格 <input type="text" placeholder="请输入价格" class="content-input"
-								id="price_fuwu" />
+								id="price_fuwu" value="${fuwu.price}"/>
 						</p>
 						<p class="content-title">
 							电话 <input type="text" placeholder="请输入电话" class="content-input"
-								id="phone_fuwu" />
+								id="phone_fuwu" value="${fuwu.phone}"/>
 						</p>
 					</div>
-					<div class="gowhere" style="display: none;">
+					<div class="gowhere" style="display: ${table_name eq 'quchu' ? 'display' : 'none'};">
 						<p class="content-title">
 							店铺名 <input type="text" placeholder="请输入店铺名称"
-								class="content-input" id="dianpu_id" />
+								class="content-input"  id="dianpu_id" value="${quchu.dianpu_name}"/>
 						</p>
 						<p class="content-title">
 							地址 <input type="text" placeholder="请输入地址" class="content-input"
-								id="address" />
+								id="address" value="${quchu.dianpu_address	}"/>
 						</p>
 						<p class="content-title">
 							电话 <input type="text" placeholder="请输入电话" class="content-input"
-								id="phone" />
+								id="phone" value="${quchu.phone}"/>
 						</p>
 					</div>
-					<div class="goods" style="display: none;">
+					<div class="goods" style="display: ${table_name eq 'commodity' ? 'display' : 'none'};">
 						<p class="content-title">
 							价格 <input type="text" placeholder="请输入价格" class="content-input"
-								id="price_commodity" />
+								id="price_commodity" value="${commodity.price}"/>
 						</p>
 						<p class="content-title">
 							数量 <input type="text" placeholder="请输入数量" class="content-input"
-								id="shuliang" />
+								id="shuliang"  value="${commodity.unit}"/>
 						</p>
 						<p class="content-title">
 							运费 <input type="text" placeholder="请输入运费" class="content-input"
-								id="freight" />
+								id="freight" value="${commodity.freight}"/>
 						</p>
 						<p class="content-title">
 							电话 <input type="text" placeholder="请输入电话" class="content-input"
-								id="phone_commodity" />
+								id="phone_commodity" value="${commodity.phone}"/>
 						</p>
 					</div>
 				</div>
@@ -485,11 +485,10 @@
 				break;
 		}
 		
-		console.log("${commodity}");
+		console.log("${commodity.dianzan_count}");
 		//将所有值显示到页面上
 		$("#yuedu_count").val(yuedu_count);
 		$("#dianzan_count").val(dianzan_count);
-		console.log("${commodity}");
 		
 	}
 	//图片关联和上传
@@ -567,7 +566,6 @@
 			success : function(data) {
 				var result = data.data.result;
 				var releaser_id = "${releaser_id}";
-				console.log(releaser_id);
 				$jq.each(result, function(i) {
 					if(releaser_id === result[i].admin_xinxi_id){
 						$jq('.selectpicker').append("<option selected='selected' value=" + result[i].admin_xinxi_id + ">"
@@ -681,7 +679,6 @@
 				if(data.code === "0000"){
 					var results = data.data;
 					if(results.length > 0){
-						console.log(results);
 						for(var i in results){
 							$("#clear-fix").append(getImagesHtml(results[i].id,results[i].absolutePath));
 						}
@@ -738,7 +735,6 @@
 			$('#picture-all').show();
 			$(".save-clicked").click(function() {
 				var a = $("#txtDefaultHtmlArea").val();
-				console.log("txt:" + a);
 			})
 			//保存取消
 			$(".save a").click(function() {
@@ -854,8 +850,6 @@
 		var beginDateTime = this.getTime();
 		var endDateTime = date.getTime();
 		var diff = endDateTime - beginDateTime;
-		console.log(this.getTime())
-		console.log(date.getTime())
 		var result = diff / (24 * 60 * 60 * 1000);
 		return result;
 	}
