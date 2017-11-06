@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 public class Quchu {
+	String id;
 	String quchu_id;
 	String title;
 	String address;
@@ -17,9 +18,95 @@ public class Quchu {
 	String shenhe;
 	String releaser_id;
 	Timestamp time;
-	
+	String dianpu_touxiang;
+	String dianpu_name;
+	String dianpu_address;
+	String renzheng_Tag;
+	String biaoqian;
+	String dianzhan_count;
+	String guanggao_url;
+	String yuedu;
+	public String getYuedu() {
+		return yuedu;
+	}
 
-	
+	public void setYuedu(String yuedu) {
+		this.yuedu = yuedu;
+	}
+
+	public String getGuanggao_url() {
+		return guanggao_url;
+	}
+
+	public void setGuanggao_url(String guanggao_url) {
+		this.guanggao_url = guanggao_url;
+	}
+
+	public String getDianzhan_count() {
+		return dianzhan_count;
+	}
+
+	public void setDianzhan_count(String dianzhan_count) {
+		this.dianzhan_count = dianzhan_count;
+	}
+
+	public String getBiaoqian() {
+		return biaoqian;
+	}
+
+	public void setBiaoqian(String biaoqian) {
+		this.biaoqian = biaoqian;
+	}
+
+	public String getShoucang_Tag() {
+		return shoucang_Tag;
+	}
+
+	public void setShoucang_Tag(String shoucang_Tag) {
+		this.shoucang_Tag = shoucang_Tag;
+	}
+
+	String shoucang_Tag;
+
+	public String getRenzheng_Tag() {
+		return renzheng_Tag;
+	}
+
+	public void setRenzheng_Tag(String renzheng_Tag) {
+		this.renzheng_Tag = renzheng_Tag;
+	}
+
+	public String getDianpu_address() {
+		return dianpu_address;
+	}
+
+	public void setDianpu_address(String dianpu_address) {
+		this.dianpu_address = dianpu_address;
+	}
+
+	public String getDianpu_name() {
+		return dianpu_name;
+	}
+
+	public void setDianpu_name(String dianpu_name) {
+		this.dianpu_name = dianpu_name;
+	}
+
+	public String getDianpu_touxiang() {
+		return dianpu_touxiang;
+	}
+
+	public void setDianpu_touxiang(String dianpu_touxiang) {
+		this.dianpu_touxiang = dianpu_touxiang;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
 
 	public String getQuchu_id() {
 		return quchu_id;
@@ -124,6 +211,18 @@ public class Quchu {
 	public void setShenhe(String shenhe) {
 		this.shenhe = shenhe;
 	}
+
+	@Override
+	public String toString() {
+		return "Quchu [id=" + id + ", quchu_id=" + quchu_id + ", title=" + title + ", address=" + address
+				+ ", touxiang=" + touxiang + ", phone=" + phone + ", picture=" + picture + ", content=" + content
+				+ ", dianzan_count=" + dianzan_count + ", dashang_count=" + dashang_count + ", fenlei_Tag=" + fenlei_Tag
+				+ ", shenhe=" + shenhe + ", releaser_id=" + releaser_id + ", time=" + time + ", dianpu_touxiang="
+				+ dianpu_touxiang + ", dianpu_name=" + dianpu_name + ", dianpu_address=" + dianpu_address
+				+ ", renzheng_Tag=" + renzheng_Tag + ", biaoqian=" + biaoqian + ", dianzhan_count=" + dianzhan_count
+				+ ", guanggao_url=" + guanggao_url + ", yuedu=" + yuedu + ", shoucang_Tag=" + shoucang_Tag + "]";
+	}
+	
 	
 	
 }

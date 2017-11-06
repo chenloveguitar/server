@@ -5,6 +5,78 @@ import java.util.List;
 
 public class Faxian {
 	String faxian_id;
+	String id;
+	String fufei_Tag;
+	String pinglun_count;
+	String yuedu_count;
+	String dashang_count;
+	String shoucang_Tag;
+	String biaoqian;
+	public String getBiaoqian() {
+		return biaoqian;
+	}
+
+	public void setBiaoqian(String biaoqian) {
+		this.biaoqian = biaoqian;
+	}
+
+	public String getShoucang_Tag() {
+		return shoucang_Tag;
+	}
+
+	public void setShoucang_Tag(String shoucang_Tag) {
+		this.shoucang_Tag = shoucang_Tag;
+	}
+
+	public String getDashang_count() {
+		return dashang_count;
+	}
+
+	public void setDashang_count(String dashang_count) {
+		this.dashang_count = dashang_count;
+	}
+
+	public String getYuedu_count() {
+		return yuedu_count;
+	}
+
+	public void setYuedu_count(String yuedu_count) {
+		this.yuedu_count = yuedu_count;
+	}
+
+	public String getPinglun_count() {
+		return pinglun_count;
+	}
+
+	public void setPinglun_count(String pinglun_count) {
+		this.pinglun_count = pinglun_count;
+	}
+
+	String dianzan_count;
+	public String getDianzan_count() {
+		return dianzan_count;
+	}
+
+	public void setDianzan_count(String dianzan_count) {
+		this.dianzan_count = dianzan_count;
+	}
+
+	public String getFufei_Tag() {
+		return fufei_Tag;
+	}
+
+	public void setFufei_Tag(String fufei_Tag) {
+		this.fufei_Tag = fufei_Tag;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
 	List<Picture> picture;
 	String title;
 	String name;
@@ -85,6 +157,13 @@ public class Faxian {
 
 	public void setTime(Timestamp time) {
 		this.time = time;
+	}
+
+	@Override
+	public String toString() {
+		return "Faxian [faxian_id=" + faxian_id + ", picture=" + picture + ", title=" + title + ", name=" + name
+				+ ", content=" + content + ", fenlei_Tag=" + fenlei_Tag + ", shenhe=" + shenhe + ", releaser_id="
+				+ releaser_id + ", time=" + time + "]";
 	}
 
 }

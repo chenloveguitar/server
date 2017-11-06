@@ -1,10 +1,82 @@
 package com.magicmoble.luzhouapp.model;
 
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.List;
 
 public class Commodity {
+	String id;
+	String dingdan_number;
+	String dianzan_count;
+	public String getDianzan_count() {
+		return dianzan_count;
+	}
+
+	public void setDianzan_count(String dianzan_count) {
+		this.dianzan_count = dianzan_count;
+	}
+
+	String Guangjie_fenlei_Tag;
+	int Yuedu;
+	String Dianpu_id;
+	String Biaoqian;
+	String Shoucang_Tag;
+	String Guanggao_url;
+	public String getGuanggao_url() {
+		return Guanggao_url;
+	}
+
+	public void setGuanggao_url(String guanggao_url) {
+		Guanggao_url = guanggao_url;
+	}
+
+	public String getShoucang_Tag() {
+		return Shoucang_Tag;
+	}
+
+	public void setShoucang_Tag(String shoucang_Tag) {
+		Shoucang_Tag = shoucang_Tag;
+	}
+
+	public String getBiaoqian() {
+		return Biaoqian;
+	}
+
+	public void setBiaoqian(String biaoqian) {
+		Biaoqian = biaoqian;
+	}
+
+	public String getDianpu_id() {
+		return Dianpu_id;
+	}
+
+	public void setDianpu_id(String dianpu_id) {
+		Dianpu_id = dianpu_id;
+	}
+
+	public int getYuedu() {
+		return Yuedu;
+	}
+
+	public void setYuedu(int yuedu) {
+		Yuedu = yuedu;
+	}
+
+	public String getGuangjie_fenlei_Tag() {
+		return Guangjie_fenlei_Tag;
+	}
+
+	public void setGuangjie_fenlei_Tag(String Guangjie_fenlei_Tag) {
+		this.Guangjie_fenlei_Tag = Guangjie_fenlei_Tag;
+	}
+
+	public String getDingdan_number() {
+		return dingdan_number;
+	}
+
+	public void setDingdan_number(String dingdan_number) {
+		this.dingdan_number = dingdan_number;
+	}
+
 	String commodity_id;
 	String title;
 	String price;
@@ -23,6 +95,15 @@ public class Commodity {
 	String shenhe;
 	Timestamp time;
 	int tuijian_Tag;
+
+	
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
 
 	public String getCommodity_id() {
 		return commodity_id;
@@ -167,5 +248,16 @@ public class Commodity {
 	public void setTuijian_Tag(int tuijian_Tag) {
 		this.tuijian_Tag = tuijian_Tag;
 	}
+
+	@Override
+	public String toString() {
+		return "Commodity [commodity_id=" + commodity_id + ", title=" + title + ", price=" + price + ", unit=" + unit
+				+ ", shuliang=" + shuliang + ", freight=" + freight + ", phone=" + phone + ", picture=" + picture
+				+ ", content=" + content + ", seller_id=" + seller_id + ", buyer_id=" + buyer_id + ", releaser_id="
+				+ releaser_id + ", seller_name=" + seller_name + ", buyer_name=" + buyer_name + ", releaser_name="
+				+ releaser_name + ", shenhe=" + shenhe + ", time=" + time + ", tuijian_Tag=" + tuijian_Tag + "]";
+	}
+	
+	
 
 }

@@ -1,16 +1,123 @@
 package com.magicmoble.luzhouapp.model.server;
 
 import java.sql.Timestamp;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import com.magicmoble.luzhouapp.model.Picture;
 
 public class Toutiao {
 	String id;
+	String name;
+	String fufei_Tag;
+	String fenlei_Tag;
+	String muban_Tag;
+	String laiyuan;
+	String dianzan_count;
+	String pinglun_count;
+	String releaser_id;
+	String dashang_count;
+	String biaoqian;
+	public String getBiaoqian() {
+		return biaoqian;
+	}
+
+	public void setBiaoqian(String biaoqian) {
+		this.biaoqian = biaoqian;
+	}
+
+	public String getShoucang_Tag() {
+		return shoucang_Tag;
+	}
+
+	public void setShoucang_Tag(String shoucang_Tag) {
+		this.shoucang_Tag = shoucang_Tag;
+	}
+
+	String shoucang_Tag;
+	public String getDashang_count() {
+		return dashang_count;
+	}
+
+	public void setDashang_count(String dashang_count) {
+		this.dashang_count = dashang_count;
+	}
+
+	public String getReleaser_id() {
+		return releaser_id;
+	}
+
+	public void setReleaser_id(String releaser_id) {
+		this.releaser_id = releaser_id;
+	}
+
+	public String getPinglun_count() {
+		return pinglun_count;
+	}
+
+	public void setPinglun_count(String pinglun_count) {
+		this.pinglun_count = pinglun_count;
+	}
+
+	public String getDianzan_count() {
+		return dianzan_count;
+	}
+
+	public void setDianzan_count(String dianzan_count) {
+		this.dianzan_count = dianzan_count;
+	}
+
+	public String getLaiyuan() {
+		return laiyuan;
+	}
+
+	public void setLaiyuan(String laiyuan) {
+		this.laiyuan = laiyuan;
+	}
+
+	public String getMuban_Tag() {
+		return muban_Tag;
+	}
+
+	public void setMuban_Tag(String muban_Tag) {
+		this.muban_Tag = muban_Tag;
+	}
+
+	public String getFenlei_Tag() {
+		return fenlei_Tag;
+	}
+
+	public void setFenlei_Tag(String fenlei_Tag) {
+		this.fenlei_Tag = fenlei_Tag;
+	}
+
+	public String getFufei_Tag() {
+		return fufei_Tag;
+	}
+
+	public void setFufei_Tag(String fufei_Tag) {
+		this.fufei_Tag = fufei_Tag;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 
 	List<Picture> pictures;
 	String title;
+	List<Picture> picture;
+	public List<Picture> getPicture() {
+		return picture;
+	}
+
+	public void setPicture(List<Picture> picture) {
+		this.picture = picture;
+	}
 
 	int yuedu_count;
 	int share_count;
@@ -25,6 +132,16 @@ public class Toutiao {
 	String tuijian_message;
 	String tuijian_Tag;
 	String content;
+	
+	Map<String, Object> data = new HashMap<String, Object>();
+
+	public Map<String, Object> getData() {
+		return data;
+	}
+
+	public void setData(Map<String, Object> data) {
+		this.data = data;
+	}
 
 	public String getContent() {
 		return content;
@@ -156,12 +273,17 @@ public class Toutiao {
 
 	@Override
 	public String toString() {
-		return "Toutiao [id=" + id + ", pictures=" + pictures + ", title=" + title + ", yuedu_count=" + yuedu_count
-				+ ", share_count=" + share_count + ", shoucang_count=" + shoucang_count + ", releaser_touxiang="
-				+ releaser_touxiang + ", releaser_name=" + releaser_name + ", time=" + time + ", shenhe=" + shenhe
-				+ ", dianzan_hongbao=" + dianzan_hongbao + ", share_hongbao=" + share_hongbao + ", days=" + days
-				+ ", tuijian_message=" + tuijian_message + ", tuijian_Tag=" + tuijian_Tag + ", content=" + content
-				+ "]";
+		return "Toutiao [id=" + id + ", name=" + name + ", fufei_Tag=" + fufei_Tag + ", fenlei_Tag=" + fenlei_Tag
+				+ ", muban_Tag=" + muban_Tag + ", laiyuan=" + laiyuan + ", dianzan_count=" + dianzan_count
+				+ ", pinglun_count=" + pinglun_count + ", releaser_id=" + releaser_id + ", dashang_count="
+				+ dashang_count + ", biaoqian=" + biaoqian + ", shoucang_Tag=" + shoucang_Tag + ", pictures=" + pictures
+				+ ", title=" + title + ", picture=" + picture + ", yuedu_count=" + yuedu_count + ", share_count="
+				+ share_count + ", shoucang_count=" + shoucang_count + ", releaser_touxiang=" + releaser_touxiang
+				+ ", releaser_name=" + releaser_name + ", time=" + time + ", shenhe=" + shenhe + ", dianzan_hongbao="
+				+ dianzan_hongbao + ", share_hongbao=" + share_hongbao + ", days=" + days + ", tuijian_message="
+				+ tuijian_message + ", tuijian_Tag=" + tuijian_Tag + ", content=" + content + ", data=" + data + "]";
 	}
+
+
 
 }

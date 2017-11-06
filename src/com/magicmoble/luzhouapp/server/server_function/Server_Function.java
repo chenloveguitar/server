@@ -1,14 +1,19 @@
 package com.magicmoble.luzhouapp.server.server_function;
 
+import java.beans.PropertyDescriptor;
 import java.io.File;
+import java.lang.reflect.Method;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+
+import org.apache.commons.lang3.StringUtils;
 
 import com.magicmoble.luzhouapp.business.Admin_xinxi_Business;
 import com.magicmoble.luzhouapp.business.CommodityBusiness;
@@ -19,9 +24,13 @@ import com.magicmoble.luzhouapp.business.GuanzhuBusiness;
 import com.magicmoble.luzhouapp.business.QuchuBusiness;
 import com.magicmoble.luzhouapp.business.ToutiaoBusiness;
 import com.magicmoble.luzhouapp.model.Admin_xinxi;
+import com.magicmoble.luzhouapp.model.Commodity;
+import com.magicmoble.luzhouapp.model.Faxian;
 import com.magicmoble.luzhouapp.model.Faxian_Xiangqing;
+import com.magicmoble.luzhouapp.model.Fuwu;
 import com.magicmoble.luzhouapp.model.Guangjie_Xiangqing;
 import com.magicmoble.luzhouapp.model.Picture;
+import com.magicmoble.luzhouapp.model.Quchu;
 import com.magicmoble.luzhouapp.model.Quchu_Xiangqing;
 import com.magicmoble.luzhouapp.model.Toutiao_Xiangqing;
 import com.magicmoble.luzhouapp.model.server.Admin;
@@ -32,11 +41,91 @@ import com.magicmoble.luzhouapp.model.server.Shuoshuo;
 import com.magicmoble.luzhouapp.model.server.Toutiao;
 import com.magicmoble.luzhouapp.model.server.User_model;
 
-public class Server_Function {
+public class Server_Function<T> {
 	public static Integer PAGE_SIZE = 5;//每页显示条数
 	public static Integer TOTAL_SIZE = 0;//总条数
 	public static Integer CURRENT_PAGE = 0;//当前页
 	public static Integer TOTAL_PAGE = 0;//总页数
+	
+	public static void main(String[] args) throws Exception {
+		Toutiao toutiao = new Toutiao();
+		findDataByTableAndId("toutiao", "d5cb9303-d1f3-4ba0-9868-750c2a86f37b",toutiao);
+		System.out.println(toutiao);
+		
+		Fuwu fuwu = new Fuwu();
+		findDataByTableAndId("fuwu", "3744de3b-5085-4714-b0e4-0259ef7c360b",fuwu);
+		System.out.println(fuwu);
+		
+		Quchu quchu = new Quchu();
+		findDataByTableAndId("quchu", "b639e3b5-07fa-47ac-9f53-fcb7db8dc1e3",quchu);
+		System.out.println(quchu);
+		
+		Faxian faxian = new Faxian();
+		findDataByTableAndId("faxian", "85fbd9fa-afd4-4914-bfec-c99e4d56eacb",faxian);
+		System.out.println(faxian);
+		Commodity commodity = new Commodity();
+		findDataByTableAndId("commodity", "5134516b-f91b-45e5-afec-9795fb391912",commodity);
+		System.out.println(commodity);
+//		Toutiao toutiao = new Toutiao();
+//		PropertyDescriptor property = new PropertyDescriptor("id",toutiao.getClass());
+//		System.out.println(property.getName());
+//		Method method = property.getWriteMethod();
+//		method.invoke(toutiao, "123");
+//		System.out.println(toutiao);
+	}
+	
+	public static <T>T findDataByTableAndId(String table_name,String id,T t) throws Exception{
+		String sql = "select * from " + table_name + " where id = '"+id+"'";
+		DBHelper db = null;
+		ResultSet ret = null;
+		try {
+			db = new DBHelper(sql);
+			ret = db.pst.executeQuery();
+			
+			while(ret.next()){
+				ResultSetMetaData metaData = ret.getMetaData();
+				int count = metaData.getColumnCount();
+				for (int i = 1; i <= count; i++) {
+					String columnLabel = metaData.getColumnLabel(i);
+					
+					PropertyDescriptor property = new PropertyDescriptor(columnLabel,t.getClass());
+		            Method method = property.getWriteMethod();
+		            Class<?> type = method.getParameterTypes()[0];
+		            if(type.getName().equals("java.util.List")){
+		            	List<String> list = new ArrayList<String>();
+		            	String value = ret.getString(i);
+		            	if(StringUtils.isNotBlank(value)){
+		            		String[] split = value.split(",");
+		            		for (int j = 0; j < split.length; j++) {
+		            			list.add(split[j]);
+							}
+		            	}
+		            	method.invoke(t, list);
+		            }else if(type.getName().equals("java.lang.String")){
+		            	String value = ret.getString(i);
+		            	method.invoke(t, value);
+		            }else if(type.getName().equals("java.sql.Timestamp")){
+		            	Timestamp value = ret.getTimestamp(i);
+		            	method.invoke(t, value);
+		            }else if(type.getName().equals("int")){
+		            	int value = ret.getInt(i);
+		            	method.invoke(t, value);
+		            }else if(type.getName().equals("float")){
+		            	float value = ret.getFloat(i);
+		            	method.invoke(t, value);
+		            }else if(type.getName().equals("double")){
+		            	double value = ret.getDouble(i);
+		            	method.invoke(t, value);
+		            }
+				}
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
+		}finally{
+			db.close();
+		}
+		return t;
+	}
 	public static Home_model get_home1() {
 		Timestamp time = new Timestamp(new Date().getTime());
 		String sql1 = "SELECT count(id) FROM toutiao WHERE shenhe='正在审核中...'";
@@ -831,10 +920,6 @@ public class Server_Function {
 		}
 
 		return list;
-	}
-	
-	public static void main(String[] args) {
-		
 	}
 
 	public static List<Toutiao> NoExamine_dashang(String change_rec, int flag) {
@@ -1936,55 +2021,75 @@ public class Server_Function {
 			if (flag == 1) {
 				if (change_rec != null) {
 
-					sql = "SELECT id,content FROM toutiao where id='" + change_rec
-							+ "' UNION all SELECT id,content FROM faxian where id='" + change_rec
-							+ "' UNION all SELECT id,content FROM quchu where id='" + change_rec
-							+ "' UNION all SELECT id,content FROM commodity where id='" + change_rec
-							+ "' UNION all SELECT id,content FROM fuwu where id='" + change_rec + "' ";
+					sql = "SELECT id,title,content,'toutiao' as table_name,shenhe FROM toutiao where id='" + change_rec
+							+ "' UNION all SELECT id,title,content,'faxian' as table_name,shenhe FROM faxian where id='" + change_rec
+							+ "' UNION all SELECT id,title,content,'quchu' as table_name,shenhe FROM quchu where id='" + change_rec
+							+ "' UNION all SELECT id,title,content,'commodity' as table_name,shenhe FROM commodity where id='" + change_rec
+							+ "' UNION all SELECT id,title,content,'fuwu' as table_name,shenhe FROM fuwu where id='" + change_rec + "' ";
 
 				}
 			} else if (flag == 2) {
 				if (change_rec != null) {
 
-					sql = "select id,content from toutiao  where fenlei_Tag=1 and id='" + change_rec + "'";
+					sql = "select id,title,content,'toutiao' as table_name,shenhe from toutiao  where fenlei_Tag=1 and id='" + change_rec + "'";
 
 				}
 			} else if (flag == 3) {
 				if (change_rec != null) {
 
-					sql = "select id,content from toutiao where fenlei_Tag=2 and id='" + change_rec + "'";
+					sql = "select id,title,releaser_id,content,'toutiao' as table_name,shenhe,time from toutiao where fenlei_Tag=2 and id='" + change_rec + "'";
 
 				}
 			} else if (flag == 4) {
 				if (change_rec != null) {
 
-					sql = "select id,content from toutiao where fenlei_Tag=3 and id='" + change_rec + "'";
+					sql = "select id,title,releaser_id,content,'toutiao' as table_name,shenhe,time from toutiao where fenlei_Tag=3 and id='" + change_rec + "'";
 
 				}
 			} else if (flag == 5) {
 				if (change_rec != null) {
 
-					sql = "select id,content from faxian where id='" + change_rec + "'";
+					sql = "select id,title,releaser_id,content,'faxian' as table_name,shenhe,time from faxian where id='" + change_rec + "'";
 
 				}
 			} else if (flag == 6) {
 				if (change_rec != null) {
 
-					sql = "select id,content from quchu where id='" + change_rec + "'";
+					sql = "select id,title,releaser_id,content,'quchu' as table_name,shenhe,time from quchu where id='" + change_rec + "'";
 
 				}
 			} else if (flag == 7) {
 				if (change_rec != null) {
 
-					sql = "select id,content from commodity union select id,content from fuwu where id='" + change_rec
-							+ "'";
-
+					sql = "select "
+							+ "id,content,'commodity' as table_name,title,price,unit,shuliang,freight,"
+							+ "phone,picture,seller_id,buyer_id,releaser_id,seller_name,buyer_name,"
+							+ "releaser_name,shenhe,time,dingdan_number,guangjie_fenlei_Tag,yuedu,"
+							+ "dianpu_id,biaoqian,shoucang_Tag,guanggao_url "
+							+ "from commodity "
+							+ "where id = '"+change_rec+"'"
+							+ "union "
+						+ "select "
+							+ "id,content,'fuwu' as table_name   ,title,price,unit,0 AS shuliang,"
+							+ "0 AS freight,phone,picture,'' AS seller_id,'' AS buyer_id,"
+							+ "releaser_id,'' AS seller_name,'' AS buyer_name,"
+							+ "'' AS releaser_name,shenhe,time,0 AS dingdan_number,"
+							+ "guangjie_fenlei_Tag,yuedu,dianpu_id,biaoqian,shoucang_Tag,"
+							+ "guanggao_url from fuwu "
+							+ "where id='" + change_rec +"'";
 				}
 			}
 
 			db1 = new DBHelper(sql);
 			ResultSet ret = db1.pst.executeQuery();
+			Map<String, Object> data = toutiao.getData();
 			while (ret.next()) {
+				ResultSetMetaData metaData = ret.getMetaData();
+				int count = metaData.getColumnCount();
+				for (int i = 1; i < count; i++) {
+					String columnLabel = metaData.getColumnLabel(i);
+					data.put(columnLabel, ret.getObject(i));
+				}
 				String id = ret.getString(1);
 				String content = ret.getString(2);
 				String[] contents = content.split("<--分隔符-->");
@@ -2005,7 +2110,6 @@ public class Server_Function {
 
 				toutiao.setId(id);
 				toutiao.setContent(str);
-
 			}
 
 		} catch (SQLException e) {

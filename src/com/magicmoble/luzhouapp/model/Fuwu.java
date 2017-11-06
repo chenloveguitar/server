@@ -1,8 +1,108 @@
 package com.magicmoble.luzhouapp.model;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 public class Fuwu {
+	String id;
+	String shenhe;
+	String releaser_id;
+	Timestamp time;
+	String dianzan_count;
+	public String getDianzan_count() {
+		return dianzan_count;
+	}
+
+	public void setDianzan_count(String dianzan_count) {
+		this.dianzan_count = dianzan_count;
+	}
+
+	String guangjie_fenlei_Tag;
+	String yuedu;
+	String dianpu_id;
+	String biaoqian;
+	String shoucang_Tag;
+	String guanggao_url;
+	public String getGuanggao_url() {
+		return guanggao_url;
+	}
+
+	public void setGuanggao_url(String guanggao_url) {
+		this.guanggao_url = guanggao_url;
+	}
+
+	public String getShoucang_Tag() {
+		return shoucang_Tag;
+	}
+
+	public void setShoucang_Tag(String shoucang_Tag) {
+		this.shoucang_Tag = shoucang_Tag;
+	}
+
+	public String getBiaoqian() {
+		return biaoqian;
+	}
+
+	public void setBiaoqian(String biaoqian) {
+		this.biaoqian = biaoqian;
+	}
+
+	public String getDianpu_id() {
+		return dianpu_id;
+	}
+
+	public void setDianpu_id(String dianpu_id) {
+		this.dianpu_id = dianpu_id;
+	}
+
+	public String getYuedu() {
+		return yuedu;
+	}
+
+	public void setYuedu(String yuedu) {
+		this.yuedu = yuedu;
+	}
+
+	public String getGuangjie_fenlei_Tag() {
+		return guangjie_fenlei_Tag;
+	}
+
+	public void setGuangjie_fenlei_Tag(String guangjie_fenlei_Tag) {
+		this.guangjie_fenlei_Tag = guangjie_fenlei_Tag;
+	}
+
+	public Timestamp getTime() {
+		return time;
+	}
+
+	public void setTime(Timestamp time) {
+		this.time = time;
+	}
+
+	public String getReleaser_id() {
+		return releaser_id;
+	}
+
+	public void setReleaser_id(String releaser_id) {
+		this.releaser_id = releaser_id;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getShenhe() {
+		return shenhe;
+	}
+
+	public void setShenhe(String shenhe) {
+		this.shenhe = shenhe;
+	}
+
 	String fuwu_id;
 	String title;
 	String price;
@@ -75,5 +175,16 @@ public class Fuwu {
 	public void setTuijian_Tag(int tuijian_Tag) {
 		this.tuijian_Tag = tuijian_Tag;
 	}
+
+	@Override
+	public String toString() {
+		return "Fuwu [id=" + id + ", shenhe=" + shenhe + ", releaser_id=" + releaser_id + ", time=" + time
+				+ ", guangjie_fenlei_Tag=" + guangjie_fenlei_Tag + ", yuedu=" + yuedu + ", dianpu_id=" + dianpu_id
+				+ ", biaoqian=" + biaoqian + ", shoucang_Tag=" + shoucang_Tag + ", guanggao_url=" + guanggao_url
+				+ ", fuwu_id=" + fuwu_id + ", title=" + title + ", price=" + price + ", unit=" + unit + ", phone="
+				+ phone + ", picture=" + picture + ", content=" + content + ", tuijian_Tag=" + tuijian_Tag + "]";
+	}
+	
+	
 
 }

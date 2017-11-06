@@ -200,25 +200,25 @@ public class Handle_NoExamine_neirong extends HttpServlet {
 		List<Toutiao> list = null;
 		switch(_flag){
 			case "1":
-				list = Server_Func.toutiao_NoExamine();
+				//待定
 				break;
 			case "2":
-				list = Server_Func.riji_NoExamine();
+				list = Server_Func.toutiao_NoExamine();
 				break;
 			case "3":
-				list = Server_Func.tuji_NoExamine();
+				list = Server_Func.riji_NoExamine();
 				break;
 			case "4":
-				list = Server_Func.faxian_NoExamine();
+				list = Server_Func.tuji_NoExamine();
 				break;
 			case "5":
-				list = Server_Func.quchu_NoExamine();
+				list = Server_Func.faxian_NoExamine();
 				break;
 			case "6":
-				list = Server_Func.guangjie_NoExamine();
+				list = Server_Func.quchu_NoExamine();
 				break;
 			case "7":
-				//待定
+				list = Server_Func.guangjie_NoExamine();
 				break;
 		}
 		Map<String, Object> page = new HashMap<String,Object>();
