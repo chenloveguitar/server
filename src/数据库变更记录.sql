@@ -16,3 +16,6 @@ ALTER TABLE commodity ADD COLUMN share_count INT default 0;
 ALTER TABLE fuwu ADD COLUMN share_count INT default 0;
 ALTER TABLE faxian ADD COLUMN share_count INT default 0;
 ALTER TABLE quchu ADD COLUMN share_count INT default 0;
+
+#推荐列表中新增推荐人字段
+ALTER TABLE tuijian_list ADD COLUMN tuijian_user varchar(32);

@@ -1,3 +1,7 @@
+<%@page import="java.sql.Timestamp"%>
+<%@page import="java.math.BigDecimal"%>
+<%@page import="com.magicmoble.luzhouapp.model.Tuijian_list"%>
+<%@page import="com.magicmoble.luzhouapp.business.CommonBusiness"%>
 <%@page import="com.magicmoble.luzhouapp.model.Hongbao"%>
 <%@page import="org.apache.commons.lang3.StringUtils"%>
 <%@page import="com.magicmoble.luzhouapp.model.Dashang"%>
@@ -89,6 +93,9 @@
 	.jHtmlArea .ToolBar .h1,.h2,.h3,.h3,.h4,.h5,.h6{
 		margin:0px;
 	}
+	.date_selector{
+		width:auto;
+	}
 </style>
 <%
 	String chaxun_id = request.getParameter("chaxun_id");
@@ -118,6 +125,17 @@
 	List<Hongbao> dzHongbaos = null;
 	//获取分享红包总金额和数量
 	List<Hongbao> fxHongbaos = null;
+	//根据信息id查询是否有推荐时间
+	Map<String,String> params = new HashMap<String,String>();
+	params.put("tiaomu_id", id);
+	List<Tuijian_list> lists =  CommonBusiness.getDataByTable(table_name, params, Tuijian_list.class);
+	Tuijian_list tuijian_list = new Tuijian_list();
+	if(lists.size() > 0){
+		tuijian_list =  lists.get(0);
+	}
+	BigDecimal endTime = new BigDecimal(tuijian_list.getEnd_time() == null ? new Date().getTime() : tuijian_list.getEnd_time().getTime());
+	BigDecimal startTime = new BigDecimal(tuijian_list.getStart_time() == null ? new Date().getTime() : tuijian_list.getStart_time().getTime());
+	BigDecimal tuijian_tianshu = endTime.subtract(startTime).divide(new BigDecimal(86400000l));
 	
 	double dzhongbao_price = 0.0d;//点赞红包总金额
 	double dzhongbao_count = 0;//点赞红包总个数
@@ -175,8 +193,8 @@
 			fxhongbao_count += count;
 	}
 	//剩余红包=点赞红包+分享红包(后台没有记录红包的总金额与数量,每次领红包的时候只是做了递减操作)
-	//计算收藏量
-	int shoucang_count = 0; 
+	//获取收藏量
+	int shoucang_count = FunctionBusiness.getShoucangCount(id);
 	List<Pinglun> list2 = FunctionBusiness.getPinglun("1", list.getId(), 0);
 	request.setAttribute("list", list);
 	request.setAttribute("list2", list2);
@@ -201,6 +219,8 @@
 	request.setAttribute("described", described);
 	request.setAttribute("content", content);
 	request.setAttribute("shoucang_count", shoucang_count);
+	request.setAttribute("tuijian_list", tuijian_list);
+	request.setAttribute("tuijian_tianshu", tuijian_tianshu);
 %>
 <script type="text/javascript">
 // 	console.log("${toutiao}");
@@ -243,7 +263,7 @@
 						maxlength="20" id="title" />
 				</p>
 				<p class="content-title">
-						作者<span style="margin-left:25px;"><select class="selectpicker" data-live-search="true" title="请选择或输入作者昵称"></select></span>
+						作者<span style="margin-left:25px;"><select class="selectpicker" id="releaser_id" data-live-search="true" title="请选择或输入作者昵称"></select></span>
 				</p>
 				<div>
 					<div class="service" style="display: ${table_name eq 'fuwu' ? 'display' : 'none'};">
@@ -315,16 +335,16 @@
 			<div class="recommend-cont clearfix">
 				<p class="p2 remain-time">
 					<span>总推荐时间</span>
-					<span class="ll">1</span>天
+					<span class="ll">${tuijian_tianshu}</span>天
 					<span class="iconfont icon-icon-test ll"></span>
 				</p>
 				<p class="recommend-data " style="margin-top: 40px;">
 					<span>推荐日期 </span>
-					<input type="text" value="" class="icon date_picker" />
+					<input type="text" value="" id="start_time" class="icon date_picker" />
 					<span class="to">至</span>
-					<input type="text" placeholder="请选择日期" class="choose icon date_picker" />
+					<input type="text" placeholder="请选择日期"  id="end_time" class="choose icon date_picker" />
 					<span class="recommend-people">推荐人</span>
-					<span><select class="selectpicker" data-live-search="true" title="请选择推荐人"></select></span>
+					<span><select class="selectpicker" id="tuijian_user" data-live-search="true" title="请选择推荐人"></select></span>
 				<div class="redPacket">
 					<p class="overplus">
 						<span>剩余红包</span>
@@ -639,13 +659,27 @@
 			success : function(data) {
 				var result = data.data.result;
 				var releaser_id = "${releaser_id}";
+				var tuijian_user = "${tuijian_list.tuijian_user}";
+				//作者
 				$jq.each(result, function(i) {
 					if(releaser_id === result[i].admin_xinxi_id){
-						$jq('.selectpicker').append("<option selected='selected' value=" + result[i].admin_xinxi_id + ">"
+						$jq('releaser_id').append("<option selected='selected' value=" + result[i].admin_xinxi_id + ">"
 												+ result[i].name
 												+ "</option>");
 					}else{
-						$jq('.selectpicker').append("<option value=" + result[i].admin_xinxi_id + ">"
+						$jq('releaser_id').append("<option value=" + result[i].admin_xinxi_id + ">"
+											+ result[i].name
+											+ "</option>");
+					}
+				});
+				//推荐人
+				$jq.each(result, function(i) {
+					if(tuijian_user === result[i].admin_xinxi_id){
+						$jq('#tuijian_user').append("<option selected='selected' value=" + result[i].admin_xinxi_id + ">"
+												+ result[i].name
+												+ "</option>");
+					}else{
+						$jq('#tuijian_user').append("<option value=" + result[i].admin_xinxi_id + ">"
 											+ result[i].name
 											+ "</option>");
 					}
@@ -871,6 +905,8 @@
 		});
 		
 		$(".iconfont.icon-icon-test.ll").click(function(){
+			$(".icon.date_picker").val()?"":$(".icon.date_picker").val(new Date().format("yyyy-MM-dd"));
+			$(".choose.icon.date_picker").val()?"":$(".choose.icon.date_picker").val(new Date().format("yyyy-MM-dd"));
 			var oldDate = new Date($(".choose.icon.date_picker").val());
 			var newDate = oldDate.addDay(1);
 			$(".choose.icon.date_picker").val(newDate.format("yyyy-MM-dd"));
@@ -878,7 +914,7 @@
 			var endDate = new Date($(".choose.icon.date_picker").val());
 			//日期相减
 			var dateCount = beginDate.subtractDay(endDate);
-			$(".p2.remain-time span.ll:first").html(dateCount + 1);
+			$(".p2.remain-time span.ll:first").html(dateCount);
 		});
 	}
 	
@@ -888,11 +924,15 @@
 	function initWidget(){
 		$("#txtDefaultHtmlArea").htmlarea("${content}");
 		//选择日期
-		var time = "${time}"?new Date(time).format("yyyy-MM-dd"):"";
+		var time = "${time}"?new Date("${time}").format("yyyy-MM-dd"):"";
 		$("#publish_date").val(time);
 		$('#publish_date').date_input();
+		var startTime = "${tuijian_list.start_time}"?new Date("${tuijian_list.start_time}").format("yyyy-MM-dd"):"";
+		var endTime = "${tuijian_list.end_time}"?new Date("${tuijian_list.end_time}").format("yyyy-MM-dd"):"";
+		console.log("${tuijian_list.start_time}");
 		//日期选择
-		$(".date_picker").val(new Date().format("yyyy-MM-dd"));
+		$("#start_time").val(startTime);
+		$("#end_time").val(endTime);
 		$('.date_picker').date_input();
 	}
 	

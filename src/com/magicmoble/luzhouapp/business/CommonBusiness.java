@@ -1,25 +1,100 @@
 package com.magicmoble.luzhouapp.business;
 
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
+import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 
 import com.magicmoble.luzhouapp.model.Admin_xinxi;
 import com.magicmoble.luzhouapp.model.FileManagement;
+import com.magicmoble.luzhouapp.model.Tuijian_list;
 import com.mysql.jdbc.Statement;
 
 public class CommonBusiness {
 
+	public static void main(String[] args) {
+		Map<String, String> params = new HashMap<>();
+		params.put("tiaomu_id", "2");
+		params.put("tuijian_user", "3C41163EAF3FED61BFB009766D58864D");
+		List<Tuijian_list> list = getDataByTable("tuijian_list", params, Tuijian_list.class);
+		System.out.println(list);
+	}
+	
+	public static <T>List<T> getDataByTable(String table_name,Map<String, String> params,Class<T> c){
+		String sql = "select * from " + table_name + " where 1=1 ";
+		Set<String> keys = params.keySet();
+		Iterator<String> iterator = keys.iterator();
+		while (iterator.hasNext()) {
+			String key = iterator.next();
+			sql += " and " + key + " = " + "'"+params.get(key)+"'";
+		}
+		DBHelper db = null;
+		ResultSet ret = null;
+		List<T> lists = new ArrayList<T>();
+		try {
+			db = new DBHelper(sql);
+			ret = db.pst.executeQuery();
+			T t = c.newInstance();
+			while(ret.next()){
+				ResultSetMetaData metaData = ret.getMetaData();
+				int count = metaData.getColumnCount();
+				for (int i = 1; i <= count; i++) {
+					String columnLabel = metaData.getColumnLabel(i);
+					
+					PropertyDescriptor property = new PropertyDescriptor(columnLabel,t.getClass());
+		            Method method = property.getWriteMethod();
+		            Class<?> type = method.getParameterTypes()[0];
+		            if(type.getName().equals("java.util.List")){
+		            	List<String> list = new ArrayList<String>();
+		            	String value = ret.getString(i);
+		            	if(StringUtils.isNotBlank(value)){
+		            		String[] split = value.split(",");
+		            		for (int j = 0; j < split.length; j++) {
+		            			list.add(split[j]);
+							}
+		            	}
+		            	method.invoke(t, list);
+		            }else if(type.getName().equals("java.lang.String")){
+		            	String value = ret.getString(i);
+		            	method.invoke(t, value);
+		            }else if(type.getName().equals("java.sql.Timestamp")){
+		            	Timestamp value = ret.getTimestamp(i);
+		            	method.invoke(t, value);
+		            }else if(type.getName().equals("int")){
+		            	int value = ret.getInt(i);
+		            	method.invoke(t, value);
+		            }else if(type.getName().equals("float")){
+		            	float value = ret.getFloat(i);
+		            	method.invoke(t, value);
+		            }else if(type.getName().equals("double")){
+		            	double value = ret.getDouble(i);
+		            	method.invoke(t, value);
+		            }
+				}
+				lists.add(t);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			db.close();
+		}
+		return lists;
+	}
+	
 	public List<Admin_xinxi> getUsers(){
 		List<Admin_xinxi> lists = new ArrayList<Admin_xinxi>();
 		String sql = "select * from Admin_xinxi";
@@ -164,23 +239,23 @@ public class CommonBusiness {
 		return false ;
 	}
 	
-	public static void main(String[] args) {
-		CommonBusiness business = new CommonBusiness();
-		List<FileManagement> fileManagements = new ArrayList<FileManagement>();
-		String createTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-		Integer isFolder = 0;
-		Integer parentId = 31;
-		for (int i = 0; i < 50; i++) {
-			String fileName = "filename"+i;
-			String uuid = UUID.randomUUID().toString() + ".jpeg";
-			String absolutePath = "G://upload//"+uuid;
-			String itemId = "";
-			FileManagement file = new FileManagement(fileName, createTime, parentId, isFolder,absolutePath,itemId);
-			fileManagements.add(file);
-		}
-		List<Integer> list = business.createImages(fileManagements);
-		System.out.println(list);
-	}
+//	public static void main(String[] args) {
+//		CommonBusiness business = new CommonBusiness();
+//		List<FileManagement> fileManagements = new ArrayList<FileManagement>();
+//		String createTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+//		Integer isFolder = 0;
+//		Integer parentId = 31;
+//		for (int i = 0; i < 50; i++) {
+//			String fileName = "filename"+i;
+//			String uuid = UUID.randomUUID().toString() + ".jpeg";
+//			String absolutePath = "G://upload//"+uuid;
+//			String itemId = "";
+//			FileManagement file = new FileManagement(fileName, createTime, parentId, isFolder,absolutePath,itemId);
+//			fileManagements.add(file);
+//		}
+//		List<Integer> list = business.createImages(fileManagements);
+//		System.out.println(list);
+//	}
 
 	public List<FileManagement> getImages(Integer pid) {
 		List<FileManagement> lists = new ArrayList<FileManagement>();

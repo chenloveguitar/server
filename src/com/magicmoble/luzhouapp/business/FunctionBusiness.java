@@ -36,7 +36,7 @@ import com.magicmoble.luzhouapp.model.Toutiao_Shouye;
 import com.magicmoble.luzhouapp.model.Tuikuan;
 
 public class FunctionBusiness {
-
+	
 	public static List<Hongbao> getHongbaoByTiaomuId(String tiaomu_id,String hongbao_Tag){
 		String sql = "SELECT id,hongbao_count,hongbao_price FROM hongbao WHERE tiaomu_id='" + tiaomu_id + "' and hongbao_Tag="+ hongbao_Tag;
 		DBHelper db = new DBHelper(sql);
@@ -55,6 +55,21 @@ public class FunctionBusiness {
 			e.printStackTrace();
 		}
 		return hongbaos;
+	}
+	
+	public static Integer getShoucangCount(String id){
+		String sql = "SELECT count(id) FROM shoucang WHERE quchu_id = '"+id+"' or commodity_id = '"+id+"' or toutiao_id = '"+id+"' OR faxian_id = '"+id+"' ";
+		DBHelper db = new DBHelper(sql);
+		ResultSet ret = null;
+		try {
+			ret = db.pst.executeQuery();
+			if(ret.next()) {
+				return ret.getInt(1);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return 0;
 	}
 	
 	public static List<Object> getShuoshuoById(String my_id, String _id, int page) {// page是评论的页数
@@ -494,7 +509,7 @@ public class FunctionBusiness {
 		}
 		return list;
 	}
-
+	
 	public static List<Shuoshuo_Xiangqing> getMyShuoshuo(int page, String my_id) {
 		List<Shuoshuo_Xiangqing> list = new ArrayList<Shuoshuo_Xiangqing>();
 		String sql = null;
@@ -1764,8 +1779,8 @@ public class FunctionBusiness {
 		Timestamp start_time = new Timestamp(time);
 		Timestamp now_time = new Timestamp(time);
 		Timestamp end_time = new Timestamp(time + tianshu * 24 * 60 * 60 * 1000);
-		sql = "INSERT INTO tuijian_list(id,start_time,end_time,now_time,tiaomu_id)  VALUES ('" + uuid + "','"
-				+ start_time + "','" + end_time + "','" + now_time + "','" + tiaomu_id + "')";
+		sql = "INSERT INTO tuijian_list(id,start_time,end_time,now_time,tiaomu_id,tuijian_user)  VALUES ('" + uuid + "','"
+				+ start_time + "','" + end_time + "','" + now_time + "','" + tiaomu_id + "','"+my_id+"')";
 		boolean ret;
 		db1 = new DBHelper(sql);
 		try {
