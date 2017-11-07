@@ -19,6 +19,16 @@ public class Toutiao {
 	String releaser_id;
 	String dashang_count;
 	String biaoqian;
+	String described;
+	
+	public String getDescribed() {
+		return described;
+	}
+
+	public void setDescribed(String described) {
+		this.described = described;
+	}
+
 	public String getBiaoqian() {
 		return biaoqian;
 	}

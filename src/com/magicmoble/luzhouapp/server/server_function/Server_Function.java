@@ -9,8 +9,11 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
@@ -48,24 +51,28 @@ public class Server_Function<T> {
 	public static Integer TOTAL_PAGE = 0;//总页数
 	
 	public static void main(String[] args) throws Exception {
-		Toutiao toutiao = new Toutiao();
-		findDataByTableAndId("toutiao", "d5cb9303-d1f3-4ba0-9868-750c2a86f37b",toutiao);
-		System.out.println(toutiao);
+		Map<String, String> data = new HashMap<String, String>();
+		data.put("title", "123321321");
+		updateDataByTableAndId("commodity", "1", data);
 		
-		Fuwu fuwu = new Fuwu();
-		findDataByTableAndId("fuwu", "3744de3b-5085-4714-b0e4-0259ef7c360b",fuwu);
-		System.out.println(fuwu);
+//		Toutiao toutiao = new Toutiao();
+//		Toutiao toutiao = (Toutiao) findDataByTableAndId("toutiao", "d5cb9303-d1f3-4ba0-9868-750c2a86f37b",Toutiao.class);
+//		System.out.println(toutiao);
 		
-		Quchu quchu = new Quchu();
-		findDataByTableAndId("quchu", "b639e3b5-07fa-47ac-9f53-fcb7db8dc1e3",quchu);
-		System.out.println(quchu);
-		
-		Faxian faxian = new Faxian();
-		findDataByTableAndId("faxian", "85fbd9fa-afd4-4914-bfec-c99e4d56eacb",faxian);
-		System.out.println(faxian);
-		Commodity commodity = new Commodity();
-		findDataByTableAndId("commodity", "5134516b-f91b-45e5-afec-9795fb391912",commodity);
-		System.out.println(commodity);
+//		Fuwu fuwu = new Fuwu();
+//		findDataByTableAndId("fuwu", "3744de3b-5085-4714-b0e4-0259ef7c360b",fuwu);
+//		System.out.println(fuwu);
+//		
+//		Quchu quchu = new Quchu();
+//		findDataByTableAndId("quchu", "b639e3b5-07fa-47ac-9f53-fcb7db8dc1e3",quchu);
+//		System.out.println(quchu);
+//		
+//		Faxian faxian = new Faxian();
+//		findDataByTableAndId("faxian", "85fbd9fa-afd4-4914-bfec-c99e4d56eacb",faxian);
+//		System.out.println(faxian);
+//		Commodity commodity = new Commodity();
+//		findDataByTableAndId("commodity", "5134516b-f91b-45e5-afec-9795fb391912",commodity);
+//		System.out.println(commodity);
 //		Toutiao toutiao = new Toutiao();
 //		PropertyDescriptor property = new PropertyDescriptor("id",toutiao.getClass());
 //		System.out.println(property.getName());
@@ -73,8 +80,89 @@ public class Server_Function<T> {
 //		method.invoke(toutiao, "123");
 //		System.out.println(toutiao);
 	}
-	
-	public static <T>T findDataByTableAndId(String table_name,String id,T t) throws Exception{
+
+	public static boolean updateDataByTableAndId(String tableName, String id, Map<String, String> data) {
+		DBHelper db = null;
+		try {
+		String sql = "update "+tableName+" set ";
+		Set<String> keys = data.keySet();
+		Iterator<String> iterator = keys.iterator();
+		int size = keys.size();
+		for (int i = 0;i < size && iterator.hasNext();i++) {
+			if(i < size - 1){
+				String key = iterator.next();
+				sql += key + "='" + data.get(key) + "'," ;
+			}else{
+				String key = iterator.next();
+				sql += key + "='" + data.get(key) + "'" ;
+			}
+		}
+			sql += " where id = " + "'"+id+"'";
+			db = new DBHelper(sql);
+			int row = db.pst.executeUpdate();
+			return row > 0 ? true : false;
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			db.close();
+		}
+		return false;
+		
+	}
+	public static <T>T findDataByTableAndId(String table_name,String id,Class<T> c){
+		String sql = "select * from " + table_name + " where id = '"+id+"'";
+		DBHelper db = null;
+		ResultSet ret = null;
+		T t = null;
+		try {
+			db = new DBHelper(sql);
+			ret = db.pst.executeQuery();
+			t = c.newInstance();
+			while(ret.next()){
+				ResultSetMetaData metaData = ret.getMetaData();
+				int count = metaData.getColumnCount();
+				for (int i = 1; i <= count; i++) {
+					String columnLabel = metaData.getColumnLabel(i);
+					
+					PropertyDescriptor property = new PropertyDescriptor(columnLabel,t.getClass());
+		            Method method = property.getWriteMethod();
+		            Class<?> type = method.getParameterTypes()[0];
+		            if(type.getName().equals("java.util.List")){
+		            	List<String> list = new ArrayList<String>();
+		            	String value = ret.getString(i);
+		            	if(StringUtils.isNotBlank(value)){
+		            		String[] split = value.split(",");
+		            		for (int j = 0; j < split.length; j++) {
+		            			list.add(split[j]);
+							}
+		            	}
+		            	method.invoke(t, list);
+		            }else if(type.getName().equals("java.lang.String")){
+		            	String value = ret.getString(i);
+		            	method.invoke(t, value);
+		            }else if(type.getName().equals("java.sql.Timestamp")){
+		            	Timestamp value = ret.getTimestamp(i);
+		            	method.invoke(t, value);
+		            }else if(type.getName().equals("int")){
+		            	int value = ret.getInt(i);
+		            	method.invoke(t, value);
+		            }else if(type.getName().equals("float")){
+		            	float value = ret.getFloat(i);
+		            	method.invoke(t, value);
+		            }else if(type.getName().equals("double")){
+		            	double value = ret.getDouble(i);
+		            	method.invoke(t, value);
+		            }
+				}
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			db.close();
+		}
+		return t;
+	}
+	public static <T>T findDataByTableAndId(String table_name,String id,T t){
 		String sql = "select * from " + table_name + " where id = '"+id+"'";
 		DBHelper db = null;
 		ResultSet ret = null;
@@ -119,7 +207,7 @@ public class Server_Function<T> {
 		            }
 				}
 			}
-		}catch(SQLException e){
+		}catch(Exception e){
 			e.printStackTrace();
 		}finally{
 			db.close();
@@ -1688,7 +1776,7 @@ public class Server_Function<T> {
 
 	}
 
-	public static String add_faxian(String releaser_id, String picture, String title, String name, String content) {
+	public static String add_faxian(String releaser_id, String picture, String title, String name, String content,int muban_Tag) {
 		String sql = null;
 		DBHelper db1 = null;
 		String uuid = UUID.randomUUID().toString();
@@ -1696,9 +1784,9 @@ public class Server_Function<T> {
 		String shenhe = "已发布";
 		Timestamp time = new Timestamp(new Date().getTime());
 
-		sql = "INSERT INTO faxian(id,picture,title,name,content,fenlei_Tag,shenhe,releaser_id,time) VALUES ('" + uuid
+		sql = "INSERT INTO faxian(id,picture,title,name,content,fenlei_Tag,shenhe,releaser_id,time,muban_Tag) VALUES ('" + uuid
 				+ "', '" + picture + "', '" + title + "', '" + name + "','" + content + "'," + fenlei_Tag + ",'"
-				+ shenhe + "','" + releaser_id + "')";
+				+ shenhe + "','" + releaser_id + "','"+muban_Tag+"')";
 
 		try {
 			db1 = new DBHelper(sql);
@@ -1717,7 +1805,7 @@ public class Server_Function<T> {
 	}
 
 	public static String add_quchu(String releaser_id, String title, String address, String phone, String picture,
-			String content) {
+			String content,int muban_Tag) {
 		String sql = null;
 		DBHelper db1 = null;
 		String uuid = UUID.randomUUID().toString();
@@ -1726,7 +1814,7 @@ public class Server_Function<T> {
 		String shenhe = "正在审核中...";
 		Timestamp time = new Timestamp(new Date().getTime());
 
-		sql = "INSERT INTO quchu(id,title,dianpu_address,phone,picture,content,dianpu_name,renzheng_Tag,shenhe,time,releaser_id,fenlei_Tag) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+		sql = "INSERT INTO quchu(id,title,dianpu_address,phone,picture,content,dianpu_name,renzheng_Tag,shenhe,time,releaser_id,fenlei_Tag,muban_Tag) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
 		try {
 
@@ -1744,6 +1832,7 @@ public class Server_Function<T> {
 			db1.pst.setTimestamp(10, time);
 			db1.pst.setString(11, releaser_id);
 			db1.pst.setInt(12, fenlei_Tag);
+			db1.pst.setInt(13, muban_Tag);
 
 			int ret = db1.pst.executeUpdate();
 			if(ret > 0){
@@ -1759,7 +1848,7 @@ public class Server_Function<T> {
 	}
 
 	public static String add_commodity(String title, String price, String shuliang, String freight, String phone,
-			String picture, String content, String seller_id) {
+			String picture, String content, String seller_id,int muban_Tag) {
 		String sql = null;
 		DBHelper db1 = null;
 		String uuid = UUID.randomUUID().toString();
@@ -1769,10 +1858,10 @@ public class Server_Function<T> {
 		Timestamp time = new Timestamp(new Date().getTime());
 		String shenhe = "正在审核中...";
 
-		sql = "INSERT INTO commodity(id,title,price,unit,shuliang,freight,phone,picture,content,seller_id,releaser_id,seller_name,releaser_name,shenhe,time) VALUES ('"
+		sql = "INSERT INTO commodity(id,title,price,unit,shuliang,freight,phone,picture,content,seller_id,releaser_id,seller_name,releaser_name,shenhe,time,muban_Tag) VALUES ('"
 				+ uuid + "', '" + title + "', '" + price + "','" + shuliang + "','" + freight + "','" + phone + "','"
 				+ picture + "','" + content + "','" + seller_id + "','" + seller_id + "','" + seller_name + "','"
-				+ seller_name + "','" + shenhe + "','" + time + "')";
+				+ seller_name + "','" + shenhe + "','" + time + "','"+muban_Tag+"')";
 
 		try {
 			db1 = new DBHelper(sql);
@@ -1790,7 +1879,7 @@ public class Server_Function<T> {
 	}
 
 	public static String add_fuwu(String releaser_id, String title, String price, String phone, String picture,
-			String content) {
+			String content,int muban_Tag) {
 		String sql = null;
 		DBHelper db1 = null;
 		String uuid = UUID.randomUUID().toString();
@@ -1798,9 +1887,9 @@ public class Server_Function<T> {
 		String shenhe = "正在审核中...";
 		Timestamp time = new Timestamp(new Date().getTime());
 
-		sql = "INSERT INTO fuwu(id,title,price,unit,phone,picture,content,shenhe,releaser_id,time) VALUES ('" + uuid
+		sql = "INSERT INTO fuwu(id,title,price,unit,phone,picture,content,shenhe,releaser_id,time,muban_Tag) VALUES ('" + uuid
 				+ "', '" + title + "'," + price + ",'" + phone + "','" + picture + "','" + content + "','" + shenhe
-				+ "','" + releaser_id + "','" + time + "')";
+				+ "','" + releaser_id + "','" + time + "','"+muban_Tag+"')";
 
 		try {
 			db1 = new DBHelper(sql);
@@ -2021,41 +2110,41 @@ public class Server_Function<T> {
 			if (flag == 1) {
 				if (change_rec != null) {
 
-					sql = "SELECT id,title,content,'toutiao' as table_name,shenhe FROM toutiao where id='" + change_rec
-							+ "' UNION all SELECT id,title,content,'faxian' as table_name,shenhe FROM faxian where id='" + change_rec
-							+ "' UNION all SELECT id,title,content,'quchu' as table_name,shenhe FROM quchu where id='" + change_rec
-							+ "' UNION all SELECT id,title,content,'commodity' as table_name,shenhe FROM commodity where id='" + change_rec
-							+ "' UNION all SELECT id,title,content,'fuwu' as table_name,shenhe FROM fuwu where id='" + change_rec + "' ";
+					sql = "SELECT id,title,content,'toutiao' as table_name,shenhe,time,muban_Tag,described,share_count FROM toutiao where id='" + change_rec
+							+ "' UNION all SELECT id,title,content,'faxian' as table_name,shenhe,time,muban_Tag,described,share_count FROM faxian where id='" + change_rec
+							+ "' UNION all SELECT id,title,content,'quchu' as table_name,shenhe,time,muban_Tag,described,share_count FROM quchu where id='" + change_rec
+							+ "' UNION all SELECT id,title,content,'commodity' as table_name,shenhe,time,muban_Tag,described,share_count FROM commodity where id='" + change_rec
+							+ "' UNION all SELECT id,title,content,'fuwu' as table_name,shenhe,time,muban_Tag,described,share_count FROM fuwu where id='" + change_rec + "' ";
 
 				}
 			} else if (flag == 2) {
 				if (change_rec != null) {
 
-					sql = "select id,title,content,'toutiao' as table_name,shenhe from toutiao  where fenlei_Tag=1 and id='" + change_rec + "'";
+					sql = "select id,title,content,'toutiao' as table_name,shenhe,time,muban_Tag,described,share_count from toutiao  where fenlei_Tag=1 and id='" + change_rec + "'";
 
 				}
 			} else if (flag == 3) {
 				if (change_rec != null) {
 
-					sql = "select id,title,releaser_id,content,'toutiao' as table_name,shenhe,time from toutiao where fenlei_Tag=2 and id='" + change_rec + "'";
+					sql = "select id,title,releaser_id,content,'toutiao' as table_name,shenhe,time,muban_Tag,described,share_count from toutiao where fenlei_Tag=2 and id='" + change_rec + "'";
 
 				}
 			} else if (flag == 4) {
 				if (change_rec != null) {
 
-					sql = "select id,title,releaser_id,content,'toutiao' as table_name,shenhe,time from toutiao where fenlei_Tag=3 and id='" + change_rec + "'";
+					sql = "select id,title,releaser_id,content,'toutiao' as table_name,shenhe,time,muban_Tag,described,share_count from toutiao where fenlei_Tag=3 and id='" + change_rec + "'";
 
 				}
 			} else if (flag == 5) {
 				if (change_rec != null) {
 
-					sql = "select id,title,releaser_id,content,'faxian' as table_name,shenhe,time from faxian where id='" + change_rec + "'";
+					sql = "select id,title,releaser_id,content,'faxian' as table_name,shenhe,time,muban_Tag,described,share_count from faxian where id='" + change_rec + "'";
 
 				}
 			} else if (flag == 6) {
 				if (change_rec != null) {
 
-					sql = "select id,title,releaser_id,content,'quchu' as table_name,shenhe,time from quchu where id='" + change_rec + "'";
+					sql = "select id,title,releaser_id,content,'quchu' as table_name,shenhe,time,muban_Tag,described,share_count from quchu where id='" + change_rec + "'";
 
 				}
 			} else if (flag == 7) {
@@ -2065,7 +2154,7 @@ public class Server_Function<T> {
 							+ "id,content,'commodity' as table_name,title,price,unit,shuliang,freight,"
 							+ "phone,picture,seller_id,buyer_id,releaser_id,seller_name,buyer_name,"
 							+ "releaser_name,shenhe,time,dingdan_number,guangjie_fenlei_Tag,yuedu,"
-							+ "dianpu_id,biaoqian,shoucang_Tag,guanggao_url "
+							+ "dianpu_id,biaoqian,shoucang_Tag,guanggao_url,described,share_count "
 							+ "from commodity "
 							+ "where id = '"+change_rec+"'"
 							+ "union "
@@ -2075,7 +2164,7 @@ public class Server_Function<T> {
 							+ "releaser_id,'' AS seller_name,'' AS buyer_name,"
 							+ "'' AS releaser_name,shenhe,time,0 AS dingdan_number,"
 							+ "guangjie_fenlei_Tag,yuedu,dianpu_id,biaoqian,shoucang_Tag,"
-							+ "guanggao_url from fuwu "
+							+ "guanggao_url,described,share_count from fuwu "
 							+ "where id='" + change_rec +"'";
 				}
 			}
@@ -2086,7 +2175,7 @@ public class Server_Function<T> {
 			while (ret.next()) {
 				ResultSetMetaData metaData = ret.getMetaData();
 				int count = metaData.getColumnCount();
-				for (int i = 1; i < count; i++) {
+				for (int i = 1; i <= count; i++) {
 					String columnLabel = metaData.getColumnLabel(i);
 					data.put(columnLabel, ret.getObject(i));
 				}
@@ -2293,5 +2382,6 @@ public class Server_Function<T> {
 		}
 
 	}
+
 
 }

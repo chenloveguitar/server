@@ -5,6 +5,25 @@ import java.util.List;
 
 public class Quchu {
 	String id;
+	String described;
+	int share_count;
+	
+	public int getShare_count() {
+		return share_count;
+	}
+
+	public void setShare_count(int share_count) {
+		this.share_count = share_count;
+	}
+
+	public String getDescribed() {
+		return described;
+	}
+
+	public void setDescribed(String described) {
+		this.described = described;
+	}
+
 	String quchu_id;
 	String title;
 	String address;
@@ -26,6 +45,15 @@ public class Quchu {
 	String dianzhan_count;
 	String guanggao_url;
 	String yuedu;
+	String muban_Tag;
+	public String getMuban_Tag() {
+		return muban_Tag;
+	}
+
+	public void setMuban_Tag(String muban_Tag) {
+		this.muban_Tag = muban_Tag;
+	}
+
 	public String getYuedu() {
 		return yuedu;
 	}

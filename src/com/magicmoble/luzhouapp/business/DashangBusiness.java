@@ -1,32 +1,56 @@
 package com.magicmoble.luzhouapp.business;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-import javax.swing.text.TabableView;
-
-import com.magicmoble.luzhouapp.model.Biaoqian;
-import com.magicmoble.luzhouapp.model.ContentModel;
-import com.magicmoble.luzhouapp.model.Dashang;
 import com.magicmoble.luzhouapp.model.Dashang_list;
 import com.magicmoble.luzhouapp.model.Dashang_user;
-import com.magicmoble.luzhouapp.model.Dianzan_Number;
-import com.magicmoble.luzhouapp.model.Faxian;
-import com.magicmoble.luzhouapp.model.Fuwu;
-import com.magicmoble.luzhouapp.model.Guangjie_Xiangqing;
-import com.magicmoble.luzhouapp.model.Hongbao;
-import com.magicmoble.luzhouapp.model.Picture;
-import com.magicmoble.luzhouapp.model.Tuijian;
 
 public class DashangBusiness {
 
+	public static List<Dashang_list> getDashangListByToumuId(String _tiaomu_id){
+		List<Dashang_list> dashang_lists = new ArrayList<Dashang_list>();
+		String sql = null;
+		int fenlei_Tag = 0;
+		DBHelper db1 = null;
+		sql = "select * from dashang where tiaomu_id='" + _tiaomu_id + "'";
+		db1 = new DBHelper(sql);
+		ResultSet ret = null;
+		try {
+			ret = db1.pst.executeQuery();
+			while (ret.next()) {
+				String id = ret.getString(1);
+				String tiaomu_id = ret.getString(2);
+				String my_id = ret.getString(3);
+				String duixiang_id = ret.getString(4);
+				double money = ret.getDouble(5);
+				Timestamp time = ret.getTimestamp(6);
+				fenlei_Tag = ret.getInt(7);
+				String price = String.valueOf(money);
+				String friend_name = Admin_xinxi_Business.getAdmin_xinxiInfoById(my_id).getName();
+				String friend_touxiang = Admin_xinxi_Business.getAdmin_xinxiInfoById(my_id).getTouxiang_picture();
+				Dashang_list dashang_list = new Dashang_list();
+				dashang_list.setDuixiang_id(duixiang_id);
+				dashang_list.setName(friend_name);
+				dashang_list.setTouxiang(friend_touxiang);
+				dashang_list.setTime(time);
+				dashang_list.setPrice(price);
+				dashang_list.setTiaomu_id(tiaomu_id);
+				dashang_list.setYonghu_id(my_id);
+				dashang_lists.add(dashang_list);
+			}
+			db1.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return dashang_lists;
+	}
+	
 	public static void getDashang(double dashang_price, String friend_id) {
 
 		String sql = null;

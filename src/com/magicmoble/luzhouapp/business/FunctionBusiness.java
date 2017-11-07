@@ -37,6 +37,26 @@ import com.magicmoble.luzhouapp.model.Tuikuan;
 
 public class FunctionBusiness {
 
+	public static List<Hongbao> getHongbaoByTiaomuId(String tiaomu_id,String hongbao_Tag){
+		String sql = "SELECT id,hongbao_count,hongbao_price FROM hongbao WHERE tiaomu_id='" + tiaomu_id + "' and hongbao_Tag="+ hongbao_Tag;
+		DBHelper db = new DBHelper(sql);
+		ResultSet ret = null;
+		List<Hongbao> hongbaos = new ArrayList<Hongbao>();
+		try {
+			ret = db.pst.executeQuery();
+			while (ret.next()) {
+				Hongbao hongbao = new Hongbao();
+				hongbao.setHongbao_id(ret.getString(1));
+				hongbao.setCount(ret.getDouble(2));
+				hongbao.setPrice(ret.getDouble(3));
+				hongbaos.add(hongbao);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return hongbaos;
+	}
+	
 	public static List<Object> getShuoshuoById(String my_id, String _id, int page) {// page是评论的页数
 		List<Object> list = new ArrayList<Object>();
 		String sql = null;

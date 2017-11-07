@@ -156,16 +156,17 @@ public class Upload_file2 extends HttpServlet {
 		String id = null;
 		if (select_val.equals("今日头条")) {
 			 id = Server_Function.add_toutiao(picture_str, title, user_name, content_all, muban_Tag, releaser_id, yuedu_count,dianzan_count);
+			 
 		} else if (select_val.equals("酒城日记")) {
 			 id = Server_Function.add_riji(picture_str, title, user_name, content_all, muban_Tag, releaser_id);
 		} else if (select_val.equals("发现秘密")) {
-			 id = Server_Function.add_faxian(releaser_id, picture_str, title, user_name, content_all);
+			 id = Server_Function.add_faxian(releaser_id, picture_str, title, user_name, content_all,muban_Tag);
 		} else if (select_val.equals("有去处")) {
-			 id = Server_Function.add_quchu(releaser_id, title, address, phone, picture_str, content_all);
+			 id = Server_Function.add_quchu(releaser_id, title, address, phone, picture_str, content_all,muban_Tag);
 		} else if (select_val.equals("商品")) {
-			 id =  Server_Function.add_commodity(title, price_commodity, shuliang, freight, phone, picture_str, content_all,releaser_id);
+			 id =  Server_Function.add_commodity(title, price_commodity, shuliang, freight, phone, picture_str, content_all,releaser_id,muban_Tag);
 		} else if (select_val.equals("服务")) {
-			 id =  Server_Function.add_fuwu(releaser_id, title, price_fuwu, phone, picture_str, content_all);
+			 id =  Server_Function.add_fuwu(releaser_id, title, price_fuwu, phone, picture_str, content_all,muban_Tag);
 		}
 		
 		if(StringUtils.isNotBlank(id)){

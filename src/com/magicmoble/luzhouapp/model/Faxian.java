@@ -5,6 +5,33 @@ import java.util.List;
 
 public class Faxian {
 	String faxian_id;
+	String muban_Tag;
+	String described;
+	int share_count;
+	public int getShare_count() {
+		return share_count;
+	}
+
+	public void setShare_count(int share_count) {
+		this.share_count = share_count;
+	}
+
+	public String getDescribed() {
+		return described;
+	}
+
+	public void setDescribed(String described) {
+		this.described = described;
+	}
+
+	public String getMuban_Tag() {
+		return muban_Tag;
+	}
+
+	public void setMuban_Tag(String muban_Tag) {
+		this.muban_Tag = muban_Tag;
+	}
+
 	String id;
 	String fufei_Tag;
 	String pinglun_count;

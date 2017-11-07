@@ -1,3 +1,7 @@
+<%@page import="com.magicmoble.luzhouapp.model.Hongbao"%>
+<%@page import="org.apache.commons.lang3.StringUtils"%>
+<%@page import="com.magicmoble.luzhouapp.model.Dashang"%>
+<%@page import="com.magicmoble.luzhouapp.model.Dashang_list"%>
 <%@page import="com.magicmoble.luzhouapp.model.Faxian"%>
 <%@page import="com.magicmoble.luzhouapp.model.Quchu"%>
 <%@page import="com.magicmoble.luzhouapp.model.Commodity"%>
@@ -9,6 +13,7 @@
 <%@page import="com.magicmoble.luzhouapp.business.FunctionBusiness"%>
 <%@page import="javax.servlet.jsp.tagext.FunctionInfo"%>
 <%@page import="com.magicmoble.luzhouapp.model.server.Toutiao"%>
+<%@page import="com.magicmoble.luzhouapp.business.DashangBusiness"%>
 <%@page
 	import="com.magicmoble.luzhouapp.server.server_function.Server_Function"%>
 	<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -91,29 +96,87 @@
 	int Tag = Integer.parseInt(_Tag);
 	Toutiao list = Server_Function.chaxun(chaxun_id, Tag);
 	Map<String,Object> data = list.getData();
-	String table_name = data.get("table_name").toString();
-	String id = data.get("id").toString();
-	String shenhe = data.get("shenhe").toString();
-	String time = data.get("time").toString();
-	String title = data.get("title").toString();
-	String releaser_id = data.get("releaser_id").toString();
+	String table_name = (String)data.get("table_name");
+	String id = (String)data.get("id");
+	String shenhe = (String)data.get("shenhe");
+	String time = data.get("time") != null?data.get("time").toString():"";
+	String title = (String)data.get("title");
+	String releaser_id = (String)data.get("releaser_id");
+	String muban_Tag = (String)data.get("muban_Tag");
+	String described = (String)data.get("described");
+	String content = (String)data.get("content");
+	String share_count = String.valueOf(data.get("share_count"));
 	Toutiao toutiao = new Toutiao();
 	Faxian faxian = new Faxian();
 	Quchu quchu = new Quchu();
 	Commodity commodity = new Commodity();
 	Fuwu fuwu = new Fuwu();
+	//获取并计算打赏量
+	List<Dashang_list> dashang_lists = null;
 	//通过表名获取相关业务数据
+	//获取红包点赞红包总金额和数量
+	List<Hongbao> dzHongbaos = null;
+	//获取分享红包总金额和数量
+	List<Hongbao> fxHongbaos = null;
+	
+	double dzhongbao_price = 0.0d;//点赞红包总金额
+	double dzhongbao_count = 0;//点赞红包总个数
+	double fxhongbao_price = 0.0d;//分享红包总金额
+	double fxhongbao_count = 0;//分享红包总个数
 	if(table_name.equals("toutiao")){
 		Server_Function.findDataByTableAndId(table_name,id,toutiao);
+		dashang_lists = DashangBusiness.getDashangListByToumuId(toutiao.getId());
+		dzHongbaos = FunctionBusiness.getHongbaoByTiaomuId(toutiao.getId(), "1");
+		fxHongbaos = FunctionBusiness.getHongbaoByTiaomuId(toutiao.getId(), "2");
 	}else if(table_name.equals("faxian")){
 		Server_Function.findDataByTableAndId(table_name,id,faxian);
+		dashang_lists = DashangBusiness.getDashangListByToumuId(faxian.getId());
+		dzHongbaos = FunctionBusiness.getHongbaoByTiaomuId(faxian.getId(), "1");
+		fxHongbaos = FunctionBusiness.getHongbaoByTiaomuId(faxian.getId(), "2");
 	}else if(table_name.equals("quchu")){
 		Server_Function.findDataByTableAndId(table_name,id,quchu);
+		dashang_lists = DashangBusiness.getDashangListByToumuId(quchu.getId());
+		dzHongbaos = FunctionBusiness.getHongbaoByTiaomuId(quchu.getId(), "1");
+		fxHongbaos = FunctionBusiness.getHongbaoByTiaomuId(quchu.getId(), "2");
 	}else if(table_name.equals("commodity")){
 		Server_Function.findDataByTableAndId(table_name,id,commodity);
+		dashang_lists = DashangBusiness.getDashangListByToumuId(commodity.getId());
+		dzHongbaos = FunctionBusiness.getHongbaoByTiaomuId(commodity.getId(), "1");
+		fxHongbaos = FunctionBusiness.getHongbaoByTiaomuId(commodity.getId(), "2");
 	}else if(table_name.equals("fuwu")){
 		Server_Function.findDataByTableAndId(table_name,id,fuwu);
+		dashang_lists = DashangBusiness.getDashangListByToumuId(fuwu.getId());
+		dzHongbaos = FunctionBusiness.getHongbaoByTiaomuId(fuwu.getId(), "1");
+		fxHongbaos = FunctionBusiness.getHongbaoByTiaomuId(fuwu.getId(), "2");
 	}
+	
+	double dashang_count = 0.0d;
+	//计算打赏总数
+	for(Dashang_list dashang_list: dashang_lists){
+		if(StringUtils.isNotBlank(dashang_list.getPrice())){
+			double price = Double.valueOf(dashang_list.getPrice());
+			dashang_count += price;
+		}else{
+			dashang_count += 0.0d;
+		}
+	}
+	//计算点赞红包总金额 总数
+	for(Hongbao hongbao: dzHongbaos){
+			double price = hongbao.getPrice();
+			dzhongbao_price += price;
+			double count = hongbao.getCount();
+			dzhongbao_count += count;
+	}
+	//计算分享红包总金额 总数
+	for(Hongbao hongbao: fxHongbaos){
+			double price = hongbao.getPrice();
+			fxhongbao_price += price;
+			double count = hongbao.getCount();
+			fxhongbao_count += count;
+	}
+	//剩余红包=点赞红包+分享红包(后台没有记录红包的总金额与数量,每次领红包的时候只是做了递减操作)
+	//计算收藏量
+	int shoucang_count = 0; 
 	List<Pinglun> list2 = FunctionBusiness.getPinglun("1", list.getId(), 0);
 	request.setAttribute("list", list);
 	request.setAttribute("list2", list2);
@@ -128,6 +191,16 @@
 	request.setAttribute("title", title);//标题
 	request.setAttribute("releaser_id", releaser_id);//文章作者
 	request.setAttribute("id", id);//id
+	request.setAttribute("dashang_count", dashang_count);//打赏量
+	request.setAttribute("dzhongbao_price", dzhongbao_price);//点赞红包总金额
+	request.setAttribute("dzhongbao_count", dzhongbao_count);//点赞红包总个数
+	request.setAttribute("fxhongbao_price", fxhongbao_price);//分享红包总金额
+	request.setAttribute("fxhongbao_count", fxhongbao_count);//分享红包总个数
+	request.setAttribute("muban_Tag", muban_Tag);
+	request.setAttribute("share_count", share_count);
+	request.setAttribute("described", described);
+	request.setAttribute("content", content);
+	request.setAttribute("shoucang_count", shoucang_count);
 %>
 <script type="text/javascript">
 // 	console.log("${toutiao}");
@@ -139,6 +212,7 @@
 // 	console.log("${list2}");
 	console.log("${table_name}");
 	console.log("${id}");
+	console.log("${muban_Tag}");
 </script>
 </head>
 <body>
@@ -228,8 +302,8 @@
 					<span>点赞量</span><input type="text" placeholder="0" id="dianzan_count" />
 				</div>
 				<ul class="clearfix">
-					<li class="basic-data-one"><span>收藏量</span> <span>0</span></li>
-					<li class="basic-data-two"><span>分享量</span> <span>0</span></li>
+					<li class="basic-data-one"><span>收藏量</span> <span>${shoucang_count}</span></li>
+					<li class="basic-data-two"><span>分享量</span> <span>${share_count}</span></li>
 				</ul>
 			</div>
 		</div>
@@ -254,28 +328,28 @@
 				<div class="redPacket">
 					<p class="overplus">
 						<span>剩余红包</span>
-						<span class="money">0,00</span>
+						<span class="money">${dzhongbao_price + fxhongbao_price }</span>
 						<span class="price">元</span>
-						<span class="money">0</span>
+						<span class="money">${dzhongbao_count + fxhongbao_count }</span>
 						<span class="price">个</span>
 					</p>
 					<p class="recommend-data sum">
 						<span>点赞红包金额</span>
-						<input type="text" placeholder="0.00" class="price-input" />
+						<input type="text" placeholder="0.00" value="${dzhongbao_price}" class="price-input" />
 						<span class="price">元</span>个数
-						<input type="text" placeholder="0" class="price-input" />
+						<input type="text" placeholder="0" value="${dzhongbao_count}" class="price-input" />
 						<span class="price">个</span>
 					</p>
 					<p class="recommend-data sum">
-						<span>红包金额</span> 
-						<input type="text" placeholder="0.00" class="price-input" />
+						<span>分享红包金额</span> 
+						<input type="text" placeholder="0.00" value="${fxhongbao_price}" class="price-input" />
 						<span class="price">元</span>个数 
-						<input type="text" placeholder="0" class="price-input" />
+						<input type="text" placeholder="0" value="${fxhongbao_count}" class="price-input" />
 						<span class="price">个</span>
 					</p>
 					<p class="reward">
 						<span>打赏量</span>
-						<input type="text" placeholder="0.00" class="reward-input" />
+						<input type="text" placeholder="0.00" value="${dashang_count}" class="reward-input" />
 						<span class="price">元</span>
 					</p>
 				</div>
@@ -287,10 +361,10 @@
 				<p>样式</p>
 			</div>
 			<div class="pattem-cont">
-				<div class="form-select" id="picture">
-					<label><input type="radio" name="se" checked="checked" value="2" />多缩略图</label>
-					<label><input type="radio" name="se" value="1" />单缩略图</label>
-					<label><input type="radio" name="se" value="3" />大图</label>
+				<div class="form-select" id="picture" >
+					<label><input type="radio" name="se" <c:if test="${muban_Tag eq '2'}">checked="checked"</c:if> value="2" />多缩略图</label>
+					<label><input type="radio" name="se" <c:if test="${muban_Tag eq '1'}">checked="checked"</c:if> value="1" />单缩略图</label>
+					<label><input type="radio" name="se" <c:if test="${muban_Tag eq '3'}">checked="checked"</c:if> value="3" />大图</label>
 				</div>
 			</div>
 		</div>
@@ -306,7 +380,7 @@
 						<p id="imageCount"></p>
 					</li>
 					<li class="text"><textarea id="textarea" name="text0" rows="" cols=""
-							class="textarea"></textarea></li>
+							class="textarea">${described}</textarea></li>
 				</ul>
 <!-- 				<div class="add-another"> -->
 
@@ -318,7 +392,7 @@
 				<!--文本编辑器-->
 				<div class="nav">
 					<textarea id="txtDefaultHtmlArea" cols="50" rows="15"
-						style="width:100%;height: 500px;"></textarea>
+						style="width:100%;height: 500px;">${content}</textarea>
 				</div>
 				<!--<textarea name="" rows="" cols="" class="textarea-two">这里是图文编辑器，听说有插件可以自动生成</textarea>-->
 			</div>
@@ -485,7 +559,6 @@
 				break;
 		}
 		
-		console.log("${commodity.dianzan_count}");
 		//将所有值显示到页面上
 		$("#yuedu_count").val(yuedu_count);
 		$("#dianzan_count").val(dianzan_count);
@@ -813,9 +886,10 @@
 	
 	//初始化控件
 	function initWidget(){
-		$("#txtDefaultHtmlArea").htmlarea();
+		$("#txtDefaultHtmlArea").htmlarea("${content}");
 		//选择日期
-		$("#publish_date").val(new Date("${time}").format("yyyy-MM-dd"));
+		var time = "${time}"?new Date(time).format("yyyy-MM-dd"):"";
+		$("#publish_date").val(time);
 		$('#publish_date').date_input();
 		//日期选择
 		$(".date_picker").val(new Date().format("yyyy-MM-dd"));
