@@ -29,23 +29,6 @@ import com.magicmoble.luzhouapp.model.server.Toutiao;
 
 public class Handle_NoExamine_neirong extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	public static void main(String[] args) {
-		
-		Server_Function.CURRENT_PAGE = 1;
-		List<Toutiao> list = Server_Function.NoExamine("已推荐", 1);
-		int totalSize = Server_Function.TOTAL_SIZE;
-		int totalPage = Server_Function.TOTAL_PAGE;
-		Map<String, Object> page = new HashMap<String,Object>();
-		page.put("results", list);
-		page.put("totalSize", totalSize);
-		page.put("totalPage", totalPage);
-		DataObject dataObject = new DataObject();
-		dataObject.setdata(page);
-		dataObject.setStatusObject(StatusHouse.COMMON_STATUS_OK);
-		String responseText = JackJsonUtils.toJson(dataObject);
-		System.out.println(responseText);
-		
-	}
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

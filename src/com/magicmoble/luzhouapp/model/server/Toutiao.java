@@ -21,7 +21,16 @@ public class Toutiao {
 	String biaoqian;
 	String described;
 	String publish_date;
+	String table_name;
 	
+	public String getTable_name() {
+		return table_name;
+	}
+
+	public void setTable_name(String table_name) {
+		this.table_name = table_name;
+	}
+
 	public String getPublish_date() {
 		return publish_date;
 	}

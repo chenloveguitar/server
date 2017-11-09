@@ -8,15 +8,14 @@
 <head>
 <meta charset="UTF-8">
 <title></title>
-<link rel="stylesheet" type="text/css" href="../common/css/luzou.css" />
-<link rel="stylesheet" type="text/css"
-	href="../common/css/calendar1.css" />
-<script src="../common/lib/jquery-1.9.0.min.js" type="text/javascript"
-	charset="utf-8"></script>
-<script src="../common/js/jquery.min.js" type="text/javascript"
-	charset="utf-8"></script>
-<script src="../common/js/jquery.date_input.pack.js"
-	type="text/javascript" charset="utf-8"></script>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/common/css/luzou.css" />
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/common/css/calendar1.css" />
+<script src="${pageContext.request.contextPath}/common/lib/jquery-1.9.0.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="${pageContext.request.contextPath}/common/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="${pageContext.request.contextPath}/common/js/jquery.date_input.pack.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/common/pager/jquery.z-pager.js"></script>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/common/pager/pager.css">
+<script type="text/javascript" src="${pageContext.request.contextPath}/common/page/js/Content_management_End.js"></script>
 </head>
 <%
 	List<Toutiao> list = Server_Func.end();
@@ -33,12 +32,16 @@
 		</div>
 		<div class="position-content">
 			<div class="position-status">
-				<input type="text" name="" id="" value="" placeholder="关键字"
-					class="input-rate key-bord" /> <select name=""
-					class="third-select">
+				<input type="text" name="" value="" id="guangjianzi_search"
+					placeholder="关键字" class="input-rate" />
+						<a href="javascript:void(0);" id="guangjianzi_search_button" style="position: absolute; z-index: 2; margin-left: -70px; margin-top: 8px;">
+							<img src="${pageContext.request.contextPath}/common/image/search.png">
+						</a>
+					 
+				<select name="" id="change_paixu" class="third-select">
 					<option value="">排序</option>
-					<option value="阅读量从高到低">阅读量从高到低</option>
-					<option value="阅读量从低到高">阅读量从低到高</option>
+					<option value="时间由早到晚">时间由早到晚</option>
+					<option value="时间由晚到早">时间由晚到早</option>
 					<option value="转发量从高到低">转发量从高到低</option>
 					<option value="转发量从低到高">转发量从低到高</option>
 					<option value="点赞量从高到低">点赞量从高到低</option>
@@ -60,49 +63,51 @@
 				</div>
 			<div class="position-show">
 
-				<ul class="clearfix">
-					<c:forEach var="list" items="${list}">
-						<li>
-							<p class="position-show-title">
-								<i class="position-circle"></i><img class="position-square"
-									src="${list.pictures.get(0).picture_url}" /> <span
-									class="position-title"> <span>这里是标题</span> <span
-									class="position-share">阅读量:${list.yuedu_count}
-										分享:${list.share_count} 收藏:${list.shoucang_count}</span>
-								</span>
+				<ul class="clearfix" id="clear-fix-1">
+<%-- 					<c:forEach var="list" items="${list}"> --%>
+<!-- 						<li> -->
+<!-- 							<p class="position-show-title"> -->
+<!-- 								<i class="position-circle"></i><img class="position-square" -->
+<%-- 									src="${list.pictures.get(0).picture_url}" /> <span --%>
+<!-- 									class="position-title"> <span>这里是标题</span> <span -->
+<%-- 									class="position-share">阅读量:${list.yuedu_count} --%>
+<%-- 										分享:${list.share_count} 收藏:${list.shoucang_count}</span> --%>
+<!-- 								</span> -->
 
-							</p>
-							<p class="position-author">
-								<img class="icon-author" src="${list.releaser_touxiang}">
-								<span class="position-title"> <span>${list.releaser_name}</span>
-									<span class="position-share">${list.time}</span>
-								</span>
-							</p>
-							<p class="position-public">
-								<span class="position-title position-p"> <span>已下架</span>
-									<span class="position-share"></span>
-								</span>
-							</p>
-							<p class="edit-exit">
-								<p class="edit-exit">
-								<a class="icon-edit icon-webpage"
-									href="<%=request.getContextPath()%>/page/content-detail2.jsp?chaxun_id=${list.id}&Tag=1"></a><a
-									class="icon-edit icon-del"
-									href="<%=request.getContextPath()%>/Handle_NoExamine_neirong?del_id=${list.id}&Tag=1"></a>
-							</p>
+<!-- 							</p> -->
+<!-- 							<p class="position-author"> -->
+<%-- 								<img class="icon-author" src="${list.releaser_touxiang}"> --%>
+<%-- 								<span class="position-title"> <span>${list.releaser_name}</span> --%>
+<%-- 									<span class="position-share">${list.time}</span> --%>
+<!-- 								</span> -->
+<!-- 							</p> -->
+<!-- 							<p class="position-public"> -->
+<!-- 								<span class="position-title position-p"> <span>已下架</span> -->
+<!-- 									<span class="position-share"></span> -->
+<!-- 								</span> -->
+<!-- 							</p> -->
+<!-- 							<p class="edit-exit"> -->
+<!-- 								<p class="edit-exit"> -->
+<!-- 								<a class="icon-edit icon-webpage" -->
+<%-- 									href="<%=request.getContextPath()%>/page/content-detail2.jsp?chaxun_id=${list.id}&Tag=1"></a><a --%>
+<!-- 									class="icon-edit icon-del" -->
+<%-- 									href="<%=request.getContextPath()%>/Handle_NoExamine_neirong?del_id=${list.id}&Tag=1"></a> --%>
+<!-- 							</p> -->
 						
-						</li>
-					</c:forEach>
+<!-- 						</li> -->
+<%-- 					</c:forEach> --%>
 				</ul>
 			</div>
 		</div>
 		<div class="position-footer">
 			<input type="radio" class="select-all" />全选 <a href="###"
-				class="position-delete">删除</a> <span>分页的位置</span>
+				class="position-delete">删除</a> 
+				<div id="page-1" class="pager clearfix"></div>
 		</div>
 	</div>
 
 	<script type="text/javascript">
+	var flag = 1;
 		$(function() {
 			//切换样式选项卡
 			$(".position-header ul li").click(function() {
@@ -148,68 +153,127 @@
 				$(".list-click").parent().parent().remove();
 				$(this).css("color", "#00C8E8");
 			})
-	
-			//选择日期
-			$('#rate-search').date_input();
-	
-	
+			
 			//关键字搜索
 			var a = $('.key-bord').val();
 			$('.position ul li').each(function() {})
 			
 			//改变推荐
-			$(function() { 
-				$("#change_recommend").change(function() {
+			$(function() {
+				$("#change_paixu").change(function() {
+					
+					
 					$.ajax({
-						url : "/mServer/Handle_Shuoshuo",
+						url : "/mServer/Handle_end_neirong?Tag=" + flag,
 						type : "POST",
 						data : {
-							"change_rec" : $("#change_recommend").val()
+							"change_paixu" : $("#change_paixu").val()
 						},
 						dataType : "json",
 						success : function(message) {
+							console.log(message);
 							var str = "";
-							for (var i in message) {
-							str+="	<li>"
-							str+="		<p class=\"position-show-title\">"
-							str+="		<i class=\"position-circle\"></i><img class=\"position-square\""
-							str+="		src=\""+message[i]["pictures"][0]["picture_url"]+"\"/> <span"
-							str+="	class=\"position-title\"> <span>这里是标题</span> <span"
-							str+="	class=\"position-share\">阅读量:" + message[i]["yuedu_count"] + ""
-							str+="	分享:" + message[i]["share_count"] + " 收藏:" + message[i]["shoucang_count"] + "</span>"
-							str+="	</span>"
-							str+="	</p>"
-							str+="	<p class=\"position-author\">"
-							str+="	<img class=\"icon-author\" src="" + message[i]["releaser_touxiang"] + "">"
-							str+="	<span class=\"position-title\"> <span>" + message[i]["releaser_name"] + "</span>"
-							str+="	<span class=\"position-share\">" + message[i]["time"] + "</span>"
-							str+="	</span>"
-							str+="	</p>"
-							str+="	<p class=\"position-public\">"
-							str+="	<span class=\"position-title position-p\"> <span>已下架</span>"
-							str+="	<span class=\"position-share\"></span>"
-							str+="	</span>"
-							str+="	</p>"
-							str+="	<p class=\"edit-exit\">"
-							str+="	<i class=\"icon-edit icon-webpage\"></i> <i"
-							str+="	class=\"icon-edit icon-del\"></i>"
-							str+="	</p>"
-							str+="	</li>"
+							if(message.code == "0000"){
+								var message = message.data.results;
+								for (var i in message) {
+									str += "	<li>"
+									str += "		<p class=\"position-show-title\">"
+									str += "		<i class=\"position-circle\"></i><img class=\"position-square\""
+									str += "		src=\"" + message[i]["pictures"][0]["picture_url"] + "\"/> <span"
+									str += "	class=\"position-title\"> <span>" + message[i]["title"] + "</span> <span"
+									str += "	class=\"position-share\">阅读量:" + message[i]["yuedu_count"] + ""
+									str += "	分享:" + message[i]["share_count"] + " 收藏:" + message[i]["shoucang_count"] + "</span>"
+									str += "	</span>"
+									str += "	</p>"
+									str += "	<p class=\"position-author\">"
+									str += "	<img class=\"icon-author\" src=\"" + message[i]["releaser_touxiang"] + "\">"
+									str += "	<span class=\"position-title\"> <span>" + message[i]["releaser_name"] + "</span>"
+									str += "	<span class=\"position-share\">" + message[i]["time"] + "</span>"
+									str += "	</span>"
+									str += "	</p>"
+									str += "	<p class=\"position-public\">"
+									str += "	<span class=\"position-title position-p\"> <span>" + message[i]["shenhe"] + "</span>"
+									str += "		<span class=\"position-share\">" + message[i]["tuijian_Tag"] + "</span>"
+									str += "		</span> <span class=\"position-title position-p\"> <span>点赞红包</span>"
+									str += "			<span class=\"position-share\">剩余" + message[i]["dianzan_hongbao"] + "元</span>"
+									str += "		</span> <span class=\"position-title position-p\"> <span>分享红包</span>"
+									str += "		<span class=\"position-share\">剩余" + message[i]["share_hongbao"] + "元</span>"
+									str += "		</span> <span class=\"position-title position-p\"> <span>" + message[i]["tuijian_message"] + "</span>"
+									str += "			<span class=\"position-share\">剩余" + message[i]["days"] + "天</span>"
+									str += "		</span>"
+									str += "	</p>"
+									str += "	<p class=\"edit-exit\">"
+									str += "	<i class=\"icon-edit icon-webpage\"><a class=\"icon-edit icon-webpage\" href=\"/mServer/Handle_NoExamine_neirong?tableName="+message[i]["table_name"]+"&republish="+message[i]["id"]+"&Tag=1\"</i> <i"
+									str += "	class=\"icon-edit icon-del\"><a class=\"icon-edit icon-del\" href=\"/mServer/Handle_NoExamine_neirong?tableName="+message[i]["table_name"]+"&del_id="+message[i]["id"]+"&Tag=1\"></a></i>"
+									str += "	</p>"
+									str += "	</li>"
+								}
 							}
-							$("#clear-fix").html(str);
+							$("#clear-fix-1").html(str);
 						},
 						error : function() {
 							alert("error");
 						}
 					});
 				})
+				
+			$("#guangjianzi_search_button").click(function() {
+				if($("#guangjianzi_search").val().trim() != ""){
+					$.ajax({
+						url : "/mServer/Handle_end_neirong?Tag=" + flag,
+						type : "POST",
+						data : {
+							"guangjianzi_search" : $("#guangjianzi_search").val()
+						},
+						dataType : "json",
+						success : function(message) {
+							console.log(message)
+							var str = "";
+							if(message.code == "0000"){
+								var message = message.data.results;
+								for (var i in message) {
+									str += "	<li>"
+									str += "		<p class=\"position-show-title\">"
+									str += "		<i class=\"position-circle\"></i><img class=\"position-square\""
+									str += "		src=\"" + message[i]["pictures"][0]["picture_url"] + "\"/> <span"
+									str += "	class=\"position-title\"> <span>" + message[i]["title"] + "</span> <span"
+									str += "	class=\"position-share\">阅读量:" + message[i]["yuedu_count"] + ""
+									str += "	分享:" + message[i]["share_count"] + " 收藏:" + message[i]["shoucang_count"] + "</span>"
+									str += "	</span>"
+									str += "	</p>"
+									str += "	<p class=\"position-author\">"
+									str += "	<img class=\"icon-author\" src=\"" + message[i]["releaser_touxiang"] + "\">"
+									str += "	<span class=\"position-title\"> <span>" + message[i]["releaser_name"] + "</span>"
+									str += "	<span class=\"position-share\">" + message[i]["time"] + "</span>"
+									str += "	</span>"
+									str += "	</p>"
+									str += "	<p class=\"position-public\">"
+									str += "	<span class=\"position-title position-p\"> <span>" + message[i]["shenhe"] + "</span>"
+									str += "		<span class=\"position-share\">" + message[i]["tuijian_Tag"] + "</span>"
+									str += "		</span> <span class=\"position-title position-p\"> <span>点赞红包</span>"
+									str += "			<span class=\"position-share\">剩余" + message[i]["dianzan_hongbao"] + "元</span>"
+									str += "		</span> <span class=\"position-title position-p\"> <span>分享红包</span>"
+									str += "		<span class=\"position-share\">剩余" + message[i]["share_hongbao"] + "元</span>"
+									str += "		</span> <span class=\"position-title position-p\"> <span>" + message[i]["tuijian_message"] + "</span>"
+									str += "			<span class=\"position-share\">剩余" + message[i]["days"] + "天</span>"
+									str += "		</span>"
+									str += "	</p>"
+									str += "	<p class=\"edit-exit\">"
+									str += "	<i class=\"icon-edit icon-webpage\"><a class=\"icon-edit icon-webpage\" href=\"/mServer/Handle_NoExamine_neirong?tableName="+message[i]["table_name"]+"&republish="+message[i]["id"]+"&Tag=1\"</i> <i"
+									str += "	class=\"icon-edit icon-del\"><a class=\"icon-edit icon-del\" href=\"/mServer/Handle_NoExamine_neirong?tableName="+message[i]["table_name"]+"&del_id="+message[i]["id"]+"&Tag=1\"></a></i>"
+									str += "	</p>"
+									str += "	</li>"
+								}
+							}
+							$("#clear-fix-1").html(str);
+						},
+						error : function() {
+							alert("error");
+						}
+					});
+				}
 			})
-	
-	
-	
-	
-	
-	
+			})
 		})
 	</script>
 </body>

@@ -1735,7 +1735,7 @@ public class Server_Function<T> {
 		DBHelper db1 = null;
 		String uuid = UUID.randomUUID().toString();
 		int fufei_Tag = 0;
-		int fenlei_Tag = 1;
+		int fenlei_Tag = 2;
 		String releaser_name = Admin_xinxi_Business.getAdmin_xinxiInfoById(releaser_id).getName();
 		fenlei_Tag = 2;
 		String shenhe = "已发布";
@@ -1767,9 +1767,9 @@ public class Server_Function<T> {
 		DBHelper db1 = null;
 		String uuid = UUID.randomUUID().toString();
 		int fufei_Tag = 0;
-		int fenlei_Tag = 2;
+		int fenlei_Tag = 1;
 		String releaser_name = Admin_xinxi_Business.getAdmin_xinxiInfoById(releaser_id).getName();
-		fenlei_Tag = 2;
+		fenlei_Tag = 1;
 		String shenhe = "已发布";
 		
 		Timestamp time = new Timestamp(new Date().getTime());
@@ -2431,5 +2431,184 @@ public class Server_Function<T> {
 			db1.close();
 		}
 		return -1;
+	}
+
+	public static List<Toutiao> end_paixu(String change_rec, int flag) {
+		String sql = null;
+		DBHelper db1 = null;
+		int days = 0;
+
+		List<Toutiao> list = new ArrayList<Toutiao>();
+		try {
+			if (flag == 1) {
+				if (change_rec != null) {
+
+					if (change_rec.equals("阅读量从高到低")) {
+						sql = "SELECT unionall.* FROM((SELECT id,picture,title,yuedu_count,releaser_id,time FROM toutiao where shenhe='已下架' ORDER BY yuedu_count DESC) UNION all (SELECT id,picture,title,yuedu_count,releaser_id,time FROM faxian where shenhe='已下架' ORDER BY yuedu_count DESC) UNION all (SELECT id,picture,title,yuedu ,releaser_id,time FROM quchu where shenhe='已下架' ORDER BY yuedu DESC) UNION all (SELECT id,picture,title,yuedu ,releaser_id,time FROM commodity where shenhe='已下架' ORDER BY yuedu ASC) UNION all (SELECT id,picture,title,yuedu ,releaser_id,time FROM fuwu where shenhe='已下架' ORDER BY yuedu DESC)) AS unionall ORDER BY unionall.yuedu_count DESC";
+					} else if (change_rec.equals("阅读量从低到高")) {
+						sql = "SELECT unionall.* FROM((SELECT id,picture,title,yuedu_count,releaser_id,time FROM toutiao where shenhe='已下架' ORDER BY yuedu_count ASC) UNION all (SELECT id,picture,title,yuedu_count,releaser_id,time FROM faxian where shenhe='已下架' ORDER BY yuedu_count ASC) UNION all (SELECT id,picture,title,yuedu ,releaser_id,time FROM quchu where shenhe='已下架' ORDER BY yuedu ASC) UNION all (SELECT id,picture,title,yuedu ,releaser_id,time FROM commodity where shenhe='已下架' ORDER BY yuedu ASC) UNION all (SELECT id,picture,title,yuedu ,releaser_id,time FROM fuwu where shenhe='已下架' ORDER BY yuedu ASC)) AS unionall ORDER BY unionall.yuedu_count ASC";
+					} else if (change_rec.equals("时间由早到晚")) {
+						sql = "SELECT unionall.* FROM((SELECT id,picture,title,yuedu_count,releaser_id,time FROM toutiao where shenhe='已下架' ORDER BY time DESC) UNION all (SELECT id,picture,title,yuedu_count,releaser_id,time FROM faxian where shenhe='已下架' ORDER BY time DESC) UNION all (SELECT id,picture,title,yuedu ,releaser_id,time FROM quchu where shenhe='已下架' ORDER BY time DESC) UNION all (SELECT id,picture,title,yuedu ,releaser_id,time FROM commodity where shenhe='已下架' ORDER BY time DESC) UNION all (SELECT id,picture,title,yuedu ,releaser_id,time FROM fuwu where shenhe='已下架' ORDER BY time DESC)) AS unionall ORDER BY unionall.time DESC";
+					} else if (change_rec.equals("时间由晚到早")) {
+						sql = "SELECT unionall.* FROM((SELECT id,picture,title,yuedu_count,releaser_id,time FROM toutiao where shenhe='已下架' ORDER BY time ASC) UNION all (SELECT id,picture,title,yuedu_count,releaser_id,time FROM faxian where shenhe='已下架' ORDER BY time ASC) UNION all (SELECT id,picture,title,yuedu ,releaser_id,time FROM quchu where shenhe='已下架' ORDER BY time ASC) UNION all (SELECT id,picture,title,yuedu ,releaser_id,time FROM commodity where shenhe='已下架' ORDER BY time ASC) UNION all (SELECT id,picture,title,yuedu ,releaser_id,time FROM fuwu where shenhe='已下架' ORDER BY time ASC)) AS unionall ORDER BY unionall.time ASC";
+					} else if (change_rec.equals("转发量从高到低")) {
+						sql = "SELECT unionall.* FROM((SELECT id,picture,title,yuedu_count,releaser_id,time,share_count FROM toutiao where shenhe='已下架' ORDER BY yuedu_count DESC) UNION all (SELECT id,picture,title,yuedu_count,releaser_id,time,share_count FROM faxian where shenhe='已下架' ORDER BY yuedu_count DESC) UNION all (SELECT id,picture,title,yuedu ,releaser_id,time,share_count FROM quchu where shenhe='已下架' ORDER BY yuedu DESC) UNION all (SELECT id,picture,title,yuedu ,releaser_id,time,share_count FROM commodity where shenhe='已下架' ORDER BY yuedu ASC) UNION all (SELECT id,picture,title,yuedu ,releaser_id,time,share_count FROM fuwu where shenhe='已下架' ORDER BY yuedu DESC)) AS unionall ORDER BY unionall.share_count DESC";
+					} else if (change_rec.equals("转发量从低到高")) {
+						sql = "SELECT unionall.* FROM((SELECT id,picture,title,yuedu_count,releaser_id,time,share_count FROM toutiao where shenhe='已下架' ORDER BY yuedu_count DESC) UNION all (SELECT id,picture,title,yuedu_count,releaser_id,time,share_count FROM faxian where shenhe='已下架' ORDER BY yuedu_count DESC) UNION all (SELECT id,picture,title,yuedu ,releaser_id,time,share_count FROM quchu where shenhe='已下架' ORDER BY yuedu DESC) UNION all (SELECT id,picture,title,yuedu ,releaser_id,time,share_count FROM commodity where shenhe='已下架' ORDER BY yuedu ASC) UNION all (SELECT id,picture,title,yuedu ,releaser_id,time,share_count FROM fuwu where shenhe='已下架' ORDER BY yuedu DESC)) AS unionall ORDER BY unionall.share_count ASC";
+					} else if (change_rec.equals("点赞量从高到低")) {
+						sql = "SELECT unionall.* FROM((SELECT id,picture,title,yuedu_count,releaser_id,time,dianzan_count FROM toutiao where shenhe='已下架' ORDER BY time DESC) UNION all (SELECT id,picture,title,yuedu_count,releaser_id,time,dianzan_count FROM faxian where shenhe='已下架' ORDER BY time DESC) UNION all (SELECT id,picture,title,yuedu ,releaser_id,time,dianzhan_count as dianzan_count FROM quchu where shenhe='已下架' ORDER BY time DESC) UNION all (SELECT id,picture,title,yuedu ,releaser_id,time,dianzan_count FROM commodity where shenhe='已下架' ORDER BY time DESC) UNION all (SELECT id,picture,title,yuedu ,releaser_id,time,dianzan_count FROM fuwu where shenhe='已下架' ORDER BY time DESC)) AS unionall ORDER BY unionall.dianzan_count DESC";
+					} else if (change_rec.equals("点赞量从低到高")) {
+						sql = "SELECT unionall.* FROM((SELECT id,picture,title,yuedu_count,releaser_id,time,dianzan_count FROM toutiao where shenhe='已下架' ORDER BY time DESC) UNION all (SELECT id,picture,title,yuedu_count,releaser_id,time,dianzan_count FROM faxian where shenhe='已下架' ORDER BY time DESC) UNION all (SELECT id,picture,title,yuedu ,releaser_id,time,dianzhan_count as dianzan_count FROM quchu where shenhe='已下架' ORDER BY time DESC) UNION all (SELECT id,picture,title,yuedu ,releaser_id,time,dianzan_count FROM commodity where shenhe='已下架' ORDER BY time DESC) UNION all (SELECT id,picture,title,yuedu ,releaser_id,time,dianzan_count FROM fuwu where shenhe='已下架' ORDER BY time DESC)) AS unionall ORDER BY unionall.dianzan_count ASC";
+					}
+				}
+			}
+			TOTAL_SIZE = getTotalSize(sql);
+			sql = getLimitSql(sql);
+			db1 = new DBHelper(sql);
+			TOTAL_PAGE = (TOTAL_SIZE + PAGE_SIZE -1) /  PAGE_SIZE;
+			ResultSet ret = db1.pst.executeQuery();
+			while (ret.next()) {
+				String id = ret.getString(1);
+				String picture = ret.getString(2);
+				String[] aa = picture.split(",");
+				List<Picture> list2 = new ArrayList<Picture>();
+				for (int i = 0; i < aa.length; i++) {
+					Picture picture_url = new Picture();
+					picture_url.setPicture_url(aa[i]);
+					list2.add(picture_url);
+				}
+				String title = ret.getString(3);
+				int yuedu = ret.getInt(4);
+				String releaser_id = ret.getString(5);
+				String releaser_name = Admin_xinxi_Business.getAdmin_xinxiInfoById(releaser_id).getName();
+				String releaser_touxiang = Admin_xinxi_Business.getAdmin_xinxiInfoById(releaser_id)
+						.getTouxiang_picture();
+				int shoucang_count = Server_Func.getshoucang(id);
+				Timestamp time = ret.getTimestamp(6);
+
+				days = Server_Func.tuijian_days(id);
+				String tuijian_message;
+
+				if (days == 0) {
+					tuijian_message = "未推荐";
+				} else {
+					tuijian_message = "已推荐";
+				}
+				String tuijian_Tag;
+				if (tuijian_message.equals("已推荐")) {
+					tuijian_Tag = "首页推荐";
+				} else {
+					tuijian_Tag = "未推荐";
+				}
+
+				Toutiao toutiao = new Toutiao();
+				toutiao.setId(id);
+				toutiao.setPictures(list2);
+				toutiao.setTitle(title);
+				toutiao.setYuedu_count(yuedu);
+				toutiao.setReleaser_name(releaser_name);
+				toutiao.setReleaser_touxiang(releaser_touxiang);
+				toutiao.setDays(days);
+				toutiao.setShare_count(0);
+				toutiao.setShoucang_count(shoucang_count);
+				toutiao.setTime(time);
+				toutiao.setTuijian_message(tuijian_message);
+				list.add(toutiao);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			db1.close();
+		}
+
+		return list;
+	}
+
+	public static List<Toutiao> end_search(String guangjianzi_search, int flag) {
+		String sql = null;
+		DBHelper db1 = null;
+		int days = 0;
+
+		List<Toutiao> list = new ArrayList<Toutiao>();
+		try {
+			if (flag == 1) {
+				if (guangjianzi_search != null) {
+
+					sql = "SELECT id,picture,title,yuedu_count,releaser_id,time,'toutiao' as table_name FROM toutiao where shenhe='已下架' and title like '%"
+							+ guangjianzi_search
+							+ "%' UNION all SELECT id,picture,title,yuedu_count,releaser_id,time,'faxian' as table_name FROM faxian where shenhe='已下架' and title like '%"
+							+ guangjianzi_search
+							+ "%' UNION all SELECT id,picture,title,yuedu ,releaser_id,time,'quchu' as table_name FROM quchu where shenhe='已下架' and title like '%"
+							+ guangjianzi_search
+							+ "%' UNION all SELECT id,picture,title,yuedu ,releaser_id,time,'commodity' as table_name FROM commodity where shenhe='已下架' and title like '%"
+							+ guangjianzi_search
+							+ "%' UNION all SELECT id,picture,title,yuedu ,releaser_id,time,'fuwu' as table_name FROM fuwu where shenhe='已下架' and title like '%"
+							+ guangjianzi_search + "%' ";
+				}
+			}
+			TOTAL_SIZE = getTotalSize(sql);
+			sql = getLimitSql(sql);
+			db1 = new DBHelper(sql);
+			TOTAL_PAGE = (TOTAL_SIZE + PAGE_SIZE -1) /  PAGE_SIZE;
+			ResultSet ret = db1.pst.executeQuery();
+			while (ret.next()) {
+				String id = ret.getString(1);
+				String picture = ret.getString(2);
+				String[] aa = picture.split(",");
+				List<Picture> list2 = new ArrayList<Picture>();
+				for (int i = 0; i < aa.length; i++) {
+					Picture picture_url = new Picture();
+					picture_url.setPicture_url(aa[i]);
+					list2.add(picture_url);
+				}
+				String title = ret.getString(3);
+				int yuedu = ret.getInt(4);
+				String releaser_id = ret.getString(5);
+				String releaser_name = Admin_xinxi_Business.getAdmin_xinxiInfoById(releaser_id).getName();
+				String releaser_touxiang = Admin_xinxi_Business.getAdmin_xinxiInfoById(releaser_id)
+						.getTouxiang_picture();
+				int shoucang_count = Server_Func.getshoucang(id);
+				Timestamp time = ret.getTimestamp(6);
+				String table_name = ret.getString(7);
+
+				days = Server_Func.tuijian_days(id);
+				String tuijian_message;
+
+				if (days == 0) {
+					tuijian_message = "未推荐";
+				} else {
+					tuijian_message = "已推荐";
+				}
+				String tuijian_Tag;
+				if (tuijian_message.equals("已推荐")) {
+					tuijian_Tag = "首页推荐";
+				} else {
+					tuijian_Tag = "未推荐";
+				}
+
+				Toutiao toutiao = new Toutiao();
+				toutiao.setId(id);
+				toutiao.setPictures(list2);
+				toutiao.setTitle(title);
+				toutiao.setYuedu_count(yuedu);
+				toutiao.setReleaser_name(releaser_name);
+				toutiao.setReleaser_touxiang(releaser_touxiang);
+				toutiao.setDays(days);
+				toutiao.setShare_count(0);
+				toutiao.setShoucang_count(shoucang_count);
+				toutiao.setTime(time);
+				toutiao.setTuijian_message(tuijian_message);
+				toutiao.setTable_name(table_name);
+				list.add(toutiao);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			db1.close();
+		}
+
+		return list;
 	}
 }
