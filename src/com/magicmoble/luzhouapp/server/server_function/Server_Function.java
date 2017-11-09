@@ -51,10 +51,26 @@ public class Server_Function<T> {
 	public static Integer TOTAL_PAGE = 0;//总页数
 	
 	public static void main(String[] args) throws Exception {
-		Map<String, String> data = new HashMap<String, String>();
-		data.put("title", "123321321");
-		updateDataByTableAndId("commodity", "1", data);
+//		Map<String, String> data = new HashMap<String, String>();
+//		data.put("title", "123321321");
+//		updateDataByTableAndId("commodity", "1", data);
+//		
+		Map<String, String> data = new HashMap<String,String>();
+//		data.put("picture", "");
+//		data.put("title", "title");
+//		data.put("name", "name");
+//		data.put("content", "内容");
+//		data.put("muban_Tag", String.valueOf(1));
+//		data.put("releaser_id", "3C41163EAF3FED61BFB009766D58864D");
+//		data.put("yuedu_count", String.valueOf(123));
+//		data.put("dianzan_count", String.valueOf(0));
+//		Server_Function.updateDataByTableAndId("toutiao", "2948d1dd-1847-4d63-8eaf-e3f136d78440", data);
 		
+		data.put("tuijian_user", "3C41163EAF3FED61BFB009766D58864D");
+		data.put("tiaomu_id", "4d28f05c-5e1b-4c68-b124-1c3de4ca1407");
+//		int i = insterDataByTable("tuijian_list", data);
+//		System.out.println(i);
+		updateDataByTableAndId("tuijian_list", "c561c91e-01a6-48e8-83b9-55f1d43f4f46", data);
 //		Toutiao toutiao = new Toutiao();
 //		Toutiao toutiao = (Toutiao) findDataByTableAndId("toutiao", "d5cb9303-d1f3-4ba0-9868-750c2a86f37b",Toutiao.class);
 //		System.out.println(toutiao);
@@ -109,6 +125,7 @@ public class Server_Function<T> {
 		return false;
 		
 	}
+	
 	public static <T>T findDataByTableAndId(String table_name,String id,Class<T> c){
 		String sql = "select * from " + table_name + " where id = '"+id+"'";
 		DBHelper db = null;
@@ -1713,7 +1730,7 @@ public class Server_Function<T> {
 	}
 
 	public static String add_riji(String picture, String title, String name, String content, int muban_Tag,
-			String releaser_id) {
+			String releaser_id,String described) {
 		String sql = null;
 		DBHelper db1 = null;
 		String uuid = UUID.randomUUID().toString();
@@ -1724,10 +1741,10 @@ public class Server_Function<T> {
 		String shenhe = "已发布";
 		Timestamp time = new Timestamp(new Date().getTime());
 
-		sql = "INSERT INTO toutiao(id,picture,title,name,content,fufei_Tag,fenlei_Tag,muban_Tag,releaser_id,releaser_name,shenhe,time,yuedu) VALUES ('"
+		sql = "INSERT INTO toutiao(id,picture,title,name,content,fufei_Tag,fenlei_Tag,muban_Tag,releaser_id,releaser_name,shenhe,time,yuedu,described) VALUES ('"
 				+ uuid + "', '" + picture + "', '" + title + "', '" + name + "', '" + content + "', " + fufei_Tag + ", "
 				+ fenlei_Tag + "," + muban_Tag + ",'" + releaser_id + "','" + releaser_name + "','" + shenhe + "','"
-				+ time + "')";
+				+ time + "','"+described+"')";
 
 		try {
 			db1 = new DBHelper(sql);
@@ -1745,7 +1762,7 @@ public class Server_Function<T> {
 	}
 
 	public static String add_toutiao(String picture, String title, String name, String content, int muban_Tag,
-			String releaser_id, int yuedu_count, int dianzan_count) {
+			String releaser_id, int yuedu_count, int dianzan_count,String described) {
 		String sql = null;
 		DBHelper db1 = null;
 		String uuid = UUID.randomUUID().toString();
@@ -1756,10 +1773,10 @@ public class Server_Function<T> {
 		String shenhe = "已发布";
 		Timestamp time = new Timestamp(new Date().getTime());
 
-		sql = "INSERT INTO toutiao(id,picture,title,name,content,fufei_Tag,fenlei_Tag,muban_Tag,releaser_id,releaser_name,shenhe,time,yuedu_count,dianzan_count) VALUES ('"
+		sql = "INSERT INTO toutiao(id,picture,title,name,content,fufei_Tag,fenlei_Tag,muban_Tag,releaser_id,releaser_name,shenhe,time,yuedu_count,dianzan_count,described) VALUES ('"
 				+ uuid + "', '" + picture + "', '" + title + "', '" + name + "', '" + content + "', " + fufei_Tag + ", "
 				+ fenlei_Tag + "," + muban_Tag + ",'" + releaser_id + "','" + releaser_name + "','" + shenhe + "','"
-				+ time + "'," + yuedu_count + "," + dianzan_count + ")";
+				+ time + "'," + yuedu_count + "," + dianzan_count + ",'"+described+"')";
 
 		try {
 			db1 = new DBHelper(sql);
@@ -1776,7 +1793,7 @@ public class Server_Function<T> {
 
 	}
 
-	public static String add_faxian(String releaser_id, String picture, String title, String name, String content,int muban_Tag) {
+	public static String add_faxian(String releaser_id, String picture, String title, String name, String content,int muban_Tag,String described) {
 		String sql = null;
 		DBHelper db1 = null;
 		String uuid = UUID.randomUUID().toString();
@@ -1784,9 +1801,9 @@ public class Server_Function<T> {
 		String shenhe = "已发布";
 		Timestamp time = new Timestamp(new Date().getTime());
 
-		sql = "INSERT INTO faxian(id,picture,title,name,content,fenlei_Tag,shenhe,releaser_id,time,muban_Tag) VALUES ('" + uuid
+		sql = "INSERT INTO faxian(id,picture,title,name,content,fenlei_Tag,shenhe,releaser_id,time,muban_Tag,described) VALUES ('" + uuid
 				+ "', '" + picture + "', '" + title + "', '" + name + "','" + content + "'," + fenlei_Tag + ",'"
-				+ shenhe + "','" + releaser_id + "','"+muban_Tag+"')";
+				+ shenhe + "','" + releaser_id + "','"+time+"','"+muban_Tag+"','"+described+"')";
 
 		try {
 			db1 = new DBHelper(sql);
@@ -1805,7 +1822,7 @@ public class Server_Function<T> {
 	}
 
 	public static String add_quchu(String releaser_id, String title, String address, String phone, String picture,
-			String content,int muban_Tag) {
+			String content,int muban_Tag,String described) {
 		String sql = null;
 		DBHelper db1 = null;
 		String uuid = UUID.randomUUID().toString();
@@ -1814,7 +1831,7 @@ public class Server_Function<T> {
 		String shenhe = "正在审核中...";
 		Timestamp time = new Timestamp(new Date().getTime());
 
-		sql = "INSERT INTO quchu(id,title,dianpu_address,phone,picture,content,dianpu_name,renzheng_Tag,shenhe,time,releaser_id,fenlei_Tag,muban_Tag) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		sql = "INSERT INTO quchu(id,title,dianpu_address,phone,picture,content,dianpu_name,renzheng_Tag,shenhe,time,releaser_id,fenlei_Tag,muban_Tag,described) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
 		try {
 
@@ -1833,6 +1850,7 @@ public class Server_Function<T> {
 			db1.pst.setString(11, releaser_id);
 			db1.pst.setInt(12, fenlei_Tag);
 			db1.pst.setInt(13, muban_Tag);
+			db1.pst.setString(14, described);
 
 			int ret = db1.pst.executeUpdate();
 			if(ret > 0){
@@ -1848,7 +1866,7 @@ public class Server_Function<T> {
 	}
 
 	public static String add_commodity(String title, String price, String shuliang, String freight, String phone,
-			String picture, String content, String seller_id,int muban_Tag) {
+			String picture, String content, String seller_id,int muban_Tag,String described) {
 		String sql = null;
 		DBHelper db1 = null;
 		String uuid = UUID.randomUUID().toString();
@@ -1858,10 +1876,10 @@ public class Server_Function<T> {
 		Timestamp time = new Timestamp(new Date().getTime());
 		String shenhe = "正在审核中...";
 
-		sql = "INSERT INTO commodity(id,title,price,unit,shuliang,freight,phone,picture,content,seller_id,releaser_id,seller_name,releaser_name,shenhe,time,muban_Tag) VALUES ('"
+		sql = "INSERT INTO commodity(id,title,price,unit,shuliang,freight,phone,picture,content,seller_id,releaser_id,seller_name,releaser_name,shenhe,time,muban_Tag,described) VALUES ('"
 				+ uuid + "', '" + title + "', '" + price + "','" + shuliang + "','" + freight + "','" + phone + "','"
 				+ picture + "','" + content + "','" + seller_id + "','" + seller_id + "','" + seller_name + "','"
-				+ seller_name + "','" + shenhe + "','" + time + "','"+muban_Tag+"')";
+				+ seller_name + "','" + shenhe + "','" + time + "','"+muban_Tag+"','"+described+"')";
 
 		try {
 			db1 = new DBHelper(sql);
@@ -1879,7 +1897,7 @@ public class Server_Function<T> {
 	}
 
 	public static String add_fuwu(String releaser_id, String title, String price, String phone, String picture,
-			String content,int muban_Tag) {
+			String content,int muban_Tag,String described) {
 		String sql = null;
 		DBHelper db1 = null;
 		String uuid = UUID.randomUUID().toString();
@@ -1887,9 +1905,9 @@ public class Server_Function<T> {
 		String shenhe = "正在审核中...";
 		Timestamp time = new Timestamp(new Date().getTime());
 
-		sql = "INSERT INTO fuwu(id,title,price,unit,phone,picture,content,shenhe,releaser_id,time,muban_Tag) VALUES ('" + uuid
+		sql = "INSERT INTO fuwu(id,title,price,unit,phone,picture,content,shenhe,releaser_id,time,muban_Tag,described) VALUES ('" + uuid
 				+ "', '" + title + "'," + price + ",'" + phone + "','" + picture + "','" + content + "','" + shenhe
-				+ "','" + releaser_id + "','" + time + "','"+muban_Tag+"')";
+				+ "','" + releaser_id + "','" + time + "','"+muban_Tag+"','"+described+"')";
 
 		try {
 			db1 = new DBHelper(sql);
@@ -2383,5 +2401,33 @@ public class Server_Function<T> {
 
 	}
 
+	public static int insterDataByTable(String tableName, Map<String, String> params) {
+		String sql = null;
+		DBHelper db1 = null;
+		String uuid = UUID.randomUUID().toString();
 
+		sql = "INSERT INTO "+tableName;
+		Set<String> keys = params.keySet();
+		String column = "(";
+		String value = "VALUES(";
+		for (String key : keys) {
+			column += key + ",";
+			value += "'" + params.get(key) + "'" + ",";
+		}
+		column += "id";
+		column += ")";
+		value += "'"+uuid+"'";
+		value += ")";
+		
+		sql += column + value;
+		try {
+			db1 = new DBHelper(sql);
+			return db1.pst.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			db1.close();
+		}
+		return -1;
+	}
 }

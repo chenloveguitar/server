@@ -19,3 +19,6 @@ ALTER TABLE quchu ADD COLUMN share_count INT default 0;
 
 #推荐列表中新增推荐人字段
 ALTER TABLE tuijian_list ADD COLUMN tuijian_user varchar(32);
+
+#设置所有信息内容数据库类型为longtext
+#content

@@ -154,12 +154,22 @@ public class CommonServlet extends HttpServlet {
 				List<FileManagement> managements = commonBusiness.getListByIds(ids);
 				List<FileManagement> fileManagements = new ArrayList<FileManagement>();
 				for (FileManagement fileManagement : managements) {
-					fileManagement.setId(null);
-					fileManagement.setItemId(itemId);
-					fileManagement.setParentId(-1);
-					fileManagements.add(fileManagement);
+					Map<String, String> params = new HashMap<String,String>();
+					params.put("item_id", itemId);
+					params.put("absolute_path", fileManagement.getAbsolutePath());
+					boolean exists = commonBusiness.getDataByTable("file_management", params,FileManagement.class).size() > 0 ? true:false;
+					if(!exists){
+						fileManagement.setId(null);
+						fileManagement.setItemId(itemId);
+						fileManagement.setParentId(-1);
+						fileManagement.setType("relevance");
+						fileManagements.add(fileManagement);
+					}
 				}
-				List<Integer> createdIds = commonBusiness.createImages(fileManagements);
+				List<Integer> createdIds = new ArrayList<Integer>();
+				if(fileManagements.size() > 0){
+					createdIds = commonBusiness.createImages(fileManagements);
+				}
 				DataObject dataObject = new DataObject();
 				dataObject.setdata(createdIds);
 				dataObject.setStatusObject(StatusHouse.COMMON_STATUS_OK);
@@ -177,6 +187,16 @@ public class CommonServlet extends HttpServlet {
 				request.setAttribute("comments", comments);
 				DataObject dataObject = new DataObject();
 				dataObject.setdata(result);
+				dataObject.setStatusObject(StatusHouse.COMMON_STATUS_OK);
+				String responseText = JackJsonUtils.toJson(dataObject);
+				ResponseUtils.renderJson(response, responseText);
+			}else if(type.equals("getImagesByItemId")){
+				String itemId = paramMap.get("itemId");
+				Map<String, String> params = new HashMap<String,String>();
+				params.put("item_id", itemId);
+				List<FileManagement> images = CommonBusiness.getDataByTable("file_management", params, FileManagement.class);
+				DataObject dataObject = new DataObject();
+				dataObject.setdata(images);
 				dataObject.setStatusObject(StatusHouse.COMMON_STATUS_OK);
 				String responseText = JackJsonUtils.toJson(dataObject);
 				ResponseUtils.renderJson(response, responseText);

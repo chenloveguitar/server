@@ -18,9 +18,8 @@
 <%@page import="javax.servlet.jsp.tagext.FunctionInfo"%>
 <%@page import="com.magicmoble.luzhouapp.model.server.Toutiao"%>
 <%@page import="com.magicmoble.luzhouapp.business.DashangBusiness"%>
-<%@page
-	import="com.magicmoble.luzhouapp.server.server_function.Server_Function"%>
-	<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page import="com.magicmoble.luzhouapp.server.server_function.Server_Function"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
@@ -38,7 +37,7 @@
 <script src="../common/lib/jquery-1.9.0.min.js" type="text/javascript"
 	charset="utf-8"></script>
 	<script type="text/javascript" src="../common/js/ajaxfileupload.js"></script>
-<script type="text/javascript" src="http://www.js-css.cn/jscode/jquery.min.js"></script>
+<script type="text/javascript" src="../common/js/jquery.1.7.2.js"></script>
 <script src="../common/js/jquery.min.js" type="text/javascript"
 	charset="utf-8"></script>
 <script src="../common/js/jquery.date_input.pack.js"
@@ -128,7 +127,7 @@
 	//根据信息id查询是否有推荐时间
 	Map<String,String> params = new HashMap<String,String>();
 	params.put("tiaomu_id", id);
-	List<Tuijian_list> lists =  CommonBusiness.getDataByTable(table_name, params, Tuijian_list.class);
+	List<Tuijian_list> lists =  CommonBusiness.getDataByTable("tuijian_list", params, Tuijian_list.class);
 	Tuijian_list tuijian_list = new Tuijian_list();
 	if(lists.size() > 0){
 		tuijian_list =  lists.get(0);
@@ -355,21 +354,21 @@
 					</p>
 					<p class="recommend-data sum">
 						<span>点赞红包金额</span>
-						<input type="text" placeholder="0.00" value="${dzhongbao_price}" class="price-input" />
+						<input type="text" placeholder="0.00" id="dzhongbao_price"  value="${dzhongbao_price}" class="price-input" />
 						<span class="price">元</span>个数
-						<input type="text" placeholder="0" value="${dzhongbao_count}" class="price-input" />
+						<input type="text" placeholder="0" id="dzhongbao_count" value="${dzhongbao_count}" class="price-input" />
 						<span class="price">个</span>
 					</p>
 					<p class="recommend-data sum">
 						<span>分享红包金额</span> 
-						<input type="text" placeholder="0.00" value="${fxhongbao_price}" class="price-input" />
+						<input type="text" placeholder="0.00" id="fxhongbao_price" value="${fxhongbao_price}" class="price-input" />
 						<span class="price">元</span>个数 
-						<input type="text" placeholder="0" value="${fxhongbao_count}" class="price-input" />
+						<input type="text" placeholder="0" id="fxhongbao_count" value="${fxhongbao_count}" class="price-input" />
 						<span class="price">个</span>
 					</p>
 					<p class="reward">
 						<span>打赏量</span>
-						<input type="text" placeholder="0.00" value="${dashang_count}" class="reward-input" />
+						<input type="text" placeholder="0.00" id="dashang_count" disabled="disabled" value="${dashang_count}" class="reward-input" />
 						<span class="price">元</span>
 					</p>
 				</div>
@@ -412,7 +411,7 @@
 				<!--文本编辑器-->
 				<div class="nav">
 					<textarea id="txtDefaultHtmlArea" cols="50" rows="15"
-						style="width:100%;height: 500px;">${content}</textarea>
+						style="width:100%;height: 500px;"></textarea>
 				</div>
 				<!--<textarea name="" rows="" cols="" class="textarea-two">这里是图文编辑器，听说有插件可以自动生成</textarea>-->
 			</div>
@@ -484,7 +483,11 @@
 	<input type="file" id="img-img" data-url='' data-flag='b'
 		style="display: none;" />
 	<script type="text/javascript">
-		var $jq = jQuery.noConflict(true);
+		var $jquery1_9_1 = jQuery.noConflict(true);//1.9.1
+		var $jquery1_7_2 = jQuery.noConflict(true);//1.7.2
+// 		console.log($jquery1_7_2.fn.jquery)//1.7.2
+// 		console.log($.fn.jquery)//1.9.0
+// 		console.log($jquery1_9_1.fn.jquery)//1.9.1
 		var deleteds = [];
 		//文本编辑器
 		var aa = '';
@@ -499,17 +502,18 @@
 			dataEcho();
 			$(".save-clicked").on("click", function() {
 				var selectedNum = $("#clear-fix .select").parents("li").length;
-				var uploadNum = document.getElementById("file").files.length;
-				if(selectedNum && uploadNum){
+				var uploadNum = document.getElementById("file").files.length || $("#manage-list-ul li").length;
+				if(selectedNum || uploadNum){
 					$.ajax({
 						url : "/mServer/Upload_file2",
 						type : "POST",
 						data : {
+							"id":"${id}",
 							"select-val" : $("#select").val(),
 							"price_fuwu" : $("#price_fuwu").val(),
 							"phone_fuwu" : $("#phone_fuwu").val(),
 							"phone_commodity" : $("#phone_commodity").val(),
-							"dianpu_id" : $("#dianpu_id").val(),
+							"dianpu_name" : $("#dianpu_id").val(),
 							"address" : $("#address").val(),
 							"phone" : $("#phone").val(),
 							"price_commodity" : $("#price_commodity").val(),
@@ -520,10 +524,21 @@
 							"yuedu_count" : $("#yuedu_count").val(),
 							"dianzan_count" : $("#dianzan_count").val(),
 							"releaser_id" : $("#releaser_id").val(),
+							"tuijian_user" : $("#tuijian_user").val(),
+							"start_time": $("#start_time").val(),
+							"end_time": $("#end_time").val(),
+							"dzhongbao_price": $("#dzhongbao_price").val(),
+							"dzhongbao_count": $("#dzhongbao_count").val(),
+							"fxhongbao_price": $("#fxhongbao_price").val(),
+							"fxhongbao_count": $("#fxhongbao_count").val(),
+							"dashang_count": $("#dashang_count").val(),
 							"muban_Tag" : $("input[type='radio']:checked").val(),
 	//	 					"picture" : arr,
-							"content1" : $("#textarea").val(),
-							"content2" : $("#txtDefaultHtmlArea").val()
+// 							"content1" : $("#textarea").val(),
+// 							"content2" : $("#txtDefaultHtmlArea").val()
+							"described" : $("#textarea").val(),
+// 							"content" : $("#txtDefaultHtmlArea").val()
+							"content" : $("iframe").contents().find("body").html()
 							},
 							dataType : "json",
 							success : function(data) {
@@ -579,6 +594,39 @@
 				break;
 		}
 		
+		//回显已上传的图片或是被关联的图片
+		$.ajax({
+			url:'${pageContext.request.contextPath}/CommonServlet',
+			type:'post',
+			dataType:'json',
+			data:{
+				itemId:"${id}",
+				type:"getImagesByItemId"
+			},
+			success:function(data){
+				if(data.code == "0000"){
+					var results = data.data;
+					for(var i=0;i<results.length;i++){
+						var absolute_path = results[i].absolute_path;
+						var name = results[i].file_name;
+						var id = results[i].id;
+			   	        var url = "${pageContext.request.contextPath}/FileDownLoadServlet?absolutePath="+absolute_path;
+			   	        var type = results[i].type;
+			   	        if(type === "upload"){
+				   	        var li = $(getUploadImagesHtml(url,name));
+				   		    $(li).appendTo($("#manage-list-ul"));
+			   	        }else if(type == "relevance"){
+							$(".clearfix.manage-image li[data-id='"+id+"']").find(".manage-choose").addClass("select");			   	        	
+			   	        }
+		   	    	}
+					var count = results.length;
+					$(".add.add-two.image-show #imageCount").html("已添加"+(count || 0)+"张图片");
+				}
+			},
+			error:function(data){
+				
+			}
+		});
 		//将所有值显示到页面上
 		$("#yuedu_count").val(yuedu_count);
 		$("#dianzan_count").val(dianzan_count);
@@ -640,8 +688,7 @@
 	            }
 	        });
 		}
-		
-		if(data_ids && sum == 0){
+		if(!data_ids && sum == 0){
 			alert("请上传或从图库中选择图片！");
 			return false;
 		}
@@ -649,7 +696,7 @@
 	}
 	//获取用户列表
 	function getUserList() {
-		$jq.ajax({
+		$jquery1_9_1.ajax({
 			url : "${pageContext.request.contextPath}/CommonServlet",
 			type : "post",
 			dataType : "json",
@@ -661,34 +708,34 @@
 				var releaser_id = "${releaser_id}";
 				var tuijian_user = "${tuijian_list.tuijian_user}";
 				//作者
-				$jq.each(result, function(i) {
+				$jquery1_9_1.each(result, function(i) {
 					if(releaser_id === result[i].admin_xinxi_id){
-						$jq('releaser_id').append("<option selected='selected' value=" + result[i].admin_xinxi_id + ">"
+						$jquery1_9_1('#releaser_id').append("<option selected='selected' value=" + result[i].admin_xinxi_id + ">"
 												+ result[i].name
 												+ "</option>");
 					}else{
-						$jq('releaser_id').append("<option value=" + result[i].admin_xinxi_id + ">"
+						$jquery1_9_1('#releaser_id').append("<option value=" + result[i].admin_xinxi_id + ">"
 											+ result[i].name
 											+ "</option>");
 					}
 				});
 				//推荐人
-				$jq.each(result, function(i) {
+				$jquery1_9_1.each(result, function(i) {
 					if(tuijian_user === result[i].admin_xinxi_id){
-						$jq('#tuijian_user').append("<option selected='selected' value=" + result[i].admin_xinxi_id + ">"
+						$jquery1_9_1('#tuijian_user').append("<option selected='selected' value=" + result[i].admin_xinxi_id + ">"
 												+ result[i].name
 												+ "</option>");
 					}else{
-						$jq('#tuijian_user').append("<option value=" + result[i].admin_xinxi_id + ">"
+						$jquery1_9_1('#tuijian_user').append("<option value=" + result[i].admin_xinxi_id + ">"
 											+ result[i].name
 											+ "</option>");
 					}
 				});
-				$jq('.selectpicker').selectpicker({
+				$jquery1_9_1('.selectpicker').selectpicker({
 					  size: 4,
 					  
 				});
-				$jq('.selectpicker').selectpicker('refresh');
+				$jquery1_9_1('.selectpicker').selectpicker('refresh');
 			},
 			error : function(data) {
 				alert("查询作者失败" + data);
@@ -922,18 +969,34 @@
 	
 	//初始化控件
 	function initWidget(){
-		$("#txtDefaultHtmlArea").htmlarea("${content}");
+		var content = '${content}';
+		$jquery1_7_2("#txtDefaultHtmlArea").htmlarea();
+		$("iframe").contents().find("body").html(content);
 		//选择日期
 		var time = "${time}"?new Date("${time}").format("yyyy-MM-dd"):"";
 		$("#publish_date").val(time);
-		$('#publish_date').date_input();
+		$jquery1_7_2('#publish_date').date_input();
 		var startTime = "${tuijian_list.start_time}"?new Date("${tuijian_list.start_time}").format("yyyy-MM-dd"):"";
 		var endTime = "${tuijian_list.end_time}"?new Date("${tuijian_list.end_time}").format("yyyy-MM-dd"):"";
 		console.log("${tuijian_list.start_time}");
 		//日期选择
 		$("#start_time").val(startTime);
 		$("#end_time").val(endTime);
-		$('.date_picker').date_input();
+		$jquery1_7_2('.date_picker').date_input();
+		//最下方文本编辑上传图片
+		$("#img-img").change(function() {
+			$('#img-img').attr('data-flag', 'a');
+			var file = this.files[0];
+			if (window.FileReader) {
+				var reader = new FileReader();
+				reader.readAsDataURL(file);
+				//监听文件读取结束后事件    
+				reader.onloadend = function(e) {
+					$("#img-img").attr("data-url", e.target.result);
+					console.log(e.target.result);
+				};
+			}
+		});
 	}
 	
 	/**  

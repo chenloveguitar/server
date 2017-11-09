@@ -36,9 +36,26 @@ import com.magicmoble.luzhouapp.model.Toutiao_Shouye;
 import com.magicmoble.luzhouapp.model.Tuikuan;
 
 public class FunctionBusiness {
-	
-	public static List<Hongbao> getHongbaoByTiaomuId(String tiaomu_id,String hongbao_Tag){
-		String sql = "SELECT id,hongbao_count,hongbao_price FROM hongbao WHERE tiaomu_id='" + tiaomu_id + "' and hongbao_Tag="+ hongbao_Tag;
+
+	public static boolean updateHongbao(List<Hongbao> hongbaos) {
+
+		boolean updated = false;
+		try {
+			for (Hongbao hongbao : hongbaos) {
+				String sql = " UPDATE hongbao set hongbao_count = " + hongbao.getCount() + ",hongbao_price = " + hongbao.getPrice() + " where id = '" + hongbao.getHongbao_id() + "'";
+				DBHelper db = new DBHelper(sql);
+				int i = db.pst.executeUpdate();
+				updated = i > 0 ? true : false;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return updated;
+	}
+
+	public static List<Hongbao> getHongbaoByTiaomuId(String tiaomu_id, String hongbao_Tag) {
+		String sql = "SELECT id,hongbao_count,hongbao_price FROM hongbao WHERE tiaomu_id='" + tiaomu_id
+				+ "' and hongbao_Tag=" + hongbao_Tag;
 		DBHelper db = new DBHelper(sql);
 		ResultSet ret = null;
 		List<Hongbao> hongbaos = new ArrayList<Hongbao>();
@@ -51,27 +68,28 @@ public class FunctionBusiness {
 				hongbao.setPrice(ret.getDouble(3));
 				hongbaos.add(hongbao);
 			}
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return hongbaos;
 	}
-	
-	public static Integer getShoucangCount(String id){
-		String sql = "SELECT count(id) FROM shoucang WHERE quchu_id = '"+id+"' or commodity_id = '"+id+"' or toutiao_id = '"+id+"' OR faxian_id = '"+id+"' ";
+
+	public static Integer getShoucangCount(String id) {
+		String sql = "SELECT count(id) FROM shoucang WHERE quchu_id = '" + id + "' or commodity_id = '" + id
+				+ "' or toutiao_id = '" + id + "' OR faxian_id = '" + id + "' ";
 		DBHelper db = new DBHelper(sql);
 		ResultSet ret = null;
 		try {
 			ret = db.pst.executeQuery();
-			if(ret.next()) {
+			if (ret.next()) {
 				return ret.getInt(1);
 			}
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return 0;
 	}
-	
+
 	public static List<Object> getShuoshuoById(String my_id, String _id, int page) {// page是评论的页数
 		List<Object> list = new ArrayList<Object>();
 		String sql = null;
@@ -509,7 +527,7 @@ public class FunctionBusiness {
 		}
 		return list;
 	}
-	
+
 	public static List<Shuoshuo_Xiangqing> getMyShuoshuo(int page, String my_id) {
 		List<Shuoshuo_Xiangqing> list = new ArrayList<Shuoshuo_Xiangqing>();
 		String sql = null;
@@ -1779,8 +1797,8 @@ public class FunctionBusiness {
 		Timestamp start_time = new Timestamp(time);
 		Timestamp now_time = new Timestamp(time);
 		Timestamp end_time = new Timestamp(time + tianshu * 24 * 60 * 60 * 1000);
-		sql = "INSERT INTO tuijian_list(id,start_time,end_time,now_time,tiaomu_id,tuijian_user)  VALUES ('" + uuid + "','"
-				+ start_time + "','" + end_time + "','" + now_time + "','" + tiaomu_id + "','"+my_id+"')";
+		sql = "INSERT INTO tuijian_list(id,start_time,end_time,now_time,tiaomu_id,tuijian_user)  VALUES ('" + uuid
+				+ "','" + start_time + "','" + end_time + "','" + now_time + "','" + tiaomu_id + "','" + my_id + "')";
 		boolean ret;
 		db1 = new DBHelper(sql);
 		try {
@@ -2308,10 +2326,10 @@ public class FunctionBusiness {
 			pinglun.setContent(content);
 			pinglun.setTime(time);
 			pinglun.setDianzan_count(dianzan_count);
-			List<Huifu> list=FunctionBusiness.getHuifu(uuid);
-			if (list==null) {
-				list=new ArrayList<Huifu>();
-			
+			List<Huifu> list = FunctionBusiness.getHuifu(uuid);
+			if (list == null) {
+				list = new ArrayList<Huifu>();
+
 			}
 			pinglun.setHuifu(list);
 
@@ -3128,7 +3146,7 @@ public class FunctionBusiness {
 				Admin_xinxi admin_xinxi = Admin_xinxi_Business.getAdmin_xinxiInfoById(releaser_id);
 				String releaser_name = admin_xinxi.getName();
 				String releaser_touxiang = admin_xinxi.getTouxiang_picture();
-				String qianming=admin_xinxi.getQianming();
+				String qianming = admin_xinxi.getQianming();
 				String tiaomu_id = ret.getString(2);
 				String message = ret.getString(3);
 				Timestamp time = ret.getTimestamp(4);

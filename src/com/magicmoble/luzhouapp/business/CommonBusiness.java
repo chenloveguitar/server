@@ -48,8 +48,8 @@ public class CommonBusiness {
 		try {
 			db = new DBHelper(sql);
 			ret = db.pst.executeQuery();
-			T t = c.newInstance();
 			while(ret.next()){
+				T t = c.newInstance();
 				ResultSetMetaData metaData = ret.getMetaData();
 				int count = metaData.getColumnCount();
 				for (int i = 1; i <= count; i++) {
@@ -75,6 +75,9 @@ public class CommonBusiness {
 		            	Timestamp value = ret.getTimestamp(i);
 		            	method.invoke(t, value);
 		            }else if(type.getName().equals("int")){
+		            	int value = ret.getInt(i);
+		            	method.invoke(t, value);
+		            }else if(type.getName().equals("java.lang.Integer")){
 		            	int value = ret.getInt(i);
 		            	method.invoke(t, value);
 		            }else if(type.getName().equals("float")){
@@ -146,7 +149,7 @@ public class CommonBusiness {
 	
 	public List<Integer> createImages(List<FileManagement> fileManagements){
 		List<Integer> ids = new ArrayList<Integer>();
-		StringBuilder sql = new StringBuilder("INSERT INTO file_management (file_name,create_time,parent_id,is_folder,absolute_path,item_id) VALUES");
+		StringBuilder sql = new StringBuilder("INSERT INTO file_management (file_name,create_time,parent_id,is_folder,absolute_path,item_id,type) VALUES");
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String time = sdf.format(new Date());
 		for (int i = 0; i < fileManagements.size(); i++) {
@@ -162,6 +165,8 @@ public class CommonBusiness {
 						fileManagements.get(i).getAbsolutePath()+
 						"','"+
 						fileManagements.get(i).getItemId()+
+						"','"+
+						fileManagements.get(i).getType()+
 					"')");
 			if(i < fileManagements.size() -1){
 				sql.append(",");
@@ -285,7 +290,7 @@ public class CommonBusiness {
 		}
 		return lists;
 	}
-
+	
 	public List<FileManagement> searchFiles(Map<String, String> searchMap) {
 		List<FileManagement> lists = new ArrayList<FileManagement>();
 		

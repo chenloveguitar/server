@@ -179,11 +179,11 @@
 				</p>
 				<p class="recommend-data " style="margin-top: 40px;">
 					<span>推荐日期 </span>
-					<input type="text" value="" class="icon date_picker" />
+					<input type="text" value="" id="start_time" class="icon date_picker" />
 					<span class="to">至</span>
-					<input type="text" placeholder="请选择日期" class="choose icon date_picker" />
+					<input type="text"  id="end_time"  placeholder="请选择日期" class="choose icon date_picker" />
 					<span class="recommend-people">推荐人</span>
-					<span><select class="selectpicker" data-live-search="true" title="请选择推荐人"></select></span>
+					<span><select class="selectpicker" id="tuijian_user" data-live-search="true" title="请选择推荐人"></select></span>
 				<div class="redPacket">
 					<p class="overplus">
 						<span>剩余红包</span>
@@ -208,7 +208,7 @@
 					</p>
 					<p class="reward">
 						<span>打赏量</span>
-						<input type="text" placeholder="0.00" class="reward-input" />
+						<input type="text" disabled="disabled" placeholder="0.00" class="reward-input" />
 						<span class="price">元</span>
 					</p>
 				</div>
@@ -295,7 +295,8 @@
 	<input type="file" id="img-img" data-url='' data-flag='b'
 		style="display: none;" />
 	<script type="text/javascript">
-		var $jq = jQuery.noConflict(true);
+		var $jquery1_9_1 = jQuery.noConflict(true);//1.9.1
+		var $jquery1_7_2 = jQuery.noConflict(true);//1.7.2
 		var deleteds = [];
 		//文本编辑器
 		var aa = '';
@@ -329,10 +330,21 @@
 							"yuedu_count" : $("#yuedu_count").val(),
 							"dianzan_count" : $("#dianzan_count").val(),
 							"releaser_id" : $("#releaser_id").val(),
+							"tuijian_user" : $("#tuijian_user").val(),
+							"start_time": $("#start_time").val(),
+							"end_time": $("#end_time").val(),
+							"dzhongbao_price": $("#dzhongbao_price").val(),
+							"dzhongbao_count": $("#dzhongbao_count").val(),
+							"fxhongbao_price": $("#fxhongbao_price").val(),
+							"fxhongbao_count": $("#fxhongbao_count").val(),
+							"dashang_count": $("#dashang_count").val(),
 							"muban_Tag" : $("input[type='radio']:checked").val(),
 	//	 					"picture" : arr,
-							"content1" : $("#textarea").val(),
-							"content2" : $("#txtDefaultHtmlArea").val()
+// 							"content1" : $("#textarea").val(),
+// 							"content2" : $("#txtDefaultHtmlArea").val()
+							"described" : $("#textarea").val(),
+// 							"content" : $("#txtDefaultHtmlArea").val()
+							"content" : $("iframe").contents().find("body").html()
 							},
 							dataType : "json",
 							success : function(data) {
@@ -422,7 +434,7 @@
 	}
 	//获取用户列表
 	function getUserList() {
-		$jq.ajax({
+		$jquery1_9_1.ajax({
 			url : "${pageContext.request.contextPath}/CommonServlet",
 			type : "post",
 			dataType : "json",
@@ -431,16 +443,16 @@
 			},
 			success : function(data) {
 				var result = data.data.result;
-				$jq.each(result, function(i) {
-					$jq('.selectpicker').append("<option value=" + result[i].admin_xinxi_id + ">"
+				$jquery1_9_1.each(result, function(i) {
+					$jquery1_9_1('.selectpicker').append("<option value=" + result[i].admin_xinxi_id + ">"
 											+ result[i].name
 											+ "</option>");
 				});
-				$jq('.selectpicker').selectpicker({
+				$jquery1_9_1('.selectpicker').selectpicker({
 					  size: 4,
 					  
 				});
-				$jq('.selectpicker').selectpicker('refresh');
+				$jquery1_9_1('.selectpicker').selectpicker('refresh');
 			},
 			error : function(data) {
 				alert("查询作者失败" + data);
@@ -674,13 +686,27 @@
 	
 	//初始化控件
 	function initWidget(){
-		$("#txtDefaultHtmlArea").htmlarea();
+		$jquery1_7_2("#txtDefaultHtmlArea").htmlarea();
 		//选择日期
 		$("#publish_date").val(new Date().format("yyyy-MM-dd"));
-		$('#publish_date').date_input();
+		$jquery1_7_2('#publish_date').date_input();
 		//日期选择
 		$(".date_picker").val(new Date().format("yyyy-MM-dd"));
-		$('.date_picker').date_input();
+		$jquery1_7_2('.date_picker').date_input();
+		//最下方文本编辑上传图片
+		$("#img-img").change(function() {
+			$('#img-img').attr('data-flag', 'a');
+			var file = this.files[0];
+			if (window.FileReader) {
+				var reader = new FileReader();
+				reader.readAsDataURL(file);
+				//监听文件读取结束后事件    
+				reader.onloadend = function(e) {
+					$("#img-img").attr("data-url", e.target.result);
+					console.log(e.target.result);
+				};
+			}
+		});
 	}
 	
 	/**  
