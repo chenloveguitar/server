@@ -7,6 +7,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.aspectj.weaver.patterns.WildAnnotationTypePattern;
@@ -501,8 +502,95 @@ public class Server_Func {
 		} finally {
 			db1.close();
 		}
-
 	}
+	
+	public static List<Toutiao> all_NoExamine(){
+		
+		String sql = null;
+		DBHelper db1 = null;
+		int days = 0;
+
+		sql = 
+				  "select id,picture,title,yuedu_count ,releaser_id,shenhe,time FROM toutiao WHERE shenhe = '正在审核中...' and fenlei_Tag in(1,2,3) "
+				+ "union ALL "
+				+ "select  id,picture,title,yuedu_count,releaser_id,shenhe,time  FROM faxian WHERE shenhe = '正在审核中...'  "
+				+ "UNION ALL  "
+				+ "SELECT id,picture,title,yuedu as 'yuedu_count',releaser_id,shenhe,time FROM quchu WHERE shenhe = '正在审核中...' "
+				+ " UNION ALL  select id,picture,title,yuedu as 'yuedu_count',releaser_id,shenhe,time FROM fuwu WHERE shenhe = '正在审核中...'";
+		List<Toutiao> list = new ArrayList<Toutiao>();
+		try {
+			TOTAL_SIZE = getTotalSize(sql);
+			sql = getLimitSql(sql);
+			db1 = new DBHelper(sql);
+			TOTAL_PAGE = (TOTAL_SIZE + PAGE_SIZE -1) /  PAGE_SIZE;
+			ResultSet ret = db1.pst.executeQuery();
+			
+			while (ret.next()) {
+				String id = ret.getString(1);
+				String picture = ret.getString(2);
+				String[] aa = picture.split(",");
+				List<Picture> list2 = new ArrayList<Picture>();
+				for (int i = 0; i < aa.length; i++) {
+					Picture picture_url = new Picture();
+					picture_url.setPicture_url(aa[i]);
+					list2.add(picture_url);
+				}
+				String title = ret.getString(3);
+				int yuedu = ret.getInt(4);
+				String releaser_id = ret.getString(5);
+				String releaser_name = Admin_xinxi_Business.getAdmin_xinxiInfoById(releaser_id).getName();
+				String releaser_touxiang = Admin_xinxi_Business.getAdmin_xinxiInfoById(releaser_id)
+						.getTouxiang_picture();
+				String shenhe = ret.getString(6);
+				double dianzan_hongbao = getHongbao(id, 1);
+				double share_hongbao = getHongbao(id, 2);
+				int shoucang_count = getshoucang(id);
+				Timestamp time = ret.getTimestamp(7);
+
+				days = tuijian_days(id);
+				String tuijian_message;
+
+				if (days == 0) {
+					tuijian_message = "未推荐";
+				} else {
+					tuijian_message = "已推荐";
+				}
+				String tuijian_Tag;
+				if (tuijian_message.equals("已推荐")) {
+					tuijian_Tag = "首页推荐";
+				} else {
+					tuijian_Tag = "未推荐";
+				}
+
+				Toutiao toutiao = new Toutiao();
+				toutiao.setId(id);
+				toutiao.setPictures(list2);
+				toutiao.setTitle(title);
+				toutiao.setYuedu_count(yuedu);
+				toutiao.setReleaser_name(releaser_name);
+				toutiao.setReleaser_touxiang(releaser_touxiang);
+				toutiao.setShenhe(shenhe);
+				toutiao.setDays(days);
+				toutiao.setDianzan_hongbao(dianzan_hongbao);
+				toutiao.setShare_hongbao(share_hongbao);
+				toutiao.setShare_count(0);
+				toutiao.setShoucang_count(shoucang_count);
+				toutiao.setTime(time);
+				toutiao.setTuijian_message(tuijian_message);
+				toutiao.setTuijian_Tag(tuijian_Tag);
+				list.add(toutiao);
+			}
+
+			db1.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			db1.close();
+		}
+
+		return list;
+	}
+	
 	public static List<Toutiao> toutiao_NoExamine() {
 		String sql = null;
 		DBHelper db1 = null;

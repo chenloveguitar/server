@@ -20,7 +20,16 @@ public class Toutiao {
 	String dashang_count;
 	String biaoqian;
 	String described;
+	String publish_date;
 	
+	public String getPublish_date() {
+		return publish_date;
+	}
+
+	public void setPublish_date(String publish_date) {
+		this.publish_date = publish_date;
+	}
+
 	public String getDescribed() {
 		return described;
 	}

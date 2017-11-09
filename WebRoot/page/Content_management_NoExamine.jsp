@@ -494,47 +494,48 @@
 					dataType : "json",
 					success : function(message) {
 						var str = "";
-						for (var i in message) {
-							str += "	<li>"
-							str += "		<p class=\"position-show-title\">"
-							str += "		<i class=\"position-circle\"></i><img class=\"position-square\""
-							str += "		src=\"" + message[i]["pictures"][0]["picture_url"] + "\"/> <span"
-							str += "	class=\"position-title\"> <span>" + message[i]["title"] + "</span> <span"
-							str += "	class=\"position-share\">阅读量:" + message[i]["yuedu_count"] + ""
-							str += "	分享:" + message[i]["share_count"] + " 收藏:" + message[i]["shoucang_count"] + "</span>"
-							str += "	</span>"
-							str += "	</p>"
-							str += "	<p class=\"position-author\">"
-							str += "	<img class=\"icon-author\" src=\"" + message[i]["releaser_touxiang"] + "\">"
-							str += "	<span class=\"position-title\"> <span>" + message[i]["releaser_name"] + "</span>"
-							str += "	<span class=\"position-share\">" + message[i]["time"] + "</span>"
-							str += "	</span>"
-							str += "	</p>"
-							str += "	<p class=\"position-public\">"
-							str += "	<span class=\"position-title position-p\"> <span>" + message[i]["shenhe"] + "</span>"
-							str += "		<span class=\"position-share\">" + message[i]["tuijian_Tag"] + "</span>"
-							str += "		</span> <span class=\"position-title position-p\"> <span>点赞红包</span>"
-							str += "			<span class=\"position-share\">剩余" + message[i]["dianzan_hongbao"] + "元</span>"
-							str += "		</span> <span class=\"position-title position-p\"> <span>分享红包</span>"
-							str += "		<span class=\"position-share\">剩余" + message[i]["share_hongbao"] + "元</span>"
-							str += "		</span> <span class=\"position-title position-p\"> <span>" + message[i]["tuijian_message"] + "</span>"
-							str += "			<span class=\"position-share\">剩余" + message[i]["days"] + "天</span>"
-							str += "		</span>"
-							str += "	</p>"
-							str += "	<p class=\"edit-exit\">"
-							str += "	<i class=\"icon-edit icon-webpage\"></i> <i"
-							str += "	class=\"icon-edit icon-del\"></i>"
-							str += "	</p>"
-							str += "	</li>"
-	
-	
-	
+						if(message.code == "0000"){
+							var message = message.data.results;
+							for (var i in message) {
+	 							str += "	<li>"
+	 							str += "		<p class=\"position-show-title\">"
+	 							str += "		<i class=\"position-circle\"></i><img class=\"position-square\""
+	 							str += "		src=\"" + message[i]["pictures"][0]["picture_url"] + "\"/> <span"
+	 							str += "	class=\"position-title\"> <span>" + message[i]["title"] + "</span> <span"
+	 							str += "	class=\"position-share\">阅读量:" + message[i]["yuedu_count"] + ""
+	 							str += "	分享:" + message[i]["share_count"] + " 收藏:" + message[i]["shoucang_count"] + "</span>"
+	 							str += "	</span>"
+	 							str += "	</p>"
+	 							str += "	<p class=\"position-author\">"
+	 							str += "	<img class=\"icon-author\" src=\"" + message[i]["releaser_touxiang"] + "\">"
+	 							str += "	<span class=\"position-title\"> <span>" + message[i]["releaser_name"] + "</span>"
+	 							str += "	<span class=\"position-share\">" + message[i]["time"] + "</span>"
+	 							str += "	</span>"
+	 							str += "	</p>"
+	 							str += "	<p class=\"position-public\">"
+	 							str += "	<span class=\"position-title position-p\"> <span>" + message[i]["shenhe"] + "</span>"
+	 							str += "		<span class=\"position-share\">" + message[i]["tuijian_Tag"] + "</span>"
+	 							str += "		</span> <span class=\"position-title position-p\"> <span>点赞红包</span>"
+	 							str += "			<span class=\"position-share\">剩余" + message[i]["dianzan_hongbao"] + "元</span>"
+	 							str += "		</span> <span class=\"position-title position-p\"> <span>分享红包</span>"
+	 							str += "		<span class=\"position-share\">剩余" + message[i]["share_hongbao"] + "元</span>"
+	 							str += "		</span> <span class=\"position-title position-p\"> <span>" + message[i]["tuijian_message"] + "</span>"
+	 							str += "			<span class=\"position-share\">剩余" + message[i]["days"] + "天</span>"
+	 							str += "		</span>"
+	 							str += "	</p>"
+	 							str += "	<p class=\"edit-exit\">"
+	 							str += "	<i class=\"icon-edit icon-webpage\"></i> <i"
+	 							str += "	class=\"icon-edit icon-del\"></i>"
+	 							str += "	</p>"
+	 							str += "	</li>"
+	 						}
 						}
 	
 	
-						$("#clear-fix-1").html(str);
+						$("#clear-fix").html(str);
 					},
-					error : function() {
+					error : function(data) {
+						console.log(data);
 						alert("error");
 					}
 				});
@@ -552,45 +553,43 @@
 					dataType : "json",
 					success : function(message) {
 						var str = "";
-						for (var i in message) {
-							str += "	<li>"
-							str += "		<p class=\"position-show-title\">"
-							str += "		<i class=\"position-circle\"></i><img class=\"position-square\""
-							str += "		src=\"" + message[i]["pictures"][0]["picture_url"] + "\"/> <span"
-							str += "	class=\"position-title\"> <span>" + message[i]["title"] + "</span> <span"
-							str += "	class=\"position-share\">阅读量:" + message[i]["yuedu_count"] + ""
-							str += "	分享:" + message[i]["share_count"] + " 收藏:" + message[i]["shoucang_count"] + "</span>"
-							str += "	</span>"
-							str += "	</p>"
-							str += "	<p class=\"position-author\">"
-							str += "	<img class=\"icon-author\" src=\"" + message[i]["releaser_touxiang"] + "\">"
-							str += "	<span class=\"position-title\"> <span>" + message[i]["releaser_name"] + "</span>"
-							str += "	<span class=\"position-share\">" + message[i]["time"] + "</span>"
-							str += "	</span>"
-							str += "	</p>"
-							str += "	<p class=\"position-public\">"
-							str += "	<span class=\"position-title position-p\"> <span>" + message[i]["shenhe"] + "</span>"
-							str += "		<span class=\"position-share\">" + message[i]["tuijian_Tag"] + "</span>"
-							str += "		</span> <span class=\"position-title position-p\"> <span>点赞红包</span>"
-							str += "			<span class=\"position-share\">剩余" + message[i]["dianzan_hongbao"] + "元</span>"
-							str += "		</span> <span class=\"position-title position-p\"> <span>分享红包</span>"
-							str += "		<span class=\"position-share\">剩余" + message[i]["share_hongbao"] + "元</span>"
-							str += "		</span> <span class=\"position-title position-p\"> <span>" + message[i]["tuijian_message"] + "</span>"
-							str += "			<span class=\"position-share\">剩余" + message[i]["days"] + "天</span>"
-							str += "		</span>"
-							str += "	</p>"
-							str += "	<p class=\"edit-exit\">"
-							str += "	<i class=\"icon-edit icon-webpage\"></i> <i"
-							str += "	class=\"icon-edit icon-del\"></i>"
-							str += "	</p>"
-							str += "	</li>"
-	
-	
-	
+						if(message.code == "0000"){
+							var message = message.data.results;
+							for (var i in message) {
+								str += "	<li>"
+								str += "		<p class=\"position-show-title\">"
+								str += "		<i class=\"position-circle\"></i><img class=\"position-square\""
+								str += "		src=\"" + message[i]["pictures"][0]["picture_url"] + "\"/> <span"
+								str += "	class=\"position-title\"> <span>" + message[i]["title"] + "</span> <span"
+								str += "	class=\"position-share\">阅读量:" + message[i]["yuedu_count"] + ""
+								str += "	分享:" + message[i]["share_count"] + " 收藏:" + message[i]["shoucang_count"] + "</span>"
+								str += "	</span>"
+								str += "	</p>"
+								str += "	<p class=\"position-author\">"
+								str += "	<img class=\"icon-author\" src=\"" + message[i]["releaser_touxiang"] + "\">"
+								str += "	<span class=\"position-title\"> <span>" + message[i]["releaser_name"] + "</span>"
+								str += "	<span class=\"position-share\">" + message[i]["time"] + "</span>"
+								str += "	</span>"
+								str += "	</p>"
+								str += "	<p class=\"position-public\">"
+								str += "	<span class=\"position-title position-p\"> <span>" + message[i]["shenhe"] + "</span>"
+								str += "		<span class=\"position-share\">" + message[i]["tuijian_Tag"] + "</span>"
+								str += "		</span> <span class=\"position-title position-p\"> <span>点赞红包</span>"
+								str += "			<span class=\"position-share\">剩余" + message[i]["dianzan_hongbao"] + "元</span>"
+								str += "		</span> <span class=\"position-title position-p\"> <span>分享红包</span>"
+								str += "		<span class=\"position-share\">剩余" + message[i]["share_hongbao"] + "元</span>"
+								str += "		</span> <span class=\"position-title position-p\"> <span>" + message[i]["tuijian_message"] + "</span>"
+								str += "			<span class=\"position-share\">剩余" + message[i]["days"] + "天</span>"
+								str += "		</span>"
+								str += "	</p>"
+								str += "	<p class=\"edit-exit\">"
+								str += "	<i class=\"icon-edit icon-webpage\"></i> <i"
+								str += "	class=\"icon-edit icon-del\"></i>"
+								str += "	</p>"
+								str += "	</li>"
+							}
 						}
-	
-	
-						$("#clear-fix-1").html(str);
+						$("#clear-fix").html(str);
 					},
 					error : function(data) {
 						console.log(data);
@@ -609,6 +608,64 @@
 						dataType : "json",
 						success : function(message) {
 							var str = "";
+							if(message.code == "0000"){
+								var message = message.data.results;
+								for (var i in message) {
+									str += "	<li>"
+									str += "		<p class=\"position-show-title\">"
+									str += "		<i class=\"position-circle\"></i><img class=\"position-square\""
+									str += "		src=\"" + message[i]["pictures"][0]["picture_url"] + "\"/> <span"
+									str += "	class=\"position-title\"> <span>" + message[i]["title"] + "</span> <span"
+									str += "	class=\"position-share\">阅读量:" + message[i]["yuedu_count"] + ""
+									str += "	分享:" + message[i]["share_count"] + " 收藏:" + message[i]["shoucang_count"] + "</span>"
+									str += "	</span>"
+									str += "	</p>"
+									str += "	<p class=\"position-author\">"
+									str += "	<img class=\"icon-author\" src=\"" + message[i]["releaser_touxiang"] + "\">"
+									str += "	<span class=\"position-title\"> <span>" + message[i]["releaser_name"] + "</span>"
+									str += "	<span class=\"position-share\">" + message[i]["time"] + "</span>"
+									str += "	</span>"
+									str += "	</p>"
+									str += "	<p class=\"position-public\">"
+									str += "	<span class=\"position-title position-p\"> <span>" + message[i]["shenhe"] + "</span>"
+									str += "		<span class=\"position-share\">" + message[i]["tuijian_Tag"] + "</span>"
+									str += "		</span> <span class=\"position-title position-p\"> <span>点赞红包</span>"
+									str += "			<span class=\"position-share\">剩余" + message[i]["dianzan_hongbao"] + "元</span>"
+									str += "		</span> <span class=\"position-title position-p\"> <span>分享红包</span>"
+									str += "		<span class=\"position-share\">剩余" + message[i]["share_hongbao"] + "元</span>"
+									str += "		</span> <span class=\"position-title position-p\"> <span>" + message[i]["tuijian_message"] + "</span>"
+									str += "			<span class=\"position-share\">剩余" + message[i]["days"] + "天</span>"
+									str += "		</span>"
+									str += "	</p>"
+									str += "	<p class=\"edit-exit\">"
+									str += "	<i class=\"icon-edit icon-webpage\"></i> <i"
+									str += "	class=\"icon-edit icon-del\"></i>"
+									str += "	</p>"
+									str += "	</li>"
+								}
+							}
+							$("#clear-fix").html(str);
+						},
+						error : function() {
+							alert("error");
+						}
+					});
+				}
+			})
+			$("#change_dashang").change(function() {
+	
+	
+				$.ajax({
+					url : "/mServer/Handle_NoExamine_neirong?Tag=" + flag,
+					type : "POST",
+					data : {
+						"change_dashang" : $("#change_dashang").val()
+					},
+					dataType : "json",
+					success : function(message) {
+						var str = "";
+						if(message.code == "0000"){
+							var message = message.data.results;
 							for (var i in message) {
 								str += "	<li>"
 								str += "		<p class=\"position-show-title\">"
@@ -645,67 +702,9 @@
 		
 		
 							}
-		
-		
-							$("#clear-fix-1").html(str);
-						},
-						error : function() {
-							alert("error");
-						}
-					});
-				}
-			})
-			$("#change_dashang").change(function() {
-	
-	
-				$.ajax({
-					url : "/mServer/Handle_NoExamine_neirong?Tag=" + flag,
-					type : "POST",
-					data : {
-						"change_dashang" : $("#change_dashang").val()
-					},
-					dataType : "json",
-					success : function(message) {
-						var str = "";
-						for (var i in message) {
-							str += "	<li>"
-							str += "		<p class=\"position-show-title\">"
-							str += "		<i class=\"position-circle\"></i><img class=\"position-square\""
-							str += "		src=\"" + message[i]["pictures"][0]["picture_url"] + "\"/> <span"
-							str += "	class=\"position-title\"> <span>" + message[i]["title"] + "</span> <span"
-							str += "	class=\"position-share\">阅读量:" + message[i]["yuedu_count"] + ""
-							str += "	分享:" + message[i]["share_count"] + " 收藏:" + message[i]["shoucang_count"] + "</span>"
-							str += "	</span>"
-							str += "	</p>"
-							str += "	<p class=\"position-author\">"
-							str += "	<img class=\"icon-author\" src=\"" + message[i]["releaser_touxiang"] + "\">"
-							str += "	<span class=\"position-title\"> <span>" + message[i]["releaser_name"] + "</span>"
-							str += "	<span class=\"position-share\">" + message[i]["time"] + "</span>"
-							str += "	</span>"
-							str += "	</p>"
-							str += "	<p class=\"position-public\">"
-							str += "	<span class=\"position-title position-p\"> <span>" + message[i]["shenhe"] + "</span>"
-							str += "		<span class=\"position-share\">" + message[i]["tuijian_Tag"] + "</span>"
-							str += "		</span> <span class=\"position-title position-p\"> <span>点赞红包</span>"
-							str += "			<span class=\"position-share\">剩余" + message[i]["dianzan_hongbao"] + "元</span>"
-							str += "		</span> <span class=\"position-title position-p\"> <span>分享红包</span>"
-							str += "		<span class=\"position-share\">剩余" + message[i]["share_hongbao"] + "元</span>"
-							str += "		</span> <span class=\"position-title position-p\"> <span>" + message[i]["tuijian_message"] + "</span>"
-							str += "			<span class=\"position-share\">剩余" + message[i]["days"] + "天</span>"
-							str += "		</span>"
-							str += "	</p>"
-							str += "	<p class=\"edit-exit\">"
-							str += "	<i class=\"icon-edit icon-webpage\"></i> <i"
-							str += "	class=\"icon-edit icon-del\"></i>"
-							str += "	</p>"
-							str += "	</li>"
-	
-	
-	
 						}
 	
-	
-						$("#clear-fix-1").html(str);
+						$("#clear-fix").html(str);
 					},
 					error : function() {
 						alert("error");
@@ -724,40 +723,43 @@
 					dataType : "json",
 					success : function(message) {
 						var str = "";
-						for (var i in message) {
-							str += "	<li>"
-							str += "		<p class=\"position-show-title\">"
-							str += "		<i class=\"position-circle\"></i><img class=\"position-square\""
-							str += "		src=\"" + message[i]["pictures"][0]["picture_url"] + "\"/> <span"
-							str += "	class=\"position-title\"> <span>" + message[i]["title"] + "</span> <span"
-							str += "	class=\"position-share\">阅读量:" + message[i]["yuedu_count"] + ""
-							str += "	分享:" + message[i]["share_count"] + " 收藏:" + message[i]["shoucang_count"] + "</span>"
-							str += "	</span>"
-							str += "	</p>"
-							str += "	<p class=\"position-author\">"
-							str += "	<img class=\"icon-author\" src=\"" + message[i]["releaser_touxiang"] + "\">"
-							str += "	<span class=\"position-title\"> <span>" + message[i]["releaser_name"] + "</span>"
-							str += "	<span class=\"position-share\">" + message[i]["time"] + "</span>"
-							str += "	</span>"
-							str += "	</p>"
-							str += "	<p class=\"position-public\">"
-							str += "	<span class=\"position-title position-p\"> <span>" + message[i]["shenhe"] + "</span>"
-							str += "		<span class=\"position-share\">" + message[i]["tuijian_Tag"] + "</span>"
-							str += "		</span> <span class=\"position-title position-p\"> <span>点赞红包</span>"
-							str += "			<span class=\"position-share\">剩余" + message[i]["dianzan_hongbao"] + "元</span>"
-							str += "		</span> <span class=\"position-title position-p\"> <span>分享红包</span>"
-							str += "		<span class=\"position-share\">剩余" + message[i]["share_hongbao"] + "元</span>"
-							str += "		</span> <span class=\"position-title position-p\"> <span>" + message[i]["tuijian_message"] + "</span>"
-							str += "			<span class=\"position-share\">剩余" + message[i]["days"] + "天</span>"
-							str += "		</span>"
-							str += "	</p>"
-							str += "	<p class=\"edit-exit\">"
-							str += "	<i class=\"icon-edit icon-webpage\"></i> <i"
-							str += "	class=\"icon-edit icon-del\"></i>"
-							str += "	</p>"
-							str += "	</li>"
+						if(message.code == "0000"){
+							var message = message.data.results;
+							for (var i in message) {
+								str += "	<li>"
+								str += "		<p class=\"position-show-title\">"
+								str += "		<i class=\"position-circle\"></i><img class=\"position-square\""
+								str += "		src=\"" + message[i]["pictures"][0]["picture_url"] + "\"/> <span"
+								str += "	class=\"position-title\"> <span>" + message[i]["title"] + "</span> <span"
+								str += "	class=\"position-share\">阅读量:" + message[i]["yuedu_count"] + ""
+								str += "	分享:" + message[i]["share_count"] + " 收藏:" + message[i]["shoucang_count"] + "</span>"
+								str += "	</span>"
+								str += "	</p>"
+								str += "	<p class=\"position-author\">"
+								str += "	<img class=\"icon-author\" src=\"" + message[i]["releaser_touxiang"] + "\">"
+								str += "	<span class=\"position-title\"> <span>" + message[i]["releaser_name"] + "</span>"
+								str += "	<span class=\"position-share\">" + message[i]["time"] + "</span>"
+								str += "	</span>"
+								str += "	</p>"
+								str += "	<p class=\"position-public\">"
+								str += "	<span class=\"position-title position-p\"> <span>" + message[i]["shenhe"] + "</span>"
+								str += "		<span class=\"position-share\">" + message[i]["tuijian_Tag"] + "</span>"
+								str += "		</span> <span class=\"position-title position-p\"> <span>点赞红包</span>"
+								str += "			<span class=\"position-share\">剩余" + message[i]["dianzan_hongbao"] + "元</span>"
+								str += "		</span> <span class=\"position-title position-p\"> <span>分享红包</span>"
+								str += "		<span class=\"position-share\">剩余" + message[i]["share_hongbao"] + "元</span>"
+								str += "		</span> <span class=\"position-title position-p\"> <span>" + message[i]["tuijian_message"] + "</span>"
+								str += "			<span class=\"position-share\">剩余" + message[i]["days"] + "天</span>"
+								str += "		</span>"
+								str += "	</p>"
+								str += "	<p class=\"edit-exit\">"
+								str += "	<i class=\"icon-edit icon-webpage\"></i> <i"
+								str += "	class=\"icon-edit icon-del\"></i>"
+								str += "	</p>"
+								str += "	</li>"
+							}
 						}
-						$("#clear-fix-1").html(str);
+						$("#clear-fix").html(str);
 					},
 					error : function() {
 						alert("error");

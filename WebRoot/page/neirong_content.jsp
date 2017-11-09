@@ -101,7 +101,7 @@
 						maxlength="20" id="title" />
 				</p>
 				<p class="content-title">
-						作者<span style="margin-left:25px;"><select class="selectpicker" data-live-search="true" title="请选择或输入作者昵称"></select></span>
+						作者<span style="margin-left:25px;"><select class="selectpicker" id="releaser_id" data-live-search="true" title="请选择或输入作者昵称"></select></span>
 				</p>
 				<div>
 					<div class="service" style="display: none;">
@@ -194,21 +194,21 @@
 					</p>
 					<p class="recommend-data sum">
 						<span>点赞红包金额</span>
-						<input type="text" placeholder="0.00" class="price-input" />
+						<input type="text" placeholder="0.00" id="dzhongbao_price" class="price-input" />
 						<span class="price">元</span>个数
-						<input type="text" placeholder="0" class="price-input" />
+						<input type="text" placeholder="0" id="dzhongbao_count" class="price-input" />
 						<span class="price">个</span>
 					</p>
 					<p class="recommend-data sum">
-						<span>红包金额</span> 
-						<input type="text" placeholder="0.00" class="price-input" />
+						<span>分享红包金额</span> 
+						<input type="text"  placeholder="0.00" id="fxhongbao_price"  class="price-input" />
 						<span class="price">元</span>个数 
-						<input type="text" placeholder="0" class="price-input" />
+						<input type="text" placeholder="0" id="fxhongbao_count" class="price-input" />
 						<span class="price">个</span>
 					</p>
 					<p class="reward">
 						<span>打赏量</span>
-						<input type="text" disabled="disabled" placeholder="0.00" class="reward-input" />
+						<input type="text" disabled="disabled" id="dashang_count" placeholder="0.00" class="reward-input" />
 						<span class="price">元</span>
 					</p>
 				</div>
@@ -318,6 +318,7 @@
 							"select-val" : $("#select").val(),
 							"price_fuwu" : $("#price_fuwu").val(),
 							"phone_fuwu" : $("#phone_fuwu").val(),
+							"publish_date" :$("#publish_date").val(),
 							"phone_commodity" : $("#phone_commodity").val(),
 							"dianpu_id" : $("#dianpu_id").val(),
 							"address" : $("#address").val(),

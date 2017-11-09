@@ -105,6 +105,7 @@
 	String table_name = (String)data.get("table_name");
 	String id = (String)data.get("id");
 	String shenhe = (String)data.get("shenhe");
+	String publish_date = data.get("publish_date") != null?data.get("publish_date").toString():"";
 	String time = data.get("time") != null?data.get("time").toString():"";
 	String title = (String)data.get("title");
 	String releaser_id = (String)data.get("releaser_id");
@@ -205,6 +206,7 @@
 	request.setAttribute("table_name", table_name);//表名
 	request.setAttribute("shenhe", shenhe);//审核状态
 	request.setAttribute("time", time);//发布时间
+	request.setAttribute("publish_date", publish_date);//发布时间
 	request.setAttribute("title", title);//标题
 	request.setAttribute("releaser_id", releaser_id);//文章作者
 	request.setAttribute("id", id);//id
@@ -512,6 +514,7 @@
 							"select-val" : $("#select").val(),
 							"price_fuwu" : $("#price_fuwu").val(),
 							"phone_fuwu" : $("#phone_fuwu").val(),
+							"publish_date" :$("#publish_date").val(),
 							"phone_commodity" : $("#phone_commodity").val(),
 							"dianpu_name" : $("#dianpu_id").val(),
 							"address" : $("#address").val(),
@@ -973,8 +976,8 @@
 		$jquery1_7_2("#txtDefaultHtmlArea").htmlarea();
 		$("iframe").contents().find("body").html(content);
 		//选择日期
-		var time = "${time}"?new Date("${time}").format("yyyy-MM-dd"):"";
-		$("#publish_date").val(time);
+		var publish_date = "${publish_date}"?new Date("${publish_date}").format("yyyy-MM-dd"):"";
+		$("#publish_date").val(publish_date);
 		$jquery1_7_2('#publish_date').date_input();
 		var startTime = "${tuijian_list.start_time}"?new Date("${tuijian_list.start_time}").format("yyyy-MM-dd"):"";
 		var endTime = "${tuijian_list.end_time}"?new Date("${tuijian_list.end_time}").format("yyyy-MM-dd"):"";

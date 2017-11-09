@@ -60,6 +60,7 @@ public class Upload_file2 extends HttpServlet {
 			throws ServletException, IOException {
 		String select_val = request.getParameter("select-val");
 		String title = request.getParameter("title");
+		String publish_date = request.getParameter("publish_date");
 		String user_name = request.getParameter("releaser_name");
 		String _yuedu_count = request.getParameter("yuedu_count");
 		String _dianzan_count = request.getParameter("dianzan_count");
@@ -100,78 +101,9 @@ public class Upload_file2 extends HttpServlet {
 		String fxhongbao_count = request.getParameter("fxhongbao_count");
 		String dashang_count = request.getParameter("dashang_count");
 
-//		String[] picture = request.getParameterValues("picture");
-//		String[] content1 = request.getParameterValues("content1");
-//		String content2 = request.getParameter("content2");
-
-		
-		// 内容1
-//		List<String> list = new ArrayList<String>();
-//		for (int i = 0; i < content1.length; i++) {
-//			if (i % 2 == 0) {
-//				String[] a = content1[i].split(",");
-//				String img_base64 = a[1];
-//				String dataString = new Date().getTime() + "" + (Math.round(Math.random() * 10000)) + ".jpeg";
-//				String path = request.getRealPath("/upload/textpicture");
-//				String ServicePath = path + "/" + dataString;
-//				UploadPicture.GenerateImage(img_base64, ServicePath);
-//				String url = "http://120.92.169.86/mServer/upload/textpicture/" + dataString;
-//				list.add(url);
-//			} else {
-//				list.add(content1[i]);
-//			}
-//		}
-//		String content1_str = "";
-//		for (int i = 0; i < list.size(); i++) {
-//			content1_str += list.get(i) + "<--分隔符-->";
-//		}
-		// 内容2
-//		List<String> list2 = new ArrayList<String>();
-//		StringTokenizer token = new StringTokenizer(content2, "<>");// 按照( ) +
-//		String[] array = new String[100];// 定义一个字符串数组
-//		int i = 0;
-//		while (token.hasMoreTokens()) {
-//			array[i] = token.nextToken();// 将分割开的子字符串放入数组中
-//			i++;
-//		}
-//		for (int j = 0; j < i; j++) {
-//			if (array[j].substring(0, 3).equals("img")) {
-//				String[] a = array[j].split(",");
-//				String img_base64 = a[1].substring(0, a[1].length() - 1);
-//				String dataString = new Date().getTime() + "" + (Math.round(Math.random() * 10000)) + ".jpeg";
-//				String path = request.getRealPath("/upload/textpicture");
-//				String ServicePath = path + "/" + dataString;
-//				UploadPicture.GenerateImage(img_base64, ServicePath);
-//				String url = "http://120.92.169.86/mServer/upload/textpicture/" + dataString;
-//				list2.add(url);
-//
-//			} else {
-//				list2.add(array[j]);
-//			}
-//		}
-//		String content2_str = "";
-//		for (int j = 0; j < list2.size(); j++) {
-//			content2_str += list2.get(j) + "<--分隔符-->";
-//		}
-//		String content_all = content1_str + content2_str;
 
 		// 图片
 		String picture_str = "";
-//		for (int m = 0; m < picture.length; m++) {
-//			String[] picture2 = picture[m].split(",");
-//			if (picture != null) {
-//				String img_base64 = picture2[1];
-//				String dataString = new Date().getTime() + "" + (Math.round(Math.random() * 10000)) + ".jpeg";
-//				String path = request.getRealPath("/upload/picture");
-//
-//				String ServicePath = path + "/" + dataString;
-//				UploadPicture.GenerateImage(img_base64, ServicePath);
-//
-//				picture_str += "http://120.92.169.86/mServer/upload/picture/" + dataString + ",";
-//
-//			}
-//		}
-		
 		if (select_val.equals("今日头条")) {
 			if(StringUtils.isNotBlank(id)){
 				Map<String, String> data = new HashMap<String,String>();
@@ -184,9 +116,10 @@ public class Upload_file2 extends HttpServlet {
 				data.put("yuedu_count", String.valueOf(yuedu_count));
 				data.put("dianzan_count", String.valueOf(dianzan_count));
 				data.put("described", described);
+				data.put("publish_date", publish_date);
 				Server_Function.updateDataByTableAndId("toutiao", id, data);
 			}else{
-				id = Server_Function.add_toutiao(picture_str, title, user_name, content, muban_Tag, releaser_id, yuedu_count,dianzan_count,described);
+				id = Server_Function.add_toutiao(picture_str, title, user_name, content, muban_Tag, releaser_id, yuedu_count,dianzan_count,described,publish_date);
 			}
 		} else if (select_val.equals("酒城日记")) {
 			 if(StringUtils.isNotBlank(id)){
@@ -200,9 +133,10 @@ public class Upload_file2 extends HttpServlet {
 					data.put("yuedu_count", String.valueOf(yuedu_count));
 					data.put("dianzan_count", String.valueOf(dianzan_count));
 					data.put("described", described);
+					data.put("publish_date", publish_date);
 					Server_Function.updateDataByTableAndId("toutiao", id, data);
 				}else{
-					id = Server_Function.add_riji(picture_str, title, user_name, content, muban_Tag, releaser_id,described);
+					id = Server_Function.add_riji(picture_str, title, user_name, content, muban_Tag, releaser_id,described,publish_date);
 				}
 		} else if (select_val.equals("发现秘密")) {
 			 if(StringUtils.isNotBlank(id)){
@@ -216,9 +150,10 @@ public class Upload_file2 extends HttpServlet {
 					data.put("yuedu_count", String.valueOf(yuedu_count));
 					data.put("dianzan_count", String.valueOf(dianzan_count));
 					data.put("described", described);
+					data.put("publish_date", publish_date);
 					Server_Function.updateDataByTableAndId("faxian", id, data);
 				}else{
-					id = Server_Function.add_faxian(releaser_id, picture_str, title, user_name, content,muban_Tag,described);
+					id = Server_Function.add_faxian(releaser_id, picture_str, title, user_name, content,muban_Tag,described,publish_date);
 				}
 		} else if (select_val.equals("有去处")) {
 			 if(StringUtils.isNotBlank(id)){
@@ -234,9 +169,10 @@ public class Upload_file2 extends HttpServlet {
 					data.put("yuedu", String.valueOf(yuedu_count));
 					data.put("dianzhan_count", String.valueOf(dianzan_count));
 					data.put("described", described);
+					data.put("publish_date", publish_date);
 					Server_Function.updateDataByTableAndId("quchu", id, data);
 				}else{
-					id = Server_Function.add_quchu(releaser_id, title, address, phone, picture_str, content,muban_Tag,described);
+					id = Server_Function.add_quchu(releaser_id, title, address, phone, picture_str, content,muban_Tag,described,publish_date);
 				}
 		} else if (select_val.equals("商品")) {
 			 if(StringUtils.isNotBlank(id)){
@@ -253,9 +189,10 @@ public class Upload_file2 extends HttpServlet {
 					data.put("yuedu", String.valueOf(yuedu_count));
 					data.put("dianzan_count", String.valueOf(dianzan_count));
 					data.put("described", described);
+					data.put("publish_date", publish_date);
 					Server_Function.updateDataByTableAndId("commodity", id, data);
 				}else{
-					id =  Server_Function.add_commodity(title, price_commodity, shuliang, freight, phone, picture_str, content,releaser_id,muban_Tag,described);
+					id =  Server_Function.add_commodity(title, price_commodity, shuliang, freight, phone, picture_str, content,releaser_id,muban_Tag,described,publish_date);
 				}
 		} else if (select_val.equals("服务")) {
 			 if(StringUtils.isNotBlank(id)){
@@ -272,9 +209,10 @@ public class Upload_file2 extends HttpServlet {
 					data.put("yuedu", String.valueOf(yuedu_count));
 					data.put("dianzan_count", String.valueOf(dianzan_count));
 					data.put("described", described);
+					data.put("publish_date", publish_date);
 					Server_Function.updateDataByTableAndId("fuwu", id, data);
 				}else{
-					id =  Server_Function.add_fuwu(releaser_id, title, price_fuwu, phone, picture_str, content,muban_Tag,described);
+					id =  Server_Function.add_fuwu(releaser_id, title, price_fuwu, phone, picture_str, content,muban_Tag,described,publish_date);
 				}
 		}
 		//
@@ -324,6 +262,7 @@ public class Upload_file2 extends HttpServlet {
 		//设置推荐
 		Map<String, String> params = new HashMap<String,String>();
 		params.put("tuijian_user", tuijian_user);
+		params.put("tiaomu_id", id);
 		List<Tuijian_list> tuijian_list = CommonBusiness.getDataByTable("tuijian_list", params,Tuijian_list.class);
 		params.put("start_time", start_time);
 		params.put("end_time", end_time);

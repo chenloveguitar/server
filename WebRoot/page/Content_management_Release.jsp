@@ -1,4 +1,5 @@
-﻿<%@page
+﻿
+<%@page
 	import="com.magicmoble.luzhouapp.server.server_function.Server_Func"%>
 <%@page import="com.magicmoble.luzhouapp.model.server.Toutiao"%>
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
@@ -8,24 +9,19 @@
 <head>
 <meta charset="UTF-8">
 <title></title>
-<link rel="stylesheet" type="text/css" href="../common/css/luzou.css" />
-<link rel="stylesheet" type="text/css" href="common/css/luzou.css" />
-<link rel="stylesheet" type="text/css"
-	href="../common/css/calendar1.css" />
-<link rel="stylesheet" type="text/css"
-	href="common/css/calendar1.css" />
-<script src="../common/lib/jquery-1.9.0.min.js" type="text/javascript"
-	charset="utf-8"></script>
-<script src="common/lib/jquery-1.9.0.min.js" type="text/javascript"
-	charset="utf-8"></script>
-<script src="../common/js/jquery.min.js" type="text/javascript"
-	charset="utf-8"></script>
-<script src="common/js/jquery.min.js" type="text/javascript"
-	charset="utf-8"></script>
-<script src="../common/js/jquery.date_input.pack.js"
-	type="text/javascript" charset="utf-8"></script>
-<script src="common/js/jquery.date_input.pack.js"
-	type="text/javascript" charset="utf-8"></script>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/common/css/luzou.css" />
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/common/css/calendar1.css" />
+<script src="${pageContext.request.contextPath}/common/lib/jquery-1.9.0.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="${pageContext.request.contextPath}/common/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="${pageContext.request.contextPath}/common/js/jquery.date_input.pack.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/common/pager/jquery.z-pager.js"></script>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/common/pager/pager.css">
+<script type="text/javascript" src="${pageContext.request.contextPath}/common/page/js/Content_management_Release.js"></script>
+<style type="text/css">
+	.hide{
+		display: none;	
+	}
+</style>
 </head>
 
 <%
@@ -57,29 +53,18 @@
 				<li class="position-header-click" onclick="Tag(1)"><img
 					src="../common/image/icon-1.png" />
 					<p>全部</p></li>
-				<li onclick="Tag(2)"><img src="../common/image/icon-3.png" />
+				<li onclick="Tag(2)"><img src="${pageContext.request.contextPath}/common/image/icon-3.png" />
 					<p>今日头条</p></li>
-				<li onclick="Tag(3)"><img src="../common/image/icon-4.png" />
+				<li onclick="Tag(3)"><img src="${pageContext.request.contextPath}/common/image/icon-4.png" />
 					<p>酒域日记</p></li>
-				<li onclick="Tag(4)"><img src="../common/image/icon-5.png" />
+				<li onclick="Tag(4)"><img src="${pageContext.request.contextPath}/common/image/icon-5.png" />
 					<p>图片</p></li>
-				<li onclick="Tag(5)"><img src="../common/image/icon-7.png" />
+				<li onclick="Tag(5)"><img src="${pageContext.request.contextPath}/common/image/icon-7.png" />
 					<p>发现秘密</p></li>
-				<li onclick="Tag(6)"><img src="../common/image/icon-8.png" />
+				<li onclick="Tag(6)"><img src="${pageContext.request.contextPath}/common/image/icon-8.png" />
 					<p>有去处</p></li>
-				<li onclick="Tag(7)"><img src="../common/image/icon-9.png" />
+				<li onclick="Tag(7)"><img src="${pageContext.request.contextPath}/common/image/icon-9.png" />
 					<p>逛街</p></li>
-			</ul>
-		</div>
-		<div class="position-write">
-			<ul class="clearfix">
-				<li class="position-show-title1">标题内容</li>
-				<li class="position-author1">作者</li>
-				<li class="position-fa">是否发布</li>
-				<li class="position-red1">红包</li>
-				<li class="position-red2">红包</li>
-				<li class="position-ye">是否推广</li>
-				<li class="position-de">操作</li>
 			</ul>
 		</div>
 		<div class="position-content">
@@ -97,9 +82,12 @@
 					<option value="">打赏</option>
 					<option value="有打赏">有打赏</option>
 					<option value="没有打赏">没有打赏</option>
-				</select> <input type="text" name="" id="guangjianzi_search" value=""
-					placeholder="关键字" class="input-rate key-bord" /> <select
-					id="change_paixu" class="third-select">
+				</select> <input type="text" name="" value="" id="guangjianzi_search"
+					placeholder="关键字" class="input-rate" />
+						<a href="javascript:void(0);" id="guangjianzi_search_button" style="position: absolute; z-index: 2; margin-left: -70px; margin-top: 8px;">
+							<img src="${pageContext.request.contextPath}/common/image/search.png">
+						</a>
+					<select id="change_paixu" class="third-select">
 					<option value="">排序</option>
 					<option value="阅读量从高到低">阅读量从高到低</option>
 					<option value="阅读量从低到高">阅读量从低到高</option>
@@ -107,281 +95,326 @@
 					<option value="阅读量从低到高">日期从晚到早</option>
 				</select><a href="neirong_content.jsp" class="rebuild">新增内容</a>
 			</div>
+			<div class="position-write">
+				<ul class="clearfix">
+					<li class="position-show-title1">标题内容</li>
+					<li class="position-author1">作者</li>
+					<li class="position-fa">是否发布</li>
+					<li class="position-red1">红包</li>
+					<li class="position-red2">红包</li>
+					<li class="position-ye">是否推广</li>
+					<li class="position-de">操作</li>
+				</ul>
+			</div>
 			<div class="position-show">
-				<ul class="clearfix" id="clear-fix">
+				<ul class="clearfix" id="clear-fix-1">
 
-					<c:forEach var="list" items="${list7}">
-						<li>
-							<p class="position-show-title">
-								<i class="position-circle"></i> <img class="position-square"
-									src="${list.pictures.get(0).picture_url}" /> <span
-									class="position-title"> <span>${list.title}</span> <span
-									class="position-share">阅读量:${list.yuedu_count}
-										分享:${list.share_count} 收藏:${list.shoucang_count}</span>
-								</span>
+<%-- 					<c:forEach var="list" items="${list7}"> --%>
+<!-- 						<li> -->
+<!-- 							<p class="position-show-title"> -->
+<!-- 								<i class="position-circle"></i>  -->
+<%-- 								<img class="position-square" src="${list.pictures.get(0).picture_url}" />  --%> 
+<!-- 								<img class="position-square" src="#" />  -->
+<%-- 								<span class="position-title"> <span>${list.title}</span> <span --%>
+<%-- 									class="position-share">阅读量:${list.yuedu_count} --%>
+<%-- 										分享:${list.share_count} 收藏:${list.shoucang_count}</span> --%>
+<!-- 								</span> -->
 
-							</p>
-							<p class="position-author">
-								<img class="icon-author" src="${list.releaser_touxiang}" /> <span
-									class="position-title"> <span>${list.releaser_name}</span>
-									<span class="position-share">${list.time}</span>
-								</span>
-							</p>
-							<p class="position-public">
-								<span class="position-title position-p"> <span>${list.shenhe}</span>
-									<span class="position-share">${list.tuijian_message}</span>
-								</span> <span class="position-title position-p"> <span>点赞红包</span>
-									<span class="position-share">剩余${list.dianzan_hongbao}元</span>
-								</span> <span class="position-title position-p"> <span>分享红包</span>
-									<span class="position-share">剩余${list.share_hongbao}元</span>
-								</span> <span class="position-title position-p"> <span>${list.tuijian_message}</span>
-									<span class="position-share">剩余${list.days}天</span>
-								</span>
-							</p>
-							<p class="edit-exit">
-								<a class="icon-edit icon-webpage"
-									href="<%=request.getContextPath()%>/page/content-detail2.jsp?chaxun_id=${list.id}&Tag=1"></a><a
-									class="icon-edit icon-del"
-									href="<%=request.getContextPath()%>/Handle_release_neirong?del_id=${list.id}&Tag=1"></a>
-							</p>
-						</li>
-					</c:forEach>
+<!-- 							</p> -->
+<!-- 							<p class="position-author"> -->
+<%--  								<img class="icon-author" src="${list.releaser_touxiang}" />  --%> 
+<!-- 								<img class="icon-author" src="#" />  -->
+<!-- 								<span -->
+<%-- 									class="position-title"> <span>${list.releaser_name}</span> --%>
+<%-- 									<span class="position-share">${list.time}</span> --%>
+<!-- 								</span> -->
+<!-- 							</p> -->
+<!-- 							<p class="position-public"> -->
+<%-- 								<span class="position-title position-p"> <span>${list.shenhe}</span> --%>
+<%-- 									<span class="position-share">${list.tuijian_Tag}</span> --%>
+<!-- 								</span> <span class="position-title position-p"> <span>点赞红包</span> -->
+<%-- 									<span class="position-share">剩余${list.dianzan_hongbao}元</span> --%>
+<!-- 								</span> <span class="position-title position-p"> <span>分享红包</span> -->
+<%-- 									<span class="position-share">剩余${list.share_hongbao}元</span> --%>
+<%-- 								</span> <span class="position-title position-p"> <span>${list.tuijian_message}</span> --%>
+<%-- 									<span class="position-share">剩余${list.days}天</span> --%>
+<!-- 								</span> -->
+<!-- 							</p> -->
+<!-- 							<p class="edit-exit"> -->
+<!-- 								<a class="icon-edit icon-webpage" -->
+<%-- 									href="<%=request.getContextPath()%>/page/content-detail.jsp?chaxun_id=${list.id}&Tag=1"></a> --%>
+<!-- 								<a class="icon-edit icon-del" -->
+<%-- 									href="<%=request.getContextPath()%>/Handle_release_neirong?del_id=${list.id}&Tag=1"></a> --%>
+<!-- 							</p> -->
+<!-- 						</li> -->
+<%-- 					</c:forEach> --%>
 
 
 				</ul>
-				<ul class="clearfix" style="display: none;">
-					<c:forEach var="list" items="${list}">
-						<li>
-							<p class="position-show-title">
-								<i class="position-circle"></i> <img class="position-square"
-									src="${list.pictures.get(0).picture_url}" /> <span
-									class="position-title"> <span>${list.title}</span> <span
-									class="position-share">阅读量:${list.yuedu_count}
-										分享:${list.share_count} 收藏:${list.shoucang_count}</span>
-								</span>
+				<ul class="clearfix"  id="clear-fix-2" style="display: none;">
+<%-- 					<c:forEach var="list" items="${list}"> --%>
+<!-- 						<li> -->
+<%-- 							<p class="position-show-title" onclick="tiaozhuan('${list.id}')"> --%>
+<!-- 								<i class="position-circle"></i>  -->
+<%--  								<img class="position-square" src="${list.pictures.get(0).picture_url}" />  --%>
+<!-- 								<img class="position-square" src="#" />  -->
+<!-- 									<span -->
+<%-- 									class="position-title"> <span>${list.title}</span> <span --%>
+<%-- 									class="position-share">阅读量:${list.yuedu_count} --%>
+<%-- 										分享:${list.share_count} 收藏:${list.shoucang_count}</span> --%>
+<!-- 								</span> -->
 
-							</p>
-							<p class="position-author">
-								<img class="icon-author" src="${list.releaser_touxiang}" /> <span
-									class="position-title"> <span>${list.releaser_name}</span>
-									<span class="position-share">${list.time}</span>
-								</span>
-							</p>
-							<p class="position-public">
-								<span class="position-title position-p"> <span>${list.shenhe}</span>
-									<span class="position-share">${list.tuijian_Tag}</span>
-								</span> <span class="position-title position-p"> <span>点赞红包</span>
-									<span class="position-share">剩余${list.dianzan_hongbao}元</span>
-								</span> <span class="position-title position-p"> <span>分享红包</span>
-									<span class="position-share">剩余${list.share_hongbao}元</span>
-								</span> <span class="position-title position-p"> <span>${list.tuijian_message}</span>
-									<span class="position-share">剩余${list.days}天</span>
-								</span>
-							</p>
-							<p class="edit-exit">
-								<a class="icon-edit icon-webpage"
-									href="<%=request.getContextPath()%>/page/content-detail2.jsp?chaxun_id=${list.id}&Tag=2"></a><a
-									class="icon-edit icon-del"
-									href="<%=request.getContextPath()%>/Handle_release_neirong?del_id=${list.id}&Tag=2"></a>
-							</p>
-						</li>
-					</c:forEach>
+<!-- 							</p> -->
+<!-- 							<p class="position-author"> -->
+<%-- 								<img class="icon-author" src="${list.releaser_touxiang}" />  --%>
+<!-- 								<img class="icon-author" src="#" />  -->
+<!-- 								<span -->
+<%-- 									class="position-title"> <span>${list.releaser_name}</span> --%>
+<%-- 									<span class="position-share">${list.time}</span> --%>
+<!-- 								</span> -->
+<!-- 							</p> -->
+<!-- 							<p class="position-public"> -->
+<%-- 								<span class="position-title position-p"> <span>${list.shenhe}</span> --%>
+<%-- 									<span class="position-share">${list.tuijian_Tag}</span> --%>
+<!-- 								</span> <span class="position-title position-p"> <span>点赞红包</span> -->
+<%-- 									<span class="position-share">剩余${list.dianzan_hongbao}元</span> --%>
+<!-- 								</span> <span class="position-title position-p"> <span>分享红包</span> -->
+<%-- 									<span class="position-share">剩余${list.share_hongbao}元</span> --%>
+<%-- 								</span> <span class="position-title position-p"> <span>${list.tuijian_message}</span> --%>
+<%-- 									<span class="position-share">剩余${list.days}天</span> --%>
+<!-- 								</span> -->
+<!-- 							</p> -->
+<!-- 							<p class="edit-exit"> -->
+<!-- 								<a class="icon-edit icon-webpage" -->
+<%-- 									href="<%=request.getContextPath()%>/page/content-detail.jsp?chaxun_id=${list.id}&Tag=2"></a> <a --%>
+<!-- 									class="icon-edit icon-del" -->
+<%-- 									href="<%=request.getContextPath()%>/Handle_release_neirong?del_id=${list.id}&Tag=2"></a> --%>
+<!-- 							</p> -->
+<!-- 						</li> -->
+<%-- 					</c:forEach> --%>
 				</ul>
-				<ul class="clearfix" style="display: none;">
-					<c:forEach var="list" items="${list2}">
-						<li>
-							<p class="position-show-title">
-								<i class="position-circle"></i> <img class="position-square"
-									src="${list.pictures.get(0).picture_url}" /> <span
-									class="position-title"> <span>${list.title}</span> <span
-									class="position-share">阅读量:${list.yuedu_count}
-										分享:${list.share_count} 收藏:${list.shoucang_count}</span>
-								</span>
+				<ul class="clearfix"  id="clear-fix-3" style="display: none;">
+<%-- 					<c:forEach var="list" items="${list2}"> --%>
+<!-- 						<li> -->
+<!-- 							<p class="position-show-title"> -->
+<!-- 								<i class="position-circle"></i>  -->
+<%-- 								<img class="position-square" src="${list.pictures.get(0).picture_url}" />  --%> 
+<!-- 								<img class="position-square" src="#" />  -->
+<!-- 								<span -->
+<%-- 									class="position-title"> <span>${list.title}</span> <span --%>
+<%-- 									class="position-share">阅读量:${list.yuedu_count} --%>
+<%-- 										分享:${list.share_count} 收藏:${list.shoucang_count}</span> --%>
+<!-- 								</span> -->
 
-							</p>
-							<p class="position-author">
-								<img class="icon-author" src="${list.releaser_touxiang}" /> <span
-									class="position-title"> <span>${list.releaser_name}</span>
-									<span class="position-share">${list.time}</span>
-								</span>
-							</p>
-							<p class="position-public">
-								<span class="position-title position-p"> <span>${list.shenhe}</span>
-									<span class="position-share">${list.tuijian_Tag}</span>
-								</span> <span class="position-title position-p"> <span>点赞红包</span>
-									<span class="position-share">剩余${list.dianzan_hongbao}元</span>
-								</span> <span class="position-title position-p"> <span>分享红包</span>
-									<span class="position-share">剩余${list.share_hongbao}元</span>
-								</span> <span class="position-title position-p"> <span>${list.tuijian_message}</span>
-									<span class="position-share">剩余${list.days}天</span>
-								</span>
-							</p>
-							<p class="edit-exit">
-								<a class="icon-edit icon-webpage"
-									href="<%=request.getContextPath()%>/page/content-detail2.jsp?chaxun_id=${list.id}&Tag=3"></a> <a
-									class="icon-edit icon-del"
-									href="<%=request.getContextPath()%>/Handle_release_neirong?del_id=${list.id}&Tag=3"></a>
-							</p>
-						</li>
-					</c:forEach>
+<!-- 							</p> -->
+<!-- 							<p class="position-author"> -->
+<%--  								<img class="icon-author" src="${list.releaser_touxiang}" />  --%> 
+<!-- 								<img class="icon-author" src="#" />  -->
+<!-- 								<span -->
+<%-- 									class="position-title"> <span>${list.releaser_name}</span> --%>
+<%-- 									<span class="position-share">${list.time}</span> --%>
+<!-- 								</span> -->
+<!-- 							</p> -->
+<!-- 							<p class="position-public"> -->
+<%-- 								<span class="position-title position-p"> <span>${list.shenhe}</span> --%>
+<%-- 									<span class="position-share">${list.tuijian_Tag}</span> --%>
+<!-- 								</span> <span class="position-title position-p"> <span>点赞红包</span> -->
+<%-- 									<span class="position-share">剩余${list.dianzan_hongbao}元</span> --%>
+<!-- 								</span> <span class="position-title position-p"> <span>分享红包</span> -->
+<%-- 									<span class="position-share">剩余${list.share_hongbao}元</span> --%>
+<%-- 								</span> <span class="position-title position-p"> <span>${list.tuijian_message}</span> --%>
+<%-- 									<span class="position-share">剩余${list.days}天</span> --%>
+<!-- 								</span> -->
+<!-- 							</p> -->
+<!-- 							<p class="edit-exit"> -->
+<!-- 								<a class="icon-edit icon-webpage" -->
+<%-- 									href="<%=request.getContextPath()%>/page/content-detail.jsp?chaxun_id=${list.id}&Tag=3"></a> <a --%>
+<!-- 									class="icon-edit icon-del" -->
+<%-- 									href="<%=request.getContextPath()%>/Handle_release_neirong?del_id=${list.id}&Tag=3"></a> --%>
+<!-- 							</p> -->
+<!-- 						</li> -->
+<%-- 					</c:forEach> --%>
 				</ul>
-				<ul class="clearfix" style="display: none;">
-					<c:forEach var="list" items="${list3}">
-						<li>
-							<p class="position-show-title">
-								<i class="position-circle"></i> <img class="position-square"
-									src="${list.pictures.get(0).picture_url}" /> <span
-									class="position-title"> <span>${list.title}</span> <span
-									class="position-share">阅读量:${list.yuedu_count}
-										分享:${list.share_count} 收藏:${list.shoucang_count}</span>
-								</span>
+				<ul class="clearfix" id="clear-fix-4" style="display: none;">
+<%-- 					<c:forEach var="list" items="${list3}"> --%>
+<!-- 						<li> -->
+<!-- 							<p class="position-show-title"> -->
+<!-- 								<i class="position-circle"></i>  -->
+<%--  								<img class="position-square" src="${list.pictures.get(0).picture_url}" />  --%> 
+<!-- 								<img class="position-square" src="#" />  -->
+<!-- 								<span -->
+<%-- 									class="position-title"> <span>${list.title}</span> <span --%>
+<%-- 									class="position-share">阅读量:${list.yuedu_count} --%>
+<%-- 										分享:${list.share_count} 收藏:${list.shoucang_count}</span> --%>
+<!-- 								</span> -->
 
-							</p>
-							<p class="position-author">
-								<img class="icon-author" src="${list.releaser_touxiang}" /> <span
-									class="position-title"> <span>${list.releaser_name}</span>
-									<span class="position-share">${list.time}</span>
-								</span>
-							</p>
-							<p class="position-public">
-								<span class="position-title position-p"> <span>${list.shenhe}</span>
-									<span class="position-share">${list.tuijian_Tag}</span>
-								</span> <span class="position-title position-p"> <span>点赞红包</span>
-									<span class="position-share">剩余${list.dianzan_hongbao}元</span>
-								</span> <span class="position-title position-p"> <span>分享红包</span>
-									<span class="position-share">剩余${list.share_hongbao}元</span>
-								</span> <span class="position-title position-p"> <span>${list.tuijian_message}</span>
-									<span class="position-share">剩余${list.days}天</span>
-								</span>
-							</p>
-							<p class="edit-exit">
-								<a class="icon-edit icon-webpage"
-									href="content-detail2.jsp?chaxun_id=${list.id}&Tag=4"></a> <a
-									class="icon-edit icon-del"
-									href="<%=request.getContextPath()%>/Handle_NoExamine_neirong?del_id=${list.id}&Tag=4"></a>
-							</p>
-						</li>
-					</c:forEach>
+<!-- 							</p> -->
+<!-- 							<p class="position-author"> -->
+<%--  								<img class="icon-author" src="${list.releaser_touxiang}" />  --%> 
+<!-- 								<img class="icon-author" src="#" />  -->
+<!-- 								<span -->
+<%-- 									class="position-title"> <span>${list.releaser_name}</span> --%>
+<%-- 									<span class="position-share">${list.time}</span> --%>
+<!-- 								</span> -->
+<!-- 							</p> -->
+<!-- 							<p class="position-public"> -->
+<%-- 								<span class="position-title position-p"> <span>${list.shenhe}</span> --%>
+<%-- 									<span class="position-share">${list.tuijian_Tag}</span> --%>
+<!-- 								</span> <span class="position-title position-p"> <span>点赞红包</span> -->
+<%-- 									<span class="position-share">剩余${list.dianzan_hongbao}元</span> --%>
+<!-- 								</span> <span class="position-title position-p"> <span>分享红包</span> -->
+<%-- 									<span class="position-share">剩余${list.share_hongbao}元</span> --%>
+<%-- 								</span> <span class="position-title position-p"> <span>${list.tuijian_message}</span> --%>
+<%-- 									<span class="position-share">剩余${list.days}天</span> --%>
+<!-- 								</span> -->
+<!-- 							</p> -->
+<!-- 							<p class="edit-exit"> -->
+<!-- 								<a class="icon-edit icon-webpage" -->
+<%-- 									href="<%=request.getContextPath()%>/page/content-detail.jsp?chaxun_id=${list.id}&Tag=4"></a> <a --%>
+<!-- 									class="icon-edit icon-del" -->
+<%-- 									href="<%=request.getContextPath()%>/Handle_release_neirong?del_id=${list.id}&Tag=4"></a> --%>
+<!-- 							</p> -->
+<!-- 						</li> -->
+<%-- 					</c:forEach> --%>
 				</ul>
-				<ul class="clearfix" style="display: none;">
-					<c:forEach var="list" items="${list4}">
-						<li>
-							<p class="position-show-title">
-								<i class="position-circle"></i> <img class="position-square"
-									src="${list.pictures.get(0).picture_url}" /> <span
-									class="position-title"> <span>${list.title}</span> <span
-									class="position-share">阅读量:${list.yuedu_count}
-										分享:${list.share_count} 收藏:${list.shoucang_count}</span>
-								</span>
+				<ul class="clearfix" id="clear-fix-5" style="display: none;">
+<%-- 					<c:forEach var="list" items="${list4}"> --%>
+<!-- 						<li> -->
+<!-- 							<p class="position-show-title"> -->
+<!-- 								<i class="position-circle"></i>  -->
+<%-- 								<img class="position-square" src="${list.pictures.get(0).picture_url}" />  --%> 
+<!-- 									<img class="position-square" src="#" />  -->
+<!-- 								<span -->
+<%-- 									class="position-title"> <span>${list.title}</span> <span --%>
+<%-- 									class="position-share">阅读量:${list.yuedu_count} --%>
+<%-- 										分享:${list.share_count} 收藏:${list.shoucang_count}</span> --%>
+<!-- 								</span> -->
 
-							</p>
-							<p class="position-author">
-								<img class="icon-author" src="${list.releaser_touxiang}" /> <span
-									class="position-title"> <span>${list.releaser_name}</span>
-									<span class="position-share">${list.time}</span>
-								</span>
-							</p>
-							<p class="position-public">
-								<span class="position-title position-p"> <span>${list.shenhe}</span>
-									<span class="position-share">${list.tuijian_Tag}</span>
-								</span> <span class="position-title position-p"> <span>点赞红包</span>
-									<span class="position-share">剩余${list.dianzan_hongbao}元</span>
-								</span> <span class="position-title position-p"> <span>分享红包</span>
-									<span class="position-share">剩余${list.share_hongbao}元</span>
-								</span> <span class="position-title position-p"> <span>${list.tuijian_message}</span>
-									<span class="position-share">剩余${list.days}天</span>
-								</span>
-							</p>
-							<p class="edit-exit">
-								<a class="icon-edit icon-webpage"
-									href="<%=request.getContextPath()%>/page/content-detail2.jsp?chaxun_id=${list.id}&Tag=5"></a> <a
-									class="icon-edit icon-del"
-									href="<%=request.getContextPath()%>/Handle_release_neirong?del_id=${list.id}&Tag=5"></a>
-							</p>
-						</li>
-					</c:forEach>
+<!-- 							</p> -->
+<!-- 							<p class="position-author"> -->
+<%--  								<img class="icon-author" src="${list.releaser_touxiang}" />  --%> 
+<!-- 								<img class="icon-author" src="#" />  -->
+<!-- 								<span -->
+<%-- 									class="position-title"> <span>${list.releaser_name}</span> --%>
+<%-- 									<span class="position-share">${list.time}</span> --%>
+<!-- 								</span> -->
+<!-- 							</p> -->
+<!-- 							<p class="position-public"> -->
+<%-- 								<span class="position-title position-p"> <span>${list.shenhe}</span> --%>
+<%-- 									<span class="position-share">${list.tuijian_Tag}</span> --%>
+<!-- 								</span> <span class="position-title position-p"> <span>点赞红包</span> -->
+<%-- 									<span class="position-share">剩余${list.dianzan_hongbao}元</span> --%>
+<!-- 								</span> <span class="position-title position-p"> <span>分享红包</span> -->
+<%-- 									<span class="position-share">剩余${list.share_hongbao}元</span> --%>
+<%-- 								</span> <span class="position-title position-p"> <span>${list.tuijian_message}</span> --%>
+<%-- 									<span class="position-share">剩余${list.days}天</span> --%>
+<!-- 								</span> -->
+<!-- 							</p> -->
+<!-- 							<p class="edit-exit"> -->
+<!-- 								<a class="icon-edit icon-webpage" -->
+<%-- 									href="<%=request.getContextPath()%>/page/content-detail.jsp?chaxun_id=${list.id}&Tag=5"></a> <a --%>
+<!-- 									class="icon-edit icon-del" -->
+<%-- 									href="<%=request.getContextPath()%>/Handle_release_neirong?del_id=${list.id}&Tag=5"></a> --%>
+<!-- 							</p> -->
+<!-- 						</li> -->
+<%-- 					</c:forEach> --%>
 				</ul>
-				<ul class="clearfix" style="display: none;">
-					<c:forEach var="list" items="${list5}">
-						<li>
-							<p class="position-show-title">
-								<i class="position-circle"></i> <img class="position-square"
-									src="${list.pictures.get(0).picture_url}" /> <span
-									class="position-title"> <span>${list.title}</span> <span
-									class="position-share">阅读量:${list.yuedu_count}
-										分享:${list.share_count} 收藏:${list.shoucang_count}</span>
-								</span>
+				<ul class="clearfix" id="clear-fix-6" style="display: none;">
+<%-- 					<c:forEach var="list" items="${list5}"> --%>
+<!-- 						<li> -->
+<!-- 							<p class="position-show-title"> -->
+<!-- 								<i class="position-circle"></i>  -->
+<%-- 							<img class="position-square" src="${list.pictures.get(0).picture_url}" />  --%>
+<!-- 								<img class="position-square" src="#" />  -->
+<!-- 								<span -->
+<%-- 									class="position-title"> <span>${list.title}</span> <span --%>
+<%-- 									class="position-share">阅读量:${list.yuedu_count} --%>
+<%-- 										分享:${list.share_count} 收藏:${list.shoucang_count}</span> --%>
+<!-- 								</span> -->
 
-							</p>
-							<p class="position-author">
-								<img class="icon-author" src="${list.releaser_touxiang}" /> <span
-									class="position-title"> <span>${list.releaser_name}</span>
-									<span class="position-share">${list.time}</span>
-								</span>
-							</p>
-							<p class="position-public">
-								<span class="position-title position-p"> <span>${list.shenhe}</span>
-									<span class="position-share">${list.tuijian_Tag}</span>
-								</span> <span class="position-title position-p"> <span>点赞红包</span>
-									<span class="position-share">剩余${list.dianzan_hongbao}元</span>
-								</span> <span class="position-title position-p"> <span>分享红包</span>
-									<span class="position-share">剩余${list.share_hongbao}元</span>
-								</span> <span class="position-title position-p"> <span>${list.tuijian_message}</span>
-									<span class="position-share">剩余${list.days}天</span>
-								</span>
-							</p>
-							<p class="edit-exit">
-								<a class="icon-edit icon-webpage"
-									href="<%=request.getContextPath()%>/page/content-detail2.jsp?chaxun_id=${list.id}&Tag=6"></a> <a
-									class="icon-edit icon-del"
-									href="<%=request.getContextPath()%>/Handle_release_neirong?del_id=${list.id}&Tag=6"></a>
-							</p>
-						</li>
-					</c:forEach>
+<!-- 							</p> -->
+<!-- 							<p class="position-author"> -->
+<%-- 							<img class="icon-author" src="${list.releaser_touxiang}" />  --%> 
+<!-- 								<img class="icon-author" src="#" />  -->
+<!-- 								<span -->
+<%-- 									class="position-title"> <span>${list.releaser_name}</span> --%>
+<%-- 									<span class="position-share">${list.time}</span> --%>
+<!-- 								</span> -->
+<!-- 							</p> -->
+<!-- 							<p class="position-public"> -->
+<%-- 								<span class="position-title position-p"> <span>${list.shenhe}</span> --%>
+<%-- 									<span class="position-share">${list.tuijian_Tag}</span> --%>
+<!-- 								</span> <span class="position-title position-p"> <span>点赞红包</span> -->
+<%-- 									<span class="position-share">剩余${list.dianzan_hongbao}元</span> --%>
+<!-- 								</span> <span class="position-title position-p"> <span>分享红包</span> -->
+<%-- 									<span class="position-share">剩余${list.share_hongbao}元</span> --%>
+<%-- 								</span> <span class="position-title position-p"> <span>${list.tuijian_message}</span> --%>
+<%-- 									<span class="position-share">剩余${list.days}天</span> --%>
+<!-- 								</span> -->
+<!-- 							</p> -->
+<!-- 							<p class="edit-exit"> -->
+<!-- 								<a class="icon-edit icon-webpage" -->
+<%-- 									href="<%=request.getContextPath()%>/page/content-detail.jsp?chaxun_id=${list.id}&Tag=6"></a><a --%>
+<!-- 									class="icon-edit icon-del" -->
+<%-- 									href="<%=request.getContextPath()%>/Handle_release_neirong?del_id=${list.id}&Tag=6"></a> --%>
+<!-- 							</p> -->
+<!-- 						</li> -->
+<%-- 					</c:forEach> --%>
 				</ul>
-				<ul class="clearfix" style="display: none;">
-					<c:forEach var="list" items="${list6}">
-						<li>
-							<p class="position-show-title">
-								<i class="position-circle"></i> <img class="position-square"
-									src="${list.pictures.get(0).picture_url}" /> <span
-									class="position-title"> <span>${list.title}</span> <span
-									class="position-share">阅读量:${list.yuedu_count}
-										分享:${list.share_count} 收藏:${list.shoucang_count}</span>
-								</span>
+				<ul  class="clearfix" id="clear-fix-7" style="display: none;">
+<%-- 					<c:forEach var="list" items="${list6}"> --%>
+<!-- 						<li> -->
+<!-- 							<p class="position-show-title"> -->
+<!-- 								<i class="position-circle"></i>  -->
+<%-- 							<img class="position-square" src="${list.pictures.get(0).picture_url}" />  --%> 
+<!-- 								<img class="position-square" src="#" />  -->
+<!-- 								<span -->
+<%-- 									class="position-title"> <span>${list.title}</span> <span --%>
+<%-- 									class="position-share">阅读量:${list.yuedu_count} --%>
+<%-- 										分享:${list.share_count} 收藏:${list.shoucang_count}</span> --%>
+<!-- 								</span> -->
 
-							</p>
-							<p class="position-author">
-								<img class="icon-author" src="${list.releaser_touxiang}" /> <span
-									class="position-title"> <span>${list.releaser_name}</span>
-									<span class="position-share">${list.time}</span>
-								</span>
-							</p>
-							<p class="position-public">
-								<span class="position-title position-p"> <span>${list.shenhe}</span>
-									<span class="position-share">${list.tuijian_Tag}</span>
-								</span> <span class="position-title position-p"> <span>点赞红包</span>
-									<span class="position-share">剩余${list.dianzan_hongbao}元</span>
-								</span> <span class="position-title position-p"> <span>分享红包</span>
-									<span class="position-share">剩余${list.share_hongbao}元</span>
-								</span> <span class="position-title position-p"> <span>${list.tuijian_message}</span>
-									<span class="position-share">剩余${list.days}天</span>
-								</span>
-							</p>
-							<p class="edit-exit">
-								<a class="icon-edit icon-webpage"
-									href="<%=request.getContextPath()%>/page/content-detail2.jsp?chaxun_id=${list.id}&Tag=7"></a> <a
-									class="icon-edit icon-del"
-									href="<%=request.getContextPath()%>/Handle_release_neirong?del_id=${list.id}&Tag=7"></a>
-							</p>
-						</li>
-					</c:forEach>
+<!-- 							</p> -->
+<!-- 							<p class="position-author"> -->
+<%--  								<img class="icon-author" src="${list.releaser_touxiang}" />  --%> 
+<!-- 								<img class="icon-author" src="#" />  -->
+<!-- 								<span -->
+<%-- 									class="position-title"> <span>${list.releaser_name}</span> --%>
+<%-- 									<span class="position-share">${list.time}</span> --%>
+<!-- 								</span> -->
+<!-- 							</p> -->
+<!-- 							<p class="position-public"> -->
+<%-- 								<span class="position-title position-p"> <span>${list.shenhe}</span> --%>
+<%-- 									<span class="position-share">${list.tuijian_Tag}</span> --%>
+<!-- 								</span> <span class="position-title position-p"> <span>点赞红包</span> -->
+<%-- 									<span class="position-share">剩余${list.dianzan_hongbao}元</span> --%>
+<!-- 								</span> <span class="position-title position-p"> <span>分享红包</span> -->
+<%-- 									<span class="position-share">剩余${list.share_hongbao}元</span> --%>
+<%-- 								</span> <span class="position-title position-p"> <span>${list.tuijian_message}</span> --%>
+<%-- 									<span class="position-share">剩余${list.days}天</span> --%>
+<!-- 								</span> -->
+<!-- 							</p> -->
+<!-- 							<p class="edit-exit"> -->
+<!-- 								<a class="icon-edit icon-webpage" -->
+<%-- 									href="<%=request.getContextPath()%>/page/content-detail.jsp?chaxun_id=${list.id}&Tag=7"></a><a --%>
+<!-- 									class="icon-edit icon-del" -->
+<%-- 									href="<%=request.getContextPath()%>/Handle_release_neirong?del_id=${list.id}&Tag=7"></a> --%>
+<!-- 							</p> -->
+<!-- 						</li> -->
+<%-- 					</c:forEach> --%>
 				</ul>
 			</div>
 		</div>
 		<div class="position-footer">
-			<input type="radio" class="select-all" />全选 <a href="###"
-				class="position-delete">删除</a> <span>分页的位置</span>
+				<input type="radio" class="select-all" />全选
+				<a href="javascript:void(0);" class="position-delete">删除</a> 
+				<div id="page-1" class="pager clearfix"></div>
+				<div id="page-2" class="pager clearfix hide"></div>
+				<div id="page-3" class="pager clearfix hide"></div>
+				<div id="page-4" class="pager clearfix hide"></div>
+				<div id="page-5" class="pager clearfix hide"></div>
+				<div id="page-6" class="pager clearfix hide"></div>
+				<div id="page-7" class="pager clearfix hide"></div>
 		</div>
 	</div>
 
@@ -499,7 +532,7 @@
 						}
 	
 	
-						$("#clear-fix").html(str);
+						$("#clear-fix-1").html(str);
 					},
 					error : function() {
 						alert("error");
@@ -557,69 +590,70 @@
 						}
 	
 	
-						$("#clear-fix").html(str);
+						$("#clear-fix-1").html(str);
 					},
-					error : function() {
+					error : function(data) {
+						console.log(data);
 						alert("error");
 					}
 				});
 			})
-			$("#guangjianzi_search").blur(function() {
-	
-	
-				$.ajax({
-					url : "/mServer/Handle_release_neirong?Tag=" + flag,
-					type : "POST",
-					data : {
-						"guangjianzi_search" : $("#guangjianzi_search").val()
-					},
-					dataType : "json",
-					success : function(message) {
-						var str = "";
-						for (var i in message) {
-							str += "	<li>"
-							str += "		<p class=\"position-show-title\">"
-							str += "		<i class=\"position-circle\"></i><img class=\"position-square\""
-							str += "		src=\"" + message[i]["pictures"][0]["picture_url"] + "\"/> <span"
-							str += "	class=\"position-title\"> <span>" + message[i]["title"] + "</span> <span"
-							str += "	class=\"position-share\">阅读量:" + message[i]["yuedu_count"] + ""
-							str += "	分享:" + message[i]["share_count"] + " 收藏:" + message[i]["shoucang_count"] + "</span>"
-							str += "	</span>"
-							str += "	</p>"
-							str += "	<p class=\"position-author\">"
-							str += "	<img class=\"icon-author\" src=\"" + message[i]["releaser_touxiang"] + "\">"
-							str += "	<span class=\"position-title\"> <span>" + message[i]["releaser_name"] + "</span>"
-							str += "	<span class=\"position-share\">" + message[i]["time"] + "</span>"
-							str += "	</span>"
-							str += "	</p>"
-							str += "	<p class=\"position-public\">"
-							str += "	<span class=\"position-title position-p\"> <span>" + message[i]["shenhe"] + "</span>"
-							str += "		<span class=\"position-share\">" + message[i]["tuijian_Tag"] + "</span>"
-							str += "		</span> <span class=\"position-title position-p\"> <span>点赞红包</span>"
-							str += "			<span class=\"position-share\">剩余" + message[i]["dianzan_hongbao"] + "元</span>"
-							str += "		</span> <span class=\"position-title position-p\"> <span>分享红包</span>"
-							str += "		<span class=\"position-share\">剩余" + message[i]["share_hongbao"] + "元</span>"
-							str += "		</span> <span class=\"position-title position-p\"> <span>" + message[i]["tuijian_message"] + "</span>"
-							str += "			<span class=\"position-share\">剩余" + message[i]["days"] + "天</span>"
-							str += "		</span>"
-							str += "	</p>"
-							str += "	<p class=\"edit-exit\">"
-							str += "	<i class=\"icon-edit icon-webpage\"></i> <i"
-							str += "	class=\"icon-edit icon-del\"></i>"
-							str += "	</p>"
-							str += "	</li>"
-	
-	
-	
+			$("#guangjianzi_search_button").click(function() {
+				if($("#guangjianzi_search").val().trim() != ""){
+					$.ajax({
+						url : "/mServer/Handle_release_neirong?Tag=" + flag,
+						type : "POST",
+						data : {
+							"guangjianzi_search" : $("#guangjianzi_search").val()
+						},
+						dataType : "json",
+						success : function(message) {
+							var str = "";
+							for (var i in message) {
+								str += "	<li>"
+								str += "		<p class=\"position-show-title\">"
+								str += "		<i class=\"position-circle\"></i><img class=\"position-square\""
+								str += "		src=\"" + message[i]["pictures"][0]["picture_url"] + "\"/> <span"
+								str += "	class=\"position-title\"> <span>" + message[i]["title"] + "</span> <span"
+								str += "	class=\"position-share\">阅读量:" + message[i]["yuedu_count"] + ""
+								str += "	分享:" + message[i]["share_count"] + " 收藏:" + message[i]["shoucang_count"] + "</span>"
+								str += "	</span>"
+								str += "	</p>"
+								str += "	<p class=\"position-author\">"
+								str += "	<img class=\"icon-author\" src=\"" + message[i]["releaser_touxiang"] + "\">"
+								str += "	<span class=\"position-title\"> <span>" + message[i]["releaser_name"] + "</span>"
+								str += "	<span class=\"position-share\">" + message[i]["time"] + "</span>"
+								str += "	</span>"
+								str += "	</p>"
+								str += "	<p class=\"position-public\">"
+								str += "	<span class=\"position-title position-p\"> <span>" + message[i]["shenhe"] + "</span>"
+								str += "		<span class=\"position-share\">" + message[i]["tuijian_Tag"] + "</span>"
+								str += "		</span> <span class=\"position-title position-p\"> <span>点赞红包</span>"
+								str += "			<span class=\"position-share\">剩余" + message[i]["dianzan_hongbao"] + "元</span>"
+								str += "		</span> <span class=\"position-title position-p\"> <span>分享红包</span>"
+								str += "		<span class=\"position-share\">剩余" + message[i]["share_hongbao"] + "元</span>"
+								str += "		</span> <span class=\"position-title position-p\"> <span>" + message[i]["tuijian_message"] + "</span>"
+								str += "			<span class=\"position-share\">剩余" + message[i]["days"] + "天</span>"
+								str += "		</span>"
+								str += "	</p>"
+								str += "	<p class=\"edit-exit\">"
+								str += "	<i class=\"icon-edit icon-webpage\"></i> <i"
+								str += "	class=\"icon-edit icon-del\"></i>"
+								str += "	</p>"
+								str += "	</li>"
+		
+		
+		
+							}
+		
+		
+							$("#clear-fix-1").html(str);
+						},
+						error : function() {
+							alert("error");
 						}
-	
-	
-						$("#clear-fix").html(str);
-					},
-					error : function() {
-						alert("error");
-					}
-				});
+					});
+				}
 			})
 			$("#change_dashang").change(function() {
 	
@@ -671,7 +705,7 @@
 						}
 	
 	
-						$("#clear-fix").html(str);
+						$("#clear-fix-1").html(str);
 					},
 					error : function() {
 						alert("error");
@@ -722,13 +756,8 @@
 							str += "	class=\"icon-edit icon-del\"></i>"
 							str += "	</p>"
 							str += "	</li>"
-	
-	
-	
 						}
-	
-	
-						$("#clear-fix").html(str);
+						$("#clear-fix-1").html(str);
 					},
 					error : function() {
 						alert("error");
@@ -737,7 +766,14 @@
 			})
 		})
 		function Tag(a) {
+			$("ul[id^='clear-fix-']").hide();
+			$("#clear-fix-"+a).show();
+			$("div[id^='page-']").hide();
+			$("#page-"+a).show();
 			flag = a;
+		}
+		function tiaozhuan(a) {
+			window.location.href = "content-detail.jsp?id=" + a;
 		}
 	</script>
 </body>

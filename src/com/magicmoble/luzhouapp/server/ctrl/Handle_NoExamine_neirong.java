@@ -17,6 +17,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.magicmoble.luzhouapp.json.core.DataObject;
 import com.magicmoble.luzhouapp.json.responseUtils.ResponseUtils;
 import com.magicmoble.luzhouapp.json.status.StatusHouse;
@@ -77,6 +79,7 @@ public class Handle_NoExamine_neirong extends HttpServlet {
 			dataObject.setStatusObject(StatusHouse.COMMON_STATUS_OK);
 			String responseText = JackJsonUtils.toJson(dataObject);
 			ResponseUtils.renderJson(resp, responseText);
+			return;
 			// resp.getWriter().write(responseText);
 		}
 
@@ -94,6 +97,7 @@ public class Handle_NoExamine_neirong extends HttpServlet {
 			dataObject.setStatusObject(StatusHouse.COMMON_STATUS_OK);
 			String responseText = JackJsonUtils.toJson(dataObject);
 			ResponseUtils.renderJson(resp, responseText);
+			return;
 			// resp.getWriter().write(responseText);
 		}
 		if ("" != change_dashang && change_dashang != null) {
@@ -110,6 +114,7 @@ public class Handle_NoExamine_neirong extends HttpServlet {
 			dataObject.setStatusObject(StatusHouse.COMMON_STATUS_OK);
 			String responseText = JackJsonUtils.toJson(dataObject);
 			ResponseUtils.renderJson(resp, responseText);
+			return;
 			// resp.getWriter().write(responseText);
 		}
 		if ("" != guangjianzi_search && guangjianzi_search != null) {
@@ -126,6 +131,7 @@ public class Handle_NoExamine_neirong extends HttpServlet {
 			dataObject.setStatusObject(StatusHouse.COMMON_STATUS_OK);
 			String responseText = JackJsonUtils.toJson(dataObject);
 			ResponseUtils.renderJson(resp, responseText);
+			return;
 			// resp.getWriter().write(responseText);
 		}
 		if ("" != change_paixu && change_paixu != null) {
@@ -141,6 +147,7 @@ public class Handle_NoExamine_neirong extends HttpServlet {
 			dataObject.setStatusObject(StatusHouse.COMMON_STATUS_OK);
 			String responseText = JackJsonUtils.toJson(dataObject);
 			ResponseUtils.renderJson(resp, responseText);
+			return;
 			// resp.getWriter().write(responseText);
 		}
 
@@ -188,51 +195,58 @@ public class Handle_NoExamine_neirong extends HttpServlet {
 			String responseText = JackJsonUtils.toJson(list);
 			ResponseUtils.renderJson(resp, responseText); //
 			resp.getWriter().write(responseText);
+			return;
 		}
 		String sort_rec = req.getParameter("sort_rec");
 		if (sort_rec != null) {
 			List<Shuoshuo> list = Server_Function.sort(sort_rec, 1);
 			String responseText = JackJsonUtils.toJson(list);
 			ResponseUtils.renderJson(resp, responseText); // resp.getWriter().write(responseText);
+			return;
 		}
 		
 //		头条1,日记2,图片3,秘密4,去处5,逛街6,全部7
-		List<Toutiao> list = null;
-		switch(_flag){
-			case "1":
-				//待定
-				break;
-			case "2":
-				list = Server_Func.toutiao_NoExamine();
-				break;
-			case "3":
-				list = Server_Func.riji_NoExamine();
-				break;
-			case "4":
-				list = Server_Func.tuji_NoExamine();
-				break;
-			case "5":
-				list = Server_Func.faxian_NoExamine();
-				break;
-			case "6":
-				list = Server_Func.quchu_NoExamine();
-				break;
-			case "7":
-				list = Server_Func.guangjie_NoExamine();
-				break;
+		if(StringUtils.isBlank(change_rec) || 
+				StringUtils.isBlank(change_hongbao) || 
+				StringUtils.isBlank(change_dashang) || 
+				StringUtils.isBlank(guangjianzi_search) || 
+				StringUtils.isBlank(change_paixu)){
+			List<Toutiao> list = null;
+			switch(_flag){
+				case "1":
+					list = Server_Func.all_NoExamine();
+					break;
+				case "2":
+					list = Server_Func.toutiao_NoExamine();
+					break;
+				case "3":
+					list = Server_Func.riji_NoExamine();
+					break;
+				case "4":
+					list = Server_Func.tuji_NoExamine();
+					break;
+				case "5":
+					list = Server_Func.faxian_NoExamine();
+					break;
+				case "6":
+					list = Server_Func.quchu_NoExamine();
+					break;
+				case "7":
+					list = Server_Func.guangjie_NoExamine();
+					break;
+			}
+			Map<String, Object> page = new HashMap<String,Object>();
+			int totalSize = Server_Func.TOTAL_SIZE;
+			int totalPage = Server_Func.TOTAL_PAGE;
+			page.put("results", list);
+			page.put("totalSize", totalSize);
+			page.put("totalPage", totalPage);
+			DataObject dataObject = new DataObject();
+			dataObject.setdata(page);
+			dataObject.setStatusObject(StatusHouse.COMMON_STATUS_OK);
+			String responseText = JackJsonUtils.toJson(dataObject);
+			ResponseUtils.renderJson(resp, responseText);
 		}
-		Map<String, Object> page = new HashMap<String,Object>();
-		int totalSize = Server_Func.TOTAL_SIZE;
-		int totalPage = Server_Func.TOTAL_PAGE;
-		page.put("results", list);
-		page.put("totalSize", totalSize);
-		page.put("totalPage", totalPage);
-		DataObject dataObject = new DataObject();
-		dataObject.setdata(page);
-		dataObject.setStatusObject(StatusHouse.COMMON_STATUS_OK);
-		String responseText = JackJsonUtils.toJson(dataObject);
-		ResponseUtils.renderJson(resp, responseText);
-
 	}
 
 	@Override

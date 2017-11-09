@@ -22,3 +22,10 @@ ALTER TABLE tuijian_list ADD COLUMN tuijian_user varchar(32);
 
 #设置所有信息内容数据库类型为longtext
 #content
+
+#为所有信息新增字段发布日期
+ALTER TABLE toutiao ADD COLUMN publish_date VARCHAR(32);
+ALTER TABLE faxian ADD COLUMN publish_date VARCHAR(32);
+ALTER TABLE fuwu ADD COLUMN publish_date VARCHAR(32);
+ALTER TABLE commodity ADD COLUMN publish_date VARCHAR(32);
+ALTER TABLE quchu ADD COLUMN publish_date VARCHAR(32);

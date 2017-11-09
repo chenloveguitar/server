@@ -779,9 +779,9 @@ public class Server_Function<T> {
 			} else if (flag == 5) {
 				if (change_rec != null) {
 					if (change_rec.equals("已推荐")) {
-						sql = "select DISTINCT * FROM (select id,picture,title,yuedu,releaser_id,time from faxian ) a LEFT OUTER JOIN  (SELECT tiaomu_id from tuijian_list) b ON a.id=b.tiaomu_id WHERE b.tiaomu_id IS not null";
+						sql = "select DISTINCT * FROM (select id,picture,title,yuedu_count,releaser_id,time from faxian ) a LEFT OUTER JOIN  (SELECT tiaomu_id from tuijian_list) b ON a.id=b.tiaomu_id WHERE b.tiaomu_id IS not null";
 					} else if (change_rec.equals("未推荐")) {
-						sql = "select DISTINCT * FROM (select id,picture,title,yuedu,releaser_id,time from faxian ) a LEFT OUTER JOIN  (SELECT tiaomu_id from tuijian_list) b ON a.id=b.tiaomu_id WHERE b.tiaomu_id IS null";
+						sql = "select DISTINCT * FROM (select id,picture,title,yuedu_count,releaser_id,time from faxian ) a LEFT OUTER JOIN  (SELECT tiaomu_id from tuijian_list) b ON a.id=b.tiaomu_id WHERE b.tiaomu_id IS null";
 					}
 				}
 			} else if (flag == 6) {
@@ -936,11 +936,11 @@ public class Server_Function<T> {
 			} else if (flag == 5) {
 				if (change_rec != null) {
 					if (change_rec.equals("还有余额")) {
-						sql = "select DISTINCT * FROM (select id,picture,title,yuedu,releaser_id,time from faxian ) a LEFT OUTER JOIN  (SELECT tiaomu_id from hongbao where hongbao_count!=0) b ON a.id=b.tiaomu_id WHERE b.tiaomu_id IS not null";
+						sql = "select DISTINCT * FROM (select id,picture,title,yuedu_count,releaser_id,time from faxian ) a LEFT OUTER JOIN  (SELECT tiaomu_id from hongbao where hongbao_count!=0) b ON a.id=b.tiaomu_id WHERE b.tiaomu_id IS not null";
 					} else if (change_rec.equals("余额用尽")) {
-						sql = "select DISTINCT * FROM (select id,picture,title,yuedu,releaser_id,time from faxian ) a LEFT OUTER JOIN  (SELECT tiaomu_id from hongbao where hongbao_count=0) b ON a.id=b.tiaomu_id WHERE b.tiaomu_id IS  not null";
+						sql = "select DISTINCT * FROM (select id,picture,title,yuedu_count,releaser_id,time from faxian ) a LEFT OUTER JOIN  (SELECT tiaomu_id from hongbao where hongbao_count=0) b ON a.id=b.tiaomu_id WHERE b.tiaomu_id IS  not null";
 					} else if (change_rec.equals("没有红包")) {
-						sql = "select DISTINCT * FROM (select id,picture,title,yuedu,releaser_id,time from faxian ) a LEFT OUTER JOIN  (SELECT tiaomu_id from hongbao) b ON a.id=b.tiaomu_id WHERE b.tiaomu_id IS null";
+						sql = "select DISTINCT * FROM (select id,picture,title,yuedu_count,releaser_id,time from faxian ) a LEFT OUTER JOIN  (SELECT tiaomu_id from hongbao) b ON a.id=b.tiaomu_id WHERE b.tiaomu_id IS null";
 					}
 				}
 			} else if (flag == 6) {
@@ -1730,7 +1730,7 @@ public class Server_Function<T> {
 	}
 
 	public static String add_riji(String picture, String title, String name, String content, int muban_Tag,
-			String releaser_id,String described) {
+			String releaser_id,String described,String publish_date) {
 		String sql = null;
 		DBHelper db1 = null;
 		String uuid = UUID.randomUUID().toString();
@@ -1741,10 +1741,10 @@ public class Server_Function<T> {
 		String shenhe = "已发布";
 		Timestamp time = new Timestamp(new Date().getTime());
 
-		sql = "INSERT INTO toutiao(id,picture,title,name,content,fufei_Tag,fenlei_Tag,muban_Tag,releaser_id,releaser_name,shenhe,time,yuedu,described) VALUES ('"
+		sql = "INSERT INTO toutiao(id,picture,title,name,content,fufei_Tag,fenlei_Tag,muban_Tag,releaser_id,releaser_name,shenhe,time,yuedu,described,publish_date) VALUES ('"
 				+ uuid + "', '" + picture + "', '" + title + "', '" + name + "', '" + content + "', " + fufei_Tag + ", "
 				+ fenlei_Tag + "," + muban_Tag + ",'" + releaser_id + "','" + releaser_name + "','" + shenhe + "','"
-				+ time + "','"+described+"')";
+				+ time + "','"+described+"','"+publish_date+"')";
 
 		try {
 			db1 = new DBHelper(sql);
@@ -1762,7 +1762,7 @@ public class Server_Function<T> {
 	}
 
 	public static String add_toutiao(String picture, String title, String name, String content, int muban_Tag,
-			String releaser_id, int yuedu_count, int dianzan_count,String described) {
+			String releaser_id, int yuedu_count, int dianzan_count,String described,String publish_date) {
 		String sql = null;
 		DBHelper db1 = null;
 		String uuid = UUID.randomUUID().toString();
@@ -1771,12 +1771,13 @@ public class Server_Function<T> {
 		String releaser_name = Admin_xinxi_Business.getAdmin_xinxiInfoById(releaser_id).getName();
 		fenlei_Tag = 2;
 		String shenhe = "已发布";
+		
 		Timestamp time = new Timestamp(new Date().getTime());
-
-		sql = "INSERT INTO toutiao(id,picture,title,name,content,fufei_Tag,fenlei_Tag,muban_Tag,releaser_id,releaser_name,shenhe,time,yuedu_count,dianzan_count,described) VALUES ('"
+		
+		sql = "INSERT INTO toutiao(id,picture,title,name,content,fufei_Tag,fenlei_Tag,muban_Tag,releaser_id,releaser_name,shenhe,time,yuedu_count,dianzan_count,described,publish_date) VALUES ('"
 				+ uuid + "', '" + picture + "', '" + title + "', '" + name + "', '" + content + "', " + fufei_Tag + ", "
 				+ fenlei_Tag + "," + muban_Tag + ",'" + releaser_id + "','" + releaser_name + "','" + shenhe + "','"
-				+ time + "'," + yuedu_count + "," + dianzan_count + ",'"+described+"')";
+				+ time + "'," + yuedu_count + "," + dianzan_count + ",'"+described+"','"+publish_date+"')";
 
 		try {
 			db1 = new DBHelper(sql);
@@ -1793,7 +1794,7 @@ public class Server_Function<T> {
 
 	}
 
-	public static String add_faxian(String releaser_id, String picture, String title, String name, String content,int muban_Tag,String described) {
+	public static String add_faxian(String releaser_id, String picture, String title, String name, String content,int muban_Tag,String described,String publish_date) {
 		String sql = null;
 		DBHelper db1 = null;
 		String uuid = UUID.randomUUID().toString();
@@ -1801,9 +1802,9 @@ public class Server_Function<T> {
 		String shenhe = "已发布";
 		Timestamp time = new Timestamp(new Date().getTime());
 
-		sql = "INSERT INTO faxian(id,picture,title,name,content,fenlei_Tag,shenhe,releaser_id,time,muban_Tag,described) VALUES ('" + uuid
+		sql = "INSERT INTO faxian(id,picture,title,name,content,fenlei_Tag,shenhe,releaser_id,time,muban_Tag,described,publish_date) VALUES ('" + uuid
 				+ "', '" + picture + "', '" + title + "', '" + name + "','" + content + "'," + fenlei_Tag + ",'"
-				+ shenhe + "','" + releaser_id + "','"+time+"','"+muban_Tag+"','"+described+"')";
+				+ shenhe + "','" + releaser_id + "','"+time+"','"+muban_Tag+"','"+described+"','"+publish_date+"')";
 
 		try {
 			db1 = new DBHelper(sql);
@@ -1822,7 +1823,7 @@ public class Server_Function<T> {
 	}
 
 	public static String add_quchu(String releaser_id, String title, String address, String phone, String picture,
-			String content,int muban_Tag,String described) {
+			String content,int muban_Tag,String described,String publish_date) {
 		String sql = null;
 		DBHelper db1 = null;
 		String uuid = UUID.randomUUID().toString();
@@ -1831,7 +1832,7 @@ public class Server_Function<T> {
 		String shenhe = "正在审核中...";
 		Timestamp time = new Timestamp(new Date().getTime());
 
-		sql = "INSERT INTO quchu(id,title,dianpu_address,phone,picture,content,dianpu_name,renzheng_Tag,shenhe,time,releaser_id,fenlei_Tag,muban_Tag,described) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		sql = "INSERT INTO quchu(id,title,dianpu_address,phone,picture,content,dianpu_name,renzheng_Tag,shenhe,time,releaser_id,fenlei_Tag,muban_Tag,described,publish_date) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
 		try {
 
@@ -1851,6 +1852,7 @@ public class Server_Function<T> {
 			db1.pst.setInt(12, fenlei_Tag);
 			db1.pst.setInt(13, muban_Tag);
 			db1.pst.setString(14, described);
+			db1.pst.setString(15, publish_date);
 
 			int ret = db1.pst.executeUpdate();
 			if(ret > 0){
@@ -1866,7 +1868,7 @@ public class Server_Function<T> {
 	}
 
 	public static String add_commodity(String title, String price, String shuliang, String freight, String phone,
-			String picture, String content, String seller_id,int muban_Tag,String described) {
+			String picture, String content, String seller_id,int muban_Tag,String described,String publish_date) {
 		String sql = null;
 		DBHelper db1 = null;
 		String uuid = UUID.randomUUID().toString();
@@ -1879,7 +1881,7 @@ public class Server_Function<T> {
 		sql = "INSERT INTO commodity(id,title,price,unit,shuliang,freight,phone,picture,content,seller_id,releaser_id,seller_name,releaser_name,shenhe,time,muban_Tag,described) VALUES ('"
 				+ uuid + "', '" + title + "', '" + price + "','" + shuliang + "','" + freight + "','" + phone + "','"
 				+ picture + "','" + content + "','" + seller_id + "','" + seller_id + "','" + seller_name + "','"
-				+ seller_name + "','" + shenhe + "','" + time + "','"+muban_Tag+"','"+described+"')";
+				+ seller_name + "','" + shenhe + "','" + time + "','"+muban_Tag+"','"+described+"','"+publish_date+"')";
 
 		try {
 			db1 = new DBHelper(sql);
@@ -1897,7 +1899,7 @@ public class Server_Function<T> {
 	}
 
 	public static String add_fuwu(String releaser_id, String title, String price, String phone, String picture,
-			String content,int muban_Tag,String described) {
+			String content,int muban_Tag,String described,String publish_date) {
 		String sql = null;
 		DBHelper db1 = null;
 		String uuid = UUID.randomUUID().toString();
@@ -1905,9 +1907,9 @@ public class Server_Function<T> {
 		String shenhe = "正在审核中...";
 		Timestamp time = new Timestamp(new Date().getTime());
 
-		sql = "INSERT INTO fuwu(id,title,price,unit,phone,picture,content,shenhe,releaser_id,time,muban_Tag,described) VALUES ('" + uuid
+		sql = "INSERT INTO fuwu(id,title,price,unit,phone,picture,content,shenhe,releaser_id,time,muban_Tag,described,publish_date) VALUES ('" + uuid
 				+ "', '" + title + "'," + price + ",'" + phone + "','" + picture + "','" + content + "','" + shenhe
-				+ "','" + releaser_id + "','" + time + "','"+muban_Tag+"','"+described+"')";
+				+ "','" + releaser_id + "','" + time + "','"+muban_Tag+"','"+described+"','"+publish_date+"')";
 
 		try {
 			db1 = new DBHelper(sql);
@@ -2128,41 +2130,41 @@ public class Server_Function<T> {
 			if (flag == 1) {
 				if (change_rec != null) {
 
-					sql = "SELECT id,title,content,'toutiao' as table_name,shenhe,time,muban_Tag,described,share_count FROM toutiao where id='" + change_rec
-							+ "' UNION all SELECT id,title,content,'faxian' as table_name,shenhe,time,muban_Tag,described,share_count FROM faxian where id='" + change_rec
-							+ "' UNION all SELECT id,title,content,'quchu' as table_name,shenhe,time,muban_Tag,described,share_count FROM quchu where id='" + change_rec
-							+ "' UNION all SELECT id,title,content,'commodity' as table_name,shenhe,time,muban_Tag,described,share_count FROM commodity where id='" + change_rec
-							+ "' UNION all SELECT id,title,content,'fuwu' as table_name,shenhe,time,muban_Tag,described,share_count FROM fuwu where id='" + change_rec + "' ";
+					sql = "SELECT id,title,releaser_id,content,'toutiao' as table_name,shenhe,time,publish_date,muban_Tag,described,share_count FROM toutiao where id='" + change_rec
+							+ "' UNION all SELECT id,title,releaser_id,content,'faxian' as table_name,shenhe,time,publish_date,muban_Tag,described,share_count FROM faxian where id='" + change_rec
+							+ "' UNION all SELECT id,title,releaser_id,content,'quchu' as table_name,shenhe,time,publish_date,muban_Tag,described,share_count FROM quchu where id='" + change_rec
+							+ "' UNION all SELECT id,title,releaser_id,content,'commodity' as table_name,shenhe,time,publish_date,muban_Tag,described,share_count FROM commodity where id='" + change_rec
+							+ "' UNION all SELECT id,title,releaser_id,content,'fuwu' as table_name,shenhe,time,publish_date,muban_Tag,described,share_count FROM fuwu where id='" + change_rec + "' ";
 
 				}
 			} else if (flag == 2) {
 				if (change_rec != null) {
 
-					sql = "select id,title,content,'toutiao' as table_name,shenhe,time,muban_Tag,described,share_count from toutiao  where fenlei_Tag=1 and id='" + change_rec + "'";
+					sql = "select id,title,releaser_id,content,'toutiao' as table_name,shenhe,time,publish_date,muban_Tag,described,share_count from toutiao  where fenlei_Tag=1 and id='" + change_rec + "'";
 
 				}
 			} else if (flag == 3) {
 				if (change_rec != null) {
 
-					sql = "select id,title,releaser_id,content,'toutiao' as table_name,shenhe,time,muban_Tag,described,share_count from toutiao where fenlei_Tag=2 and id='" + change_rec + "'";
+					sql = "select id,title,releaser_id,content,'toutiao' as table_name,shenhe,time,publish_date,muban_Tag,described,share_count from toutiao where fenlei_Tag=2 and id='" + change_rec + "'";
 
 				}
 			} else if (flag == 4) {
 				if (change_rec != null) {
 
-					sql = "select id,title,releaser_id,content,'toutiao' as table_name,shenhe,time,muban_Tag,described,share_count from toutiao where fenlei_Tag=3 and id='" + change_rec + "'";
+					sql = "select id,title,releaser_id,content,'toutiao' as table_name,shenhe,time,publish_date,muban_Tag,described,share_count from toutiao where fenlei_Tag=3 and id='" + change_rec + "'";
 
 				}
 			} else if (flag == 5) {
 				if (change_rec != null) {
 
-					sql = "select id,title,releaser_id,content,'faxian' as table_name,shenhe,time,muban_Tag,described,share_count from faxian where id='" + change_rec + "'";
+					sql = "select id,title,releaser_id,content,'faxian' as table_name,shenhe,time,publish_date,muban_Tag,described,share_count from faxian where id='" + change_rec + "'";
 
 				}
 			} else if (flag == 6) {
 				if (change_rec != null) {
 
-					sql = "select id,title,releaser_id,content,'quchu' as table_name,shenhe,time,muban_Tag,described,share_count from quchu where id='" + change_rec + "'";
+					sql = "select id,title,releaser_id,content,'quchu' as table_name,shenhe,time,publish_date,muban_Tag,described,share_count from quchu where id='" + change_rec + "'";
 
 				}
 			} else if (flag == 7) {
@@ -2171,7 +2173,7 @@ public class Server_Function<T> {
 					sql = "select "
 							+ "id,content,'commodity' as table_name,title,price,unit,shuliang,freight,"
 							+ "phone,picture,seller_id,buyer_id,releaser_id,seller_name,buyer_name,"
-							+ "releaser_name,shenhe,time,dingdan_number,guangjie_fenlei_Tag,yuedu,"
+							+ "releaser_name,shenhe,time,publish_date,dingdan_number,guangjie_fenlei_Tag,yuedu,"
 							+ "dianpu_id,biaoqian,shoucang_Tag,guanggao_url,described,share_count "
 							+ "from commodity "
 							+ "where id = '"+change_rec+"'"
@@ -2180,7 +2182,7 @@ public class Server_Function<T> {
 							+ "id,content,'fuwu' as table_name   ,title,price,unit,0 AS shuliang,"
 							+ "0 AS freight,phone,picture,'' AS seller_id,'' AS buyer_id,"
 							+ "releaser_id,'' AS seller_name,'' AS buyer_name,"
-							+ "'' AS releaser_name,shenhe,time,0 AS dingdan_number,"
+							+ "'' AS releaser_name,shenhe,time,publish_date,0 AS dingdan_number,"
 							+ "guangjie_fenlei_Tag,yuedu,dianpu_id,biaoqian,shoucang_Tag,"
 							+ "guanggao_url,described,share_count from fuwu "
 							+ "where id='" + change_rec +"'";
