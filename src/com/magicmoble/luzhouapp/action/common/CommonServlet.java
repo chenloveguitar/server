@@ -145,6 +145,7 @@ public class CommonServlet extends HttpServlet {
 				String responseText = JackJsonUtils.toJson(dataObject);
 				ResponseUtils.renderJson(response, responseText);
 			}else if(type.equals("imageDataRel")){
+				String tableName = request.getParameter("tableName");
 				String id = paramMap.get("id");
 				String[] ids = {};
 				if(StringUtils.isNotBlank(id)){

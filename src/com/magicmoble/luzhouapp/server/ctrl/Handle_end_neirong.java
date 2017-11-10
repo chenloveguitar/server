@@ -6,6 +6,7 @@ import com.magicmoble.luzhouapp.server.server_function.Server_Function;
 import net.sf.json.JSONArray;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.magicmoble.luzhouapp.business.CommonBusiness;
 import com.magicmoble.luzhouapp.json.core.DataObject;
 import com.magicmoble.luzhouapp.json.responseUtils.ResponseUtils;
 import com.magicmoble.luzhouapp.json.status.StatusHouse;
@@ -79,14 +81,19 @@ public class Handle_end_neirong extends HttpServlet {
 			return;
 		}
 		if ("" != republish && republish != null) {
-			
-			req.getRequestDispatcher("/page/Shuoshuo_management.jsp").forward(req, resp);
+			Map<String, String> data = new HashMap<String,String>();
+			data.put("shenhe", "已发布");
+			String table_name = req.getParameter("tableName");
+			String publishId = req.getParameter("republish");
+			Server_Function.updateDataByTableAndId(table_name, publishId, data);
+			PrintWriter writer = resp.getWriter();
+			req.getRequestDispatcher("/page/Content_management_End.jsp").forward(req, resp);
 		}
 		if ("" != del_id && del_id != null) {
 			boolean isDelete = Server_Func.deleteShuoshuo(del_id);
 			List<Shuoshuo_xiangqing> list = Server_Func.limitShuoshuo_ser(1, 15);
 			req.setAttribute("list", list); //
-			req.getRequestDispatcher("/page/Shuoshuo_management.jsp").forward(req, resp);
+			req.getRequestDispatcher("/page/Content_management_End.jsp").forward(req, resp);
 		}
 		
 //		头条1,日记2,图片3,秘密4,去处5,逛街6,全部7

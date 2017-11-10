@@ -1,10 +1,14 @@
 package com.magicmoble.luzhouapp.action.upload;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,16 +24,26 @@ import com.magicmoble.luzhouapp.json.responseUtils.ResponseUtils;
 import com.magicmoble.luzhouapp.json.status.StatusHouse;
 import com.magicmoble.luzhouapp.json.utils.JackJsonUtils;
 import com.magicmoble.luzhouapp.model.FileManagement;
+import com.magicmoble.luzhouapp.server.server_function.Server_Function;
 import com.magicmoble.luzhouapp.utils.FileUploadUtil;
 
 @WebServlet("/FileUploadServlet")
 public class FileUploadServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
+	private static final Properties p = new Properties();
+	static{
+		InputStream inputStream = FileUploadServlet.class.getResourceAsStream("server-address.properties");
+		try {
+			p.load(inputStream);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String parentId = request.getParameter("parentId");
 		String deleteds = request.getParameter("deleteds");
 		String itemId = request.getParameter("itemId");
+		String tableName = request.getParameter("tableName");
 		parentId = StringUtils.isNotBlank(parentId) ? parentId : null;
 		if(StringUtils.isNotBlank(parentId)){
 			FileUploadUtil uploadUtil = new FileUploadUtil(request).upload(deleteds);
@@ -46,7 +60,21 @@ public class FileUploadServlet extends HttpServlet {
 				FileManagement file = new FileManagement(fileInfo[0], createTime,pid , isFolder,fileInfo[1],itemId);
 				fileManagements.add(file);
 			}
+			
+			Map<String, String> data = new HashMap<String,String>();
+			String path = p.getProperty("path");
+			String picture = "";
+			for (int i = 0; i < listPath.size(); i++) {
+				String[] fileInfo = listPath.get(i);
+				picture += path + "absolutePath=" + fileInfo[1]+",";
+				
+			}
 			List<Integer> list = business.createImages(fileManagements);
+			data.put("picture", picture);
+			if(StringUtils.isNotBlank(tableName)){
+				Server_Function.updateDataByTableAndId(tableName, itemId, data);
+			}
+			
 			DataObject dataObject = new DataObject();
 			dataObject.setdata(list);
 			dataObject.setStatusObject(StatusHouse.COMMON_STATUS_OK);

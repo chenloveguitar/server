@@ -87,9 +87,9 @@ function getLi(data,Tag) {
 			+ '</span>'
 			+ '</p>'
 			+ '<p class="edit-exit">'
-			+ '<a class="icon-edit icon-webpage" href="/mServer/Handle_NoExamine_neirong?tableName='+data.table_name+'&republish='
+			+ '<a class="icon-publish" href="/mServer/Handle_end_neirong?tableName='+data.table_name+'&republish='
 			+ data.id
 			+ '&Tag='+Tag+'"></a>'
-			+ '<a class="icon-edit icon-del" href="/mServer/Handle_NoExamine_neirong?tableName='+data.table_name+'&del_id='
+			+ '<a class="icon-edit icon-del" href="/mServer/Handle_end_neirong?tableName='+data.table_name+'&del_id='
 			+ data.id + '&Tag='+Tag+'"></a>' + '</p>' + '</li>';
 }

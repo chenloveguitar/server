@@ -307,6 +307,9 @@ div.jHtmlArea { border: solid 1px #D3D3D3; }
 .position-show ul li{height: 60px;border-bottom: 1px solid #EEEEEE;line-height: 60px;}
 .position-show ul li p{float:left;} 
 .icon-edit{display: inline-block;width: 27px;height: 27px;background: url(../image/edit.png)no-repeat center center;vertical-align: middle;}
+.icon-publish{
+	display: inline-block;width: 32px;height: 32px;background: url(../image/publish.png)no-repeat center center;vertical-align: middle;
+}
 .icon-edit:nth-child(2){background: url(../image/exit.png)no-repeat center center;margin-left: 10%;}
 .icon-webpage{background: url(../image/edit.png)no-repeat center center !important;}
 .icon-del{background: url(../image/exit.png)no-repeat center center !important;}

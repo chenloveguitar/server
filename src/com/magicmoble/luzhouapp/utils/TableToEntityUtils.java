@@ -30,13 +30,13 @@ import com.mysql.jdbc.Driver;
  *
  */
 public class TableToEntityUtils {
-	public static final String URL = "jdbc:mysql://localhost:3306/sjlz_2?characterEncoding=utf-8";
+	public static final String URL = "jdbc:mysql://localhost:3306/sjlz?characterEncoding=utf-8";
 	public static final String USER = "root";
-	public static final String PASSWORD = "chenloveguitar@8";
+	public static final String PASSWORD = "admin123456";
 
 	private static final Pattern linePattern = Pattern.compile("_(\\w)");
-	public static final String TABLE_NAME = "tuijian_list";
-	public static final String PACKAGE_PATH = "com.magicmoble.luzhouapp.model";
+	public static final String TABLE_NAME = "shuoshuo";
+	public static final String PACKAGE_PATH = "com.magicmoble.luzhouapp.model.server";
 	public static final String COLUMN_NAME = "COLUMN_NAME";
 	public static final String TYPE_NAME = "TYPE_NAME";
 	// 加载数据库类型转换为对应java类型的配置文件
@@ -63,7 +63,7 @@ public class TableToEntityUtils {
 				data.put(columnName, typeName);
 			}
 			
-			String path = "C:\\Users\\CHD\\git\\mServer\\src\\com\\magicmoble\\luzhouapp\\model";
+			String path = "C:\\Users\\jumili\\Desktop";
 			String fileName = entity.initialCapitalize(TABLE_NAME);
 			File file = entity.createJavaFile(fileName, path);
 			entity.generateFileContent(file, data);

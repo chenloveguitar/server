@@ -504,7 +504,16 @@ $(function() {
 							"order" : "1",
 							"isHeader" : "0",
 							"childMenus" : ""
-						}, ]
+						}, {
+							"id" : "406",
+							"name" : "付款方式",
+							"parentId" : "4",
+							"url" : "page/Order_management_modeofpayment.jsp",
+							"icon" : "",
+							"order" : "1",
+							"isHeader" : "0",
+							"childMenus" : ""
+						}]
 					},
 					{
 						"id" : "5",

@@ -97,6 +97,31 @@ public class Server_Function<T> {
 //		System.out.println(toutiao);
 	}
 
+	public static boolean deleteDataByTbaleAndId(String tableName, String id,Map<String, String> whereParams){
+		DBHelper db = null;
+		try {
+		String sql = "delete from "+tableName+" where 1=1 ";
+		if(whereParams != null){
+			Set<String> keys = whereParams.keySet();
+			Iterator<String> iterator = keys.iterator();
+			int size = keys.size();
+			for (int i = 0;i < size && iterator.hasNext();i++) {
+				String key = iterator.next();
+				sql += " and " + key + "='" + whereParams.get(key) + "'" ;
+			}
+		}
+		sql += " and id = " + "'"+id+"'";
+		db = new DBHelper(sql); 
+		int row = db.pst.executeUpdate();
+		return row > 0 ? true : false;
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			db.close();
+		}
+		return false;
+	}
+	
 	public static boolean updateDataByTableAndId(String tableName, String id, Map<String, String> data) {
 		DBHelper db = null;
 		try {
@@ -2424,6 +2449,7 @@ public class Server_Function<T> {
 		sql += column + value;
 		try {
 			db1 = new DBHelper(sql);
+			params.put("id", uuid);
 			return db1.pst.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();

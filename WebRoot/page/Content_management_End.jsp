@@ -203,8 +203,8 @@
 									str += "		</span>"
 									str += "	</p>"
 									str += "	<p class=\"edit-exit\">"
-									str += "	<i class=\"icon-edit icon-webpage\"><a class=\"icon-edit icon-webpage\" href=\"/mServer/Handle_NoExamine_neirong?tableName="+message[i]["table_name"]+"&republish="+message[i]["id"]+"&Tag=1\"</i> <i"
-									str += "	class=\"icon-edit icon-del\"><a class=\"icon-edit icon-del\" href=\"/mServer/Handle_NoExamine_neirong?tableName="+message[i]["table_name"]+"&del_id="+message[i]["id"]+"&Tag=1\"></a></i>"
+									str += "	<i class=\"icon-edit icon-webpage\"><a class=\"icon-publish\" href=\"/mServer/Handle_end_neirong?tableName="+message[i]["table_name"]+"&republish="+message[i]["id"]+"&Tag=1\"</i> <i"
+									str += "	class=\"icon-edit icon-del\"><a class=\"icon-edit icon-del\" href=\"/mServer/Handle_end_neirong?tableName="+message[i]["table_name"]+"&del_id="+message[i]["id"]+"&Tag=1\"></a></i>"
 									str += "	</p>"
 									str += "	</li>"
 								}
