@@ -1,15 +1,22 @@
 ﻿package com.magicmoble.luzhouapp.server.server_function;
 
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.Method;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
+import org.apache.commons.lang3.StringUtils;
 import org.aspectj.weaver.patterns.WildAnnotationTypePattern;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -2773,6 +2780,65 @@ public class Server_Func {
 		}
 
 		return list;
+	}
+
+	/**
+	 * 
+	 * @param params 查询条件 及参数值
+	 * @param tables 表名 第一个是主表,后面的都是从表
+	 * @return
+	 */
+	public static List<Map<String, String>> findDataToLinkedQuery(String leftTableName,String rightTableName,Map<String, String> params) {
+		StringBuilder sql = new StringBuilder();
+		sql.append(" select * from ");
+		sql.append(leftTableName);
+		sql.append(",");
+		sql.append(rightTableName);
+		sql.append(" where 1=1 ");
+		Set<String> keys = params.keySet();
+		for (Iterator<String> iterator = keys.iterator(); iterator.hasNext();) {
+			String key =  iterator.next();
+			if(key.equals("join")){
+				sql.append(" and " + params.get(key) + " ");
+			}else{
+				String value = params.get(key);
+				if(value.contains(",")){
+					String[] symbol = value.split(",");
+					sql.append(" and " + key + symbol[0] + symbol[1]);
+				}
+			}
+		}
+		
+		TOTAL_SIZE = getTotalSize(sql.toString());
+		if(params.containsKey("orderBy")){
+			String[] values = params.get("orderBy").split(",");
+			sql.append(" order by " + values[0] + " " + values[1]);
+		}
+		String limitSql = getLimitSql(sql.toString());
+		
+		DBHelper db = null;
+		ResultSet ret = null;
+		List<Map<String, String>> lists = new ArrayList<Map<String,String>>();
+		try {
+			db = new DBHelper(limitSql);
+			ret = db.pst.executeQuery();
+			while(ret.next()){
+				ResultSetMetaData metaData = ret.getMetaData();
+				int count = metaData.getColumnCount();
+				for (int i = 1; i <= count; i++) {
+					String key = metaData.getColumnLabel(i);
+					String value = ret.getString(i);
+					Map<String, String> data = new HashMap<String,String>();
+					data.put(key, value);
+					lists.add(data);
+				}
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			db.close();
+		}
+		return lists;
 	}
 
 }

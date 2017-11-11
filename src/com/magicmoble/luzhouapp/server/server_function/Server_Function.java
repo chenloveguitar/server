@@ -1535,7 +1535,7 @@ public class Server_Function<T> {
 		List<Pinglun_model> list = new ArrayList<Pinglun_model>();
 		try {
 
-			sql = "SELECT * FROM(select id,tiaomu_id,content,pingluner_id,dianzan_count,time from pinglun) a LEFT OUTER JOIN (SELECT id FROM toutiao) b ON b.id=a.tiaomu_id where b.id is not NULL";
+			sql = "SELECT p.id, p.tiaomu_id, p.content, p.pingluner_id, p.dianzan_count, p.time FROM pinglun p,toutiao t where p.tiaomu_id = t.id ";
 
 			db1 = new DBHelper(sql);
 			ResultSet ret = db1.pst.executeQuery();
@@ -1585,7 +1585,7 @@ public class Server_Function<T> {
 		List<Pinglun_model> list = new ArrayList<Pinglun_model>();
 		try {
 
-			sql = "SELECT * FROM(select id,tiaomu_id,content,pingluner_id,dianzan_count,time from pinglun) a LEFT OUTER JOIN (SELECT id FROM faxian) b ON b.id=a.tiaomu_id where b.id is not NULL";
+			sql = "SELECT p.id,p.tiaomu_id,p.content,p.pingluner_id,p.dianzan_count,p.time FROM pinglun p,faxian f where p.tiaomu_id = f.id ";
 
 			db1 = new DBHelper(sql);
 			ResultSet ret = db1.pst.executeQuery();
@@ -1629,7 +1629,7 @@ public class Server_Function<T> {
 		List<Pinglun_model> list = new ArrayList<Pinglun_model>();
 		try {
 
-			sql = "SELECT * FROM(select id,tiaomu_id,content,pingluner_id,dianzan_count,time from pinglun) a LEFT OUTER JOIN (SELECT id FROM quchu) b ON b.id=a.tiaomu_id where b.id is not NULL";
+			sql = "select p.id,p.tiaomu_id,p.content,p.pingluner_id,p.dianzan_count,p.time from pinglun p,quchu q WHERE p.tiaomu_id = q.id";
 
 			db1 = new DBHelper(sql);
 			ResultSet ret = db1.pst.executeQuery();
@@ -1673,7 +1673,7 @@ public class Server_Function<T> {
 		List<Pinglun_model> list = new ArrayList<Pinglun_model>();
 		try {
 
-			sql = "SELECT * FROM(select id,tiaomu_id,content,pingluner_id,dianzan_count,time from pinglun) a LEFT OUTER JOIN (SELECT id FROM commodity) b ON b.id=a.tiaomu_id where b.id is not NULL";
+			sql = "select p.id,p.tiaomu_id,p.content,p.pingluner_id,p.dianzan_count,p.time from pinglun p,commodity c where p.tiaomu_id = c.id";
 
 			db1 = new DBHelper(sql);
 			ResultSet ret = db1.pst.executeQuery();
@@ -1717,7 +1717,7 @@ public class Server_Function<T> {
 		List<Pinglun_model> list = new ArrayList<Pinglun_model>();
 		try {
 
-			sql = "SELECT * FROM(select id,tiaomu_id,content,pingluner_id,dianzan_count,time from pinglun) a LEFT OUTER JOIN (SELECT id FROM fuwu) b ON b.id=a.tiaomu_id where b.id is not NULL";
+			sql = "select p.id,p.tiaomu_id,p.content,p.pingluner_id,p.dianzan_count,p.time FROM pinglun p,fuwu f WHERE p.tiaomu_id = f.id";
 
 			db1 = new DBHelper(sql);
 			ResultSet ret = db1.pst.executeQuery();

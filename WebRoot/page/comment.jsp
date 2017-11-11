@@ -12,14 +12,49 @@
 <meta charset="UTF-8">
 <title>评论管理</title>
 <link rel="stylesheet" type="text/css" href="../common/css/luzou.css" />
-<link rel="stylesheet" type="text/css" href="common/css/luzou.css" />
-<script src="../common/lib/jquery-1.9.0.min.js" type="text/javascript"
-	charset="utf-8"></script>
-<script src="common/lib/jquery-1.9.0.min.js" type="text/javascript"
-	charset="utf-8"></script>
+<link rel="stylesheet" type="text/css" href="../common/css/calendar1.css" />
+<script src="../common/lib/jquery-1.9.0.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../common/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../common/js/jquery.date_input.pack.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="../common/page/js/comment.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/common/pager/jquery.z-pager.js"></script>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/common/pager/pager.css">
+<style>
+	.header-title{
+		width:54%;
+	}
+	.header-author{
+		width:15%;
+	}
+	.header-status{
+		width:15%;
+	}
+	.header-operate{
+		width:15%;
+	}
+	
+	.column-content{
+		width:54%;
+	}
+	.column-content .position-square{
+		width:30px;
+	}
+	.column-author{
+		width:15%;
+	    position: relative;
+    	left: 3%;
+	}
+	.column-status{
+		text-align: center;
+		width:15%;
+	}
+	.column-operate{
+		width:15%;
+		padding:0;
+		text-align: center;
+	}
+</style>
 </head>
-
-
 <%
 	List<Pinglun_model> list1 = Server_Function.getpinglun_toutiao();
 	request.setAttribute("list1", list1);
@@ -61,160 +96,57 @@
 		</div>
 		<div class="position-content">
 			<div class="position-status">
-				<input type="text" name="" id="" value="" placeholder="关键字"
-					class="input-rate key-bord"> <select id="change_paixu"
-					class="third-select" style="background-image: none;">
+				<select name="" class="input-text" id="change_recommend">
+					<option value="0">是否推荐</option>
+					<option value="1">正在推荐</option>
+					<option value="3">推荐到期</option>
+					<option value="2">从未推荐</option>
+				</select>  
+				<input type="text" placeholder="日期查找" class="input-text" id="rate-search" name="searchDate"/>
+				<input type="text" name="searchWords" id="guanjianzi_search" value="" placeholder="关键字" class="input-rate"/>
+				<a id="searchIcon" href="javascript:void(0);" style="height: 32px; padding: 0; margin: 0; position: relative; top: 14px; left: -71px; border: 0px;">
+					<img src="../common/image/search.png">
+				</a>
+				<select name="" class="third-select" id="sort">
 					<option value="">排序</option>
-					<option value="时间从早到晚">时间从早到晚</option>
-					<option value="时间从晚到早">时间从晚到早</option>
-
-				</select> <a href="comment-add.jsp" class="rebuild">添加评论</a>
+					<option value="yuedu,desc">阅读量从高到低</option>
+					<option value="yuedu,asc">阅读量从低到高</option>
+					<option value="dianzan_count,desc">点赞量从高到低</option>
+					<option value="dianzan_count,asc">点赞量从低到高</option>
+					<option value="time,desc">日期从早到晚</option>
+					<option value="time,asc">日期从晚到早</option>
+				</select> <a href="Add_Shuoshuo.jsp" class="rebuild">添加评论</a>
+			</div>
+			<div class="position-write">
+				<ul class="clearfix">
+					<li class="position-show-title1 header-title">标题内容</li>
+					<li class="position-author1 header-author">作者</li>
+					<li class="position-ye header-status">栏目</li>
+					<li class="position-de header-operate">操作</li>
+				</ul>
 			</div>
 			<div class="position-show">
-				<ul class="clearfix">
-					<c:forEach var="list" items="${list6}">
-						<li>
-							<p class="position-show-title comment-title">
-								<i class="position-circle "></i> <span
-									class="position-title comment-content"> ${list.content }
-								</span>
-							</p>
-
-							<p class="position-author comment-author">
-								<span class="position-title advert-time comment-time">
-									${list.time } </span> <span class="comment-obj"> ${list.title }
-								</span>
-
-							</p>
-							<p class="edit-exit">
-								<span onclick="tiaozhuan('${list.id}')">查看</span> <i
-									class="icon-edit icon-webpage"></i> <i
-									class="icon-edit icon-del"></i>
-							</p>
-						</li>
-					</c:forEach>
+				<ul class="clearfix" id="clear-fix-1">
 				</ul>
-				<ul class="clearfix" style="display: none;">
-					<c:forEach var="list" items="${list1}">
-						<li>
-							<p class="position-show-title comment-title">
-								<i class="position-circle "></i> <span
-									class="position-title comment-content"> ${list.content }
-								</span>
-							</p>
-
-							<p class="position-author comment-author">
-								<span class="position-title advert-time comment-time">
-									${list.time } </span> <span class="comment-obj"> ${list.title }
-								</span>
-
-							</p>
-							<p class="edit-exit">
-								<span onclick="tiaozhuan('${list.id}')">查看</span> <i
-									class="icon-edit icon-webpage"></i> <i
-									class="icon-edit icon-del"></i>
-							</p>
-						</li>
-					</c:forEach>
+				<ul class="clearfix" id="clear-fix-2">
 				</ul>
-				<ul class="clearfix" style="display: none;">
-					<c:forEach var="list" items="${list2}">
-						<li>
-							<p class="position-show-title comment-title">
-								<i class="position-circle "></i> <span
-									class="position-title comment-content"> ${list.content }
-								</span>
-							</p>
-
-							<p class="position-author comment-author">
-								<span class="position-title advert-time comment-time">
-									${list.time } </span> <span class="comment-obj"> ${list.title }
-								</span>
-
-							</p>
-							<p class="edit-exit">
-								<span onclick="tiaozhuan('${list.id}')">查看</span> <i
-									class="icon-edit icon-webpage"></i> <i
-									class="icon-edit icon-del"></i>
-							</p>
-						</li>
-					</c:forEach>
+				<ul class="clearfix" id="clear-fix-3">
 				</ul>
-				<ul class="clearfix" style="display: none;">
-					<c:forEach var="list" items="${list3}">
-						<li>
-							<p class="position-show-title comment-title">
-								<i class="position-circle "></i> <span
-									class="position-title comment-content"> ${list.content }
-								</span>
-							</p>
-
-							<p class="position-author comment-author">
-								<span class="position-title advert-time comment-time">
-									${list.time } </span> <span class="comment-obj"> ${list.title }
-								</span>
-
-							</p>
-							<p class="edit-exit">
-								<span onclick="tiaozhuan('${list.id}')">查看</span> <i
-									class="icon-edit icon-webpage"></i> <i
-									class="icon-edit icon-del"></i>
-							</p>
-						</li>
-					</c:forEach>
+				<ul class="clearfix" id="clear-fix-4">
 				</ul>
-				<ul class="clearfix" style="display: none;">
-					<c:forEach var="list" items="${list4}">
-						<li>
-							<p class="position-show-title comment-title">
-								<i class="position-circle "></i> <span
-									class="position-title comment-content"> ${list.content }
-								</span>
-							</p>
-
-							<p class="position-author comment-author">
-								<span class="position-title advert-time comment-time">
-									${list.time } </span> <span class="comment-obj"> ${list.title }
-								</span>
-
-							</p>
-							<p class="edit-exit">
-								<span onclick="tiaozhuan('${list.id}')">查看</span> <i
-									class="icon-edit icon-webpage"></i> <i
-									class="icon-edit icon-del"></i>
-							</p>
-						</li>
-					</c:forEach>
+				<ul class="clearfix" id="clear-fix-5">
 				</ul>
-				<ul class="clearfix" style="display: none;">
-					<c:forEach var="list" items="${list5}">
-						<li>
-							<p class="position-show-title comment-title">
-								<i class="position-circle "></i> <span
-									class="position-title comment-content"> ${list.content }
-								</span>
-							</p>
-
-							<p class="position-author comment-author">
-								<span class="position-title advert-time comment-time">
-									${list.time } </span> <span class="comment-obj"> ${list.title }
-								</span>
-
-							</p>
-							<p class="edit-exit">
-								<span onclick="tiaozhuan('${list.id}')">查看</span> <i
-									class="icon-edit icon-webpage"></i> <i
-									class="icon-edit icon-del"></i>
-							</p>
-						</li>
-					</c:forEach>
+				<ul class="clearfix" id="clear-fix-6">
 				</ul>
-
 			</div>
 		</div>
 		<div class="position-footer">
-			<input type="checkbox" class="select-all" />全选 <a href="###"
-				class="position-delete">删除</a> <span>分页的位置</span>
+				<div id="page-1" class="pager clearfix"></div>
+				<div id="page-2" class="pager clearfix"></div>
+				<div id="page-3" class="pager clearfix"></div>
+				<div id="page-4" class="pager clearfix"></div>
+				<div id="page-5" class="pager clearfix"></div>
+				<div id="page-6" class="pager clearfix"></div>
 		</div>
 	</div>
 	<script type="text/javascript">
