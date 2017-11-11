@@ -1,5 +1,7 @@
 package com.magicmoble.luzhouapp.utils;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -101,7 +103,10 @@ public class StringUtils {
 		String str = "4028aabf2a456347012a4566afb60001";
 		
 		boolean commaSeparated = isCommaSeparated(str);
-		
-		System.out.println(commaSeparated);
+		String pic = "http://192.168.38.1:8080/mServer/FileDownLoadServlet?absolutePath=0d923a29-278b-405d-bff0-1cdf5dbb6eb1.png,http://192.168.38.1:8080/mServer/FileDownLoadServlet?absolutePath=84187f76-e288-4b36-85ff-62d71c464337.png,http://192.168.38.1:8080/mServer/FileDownLoadServlet?absolutePath=d0dbecc0-b6f6-4f6c-ab54-5f9c3891e14d.png,http://192.168.38.1:8080/mServer/FileDownLoadServlet?absolutePath=34b46c07-ee3e-430a-b3f7-ad6a94557aa8.png,";
+		String[] split = pic.split(",");
+		for (String string : split) {
+			System.out.println(string);
+		}
 	}
 }

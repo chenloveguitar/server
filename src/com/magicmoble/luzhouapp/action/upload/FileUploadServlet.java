@@ -62,14 +62,16 @@ public class FileUploadServlet extends HttpServlet {
 			}
 			
 			Map<String, String> data = new HashMap<String,String>();
+			List<Integer> list = business.createImages(fileManagements);
+			data.put("item_id", itemId);
+			List<FileManagement> managements = CommonBusiness.getDataByTable("file_management", data, FileManagement.class);
 			String path = p.getProperty("path");
 			String picture = "";
-			for (int i = 0; i < listPath.size(); i++) {
-				String[] fileInfo = listPath.get(i);
-				picture += path + "absolutePath=" + fileInfo[1]+",";
-				
+			for (FileManagement fileManagement : managements) {
+				String absolute_path = fileManagement.getAbsolute_path();
+				picture += path + "absolutePath=" + absolute_path+",";
 			}
-			List<Integer> list = business.createImages(fileManagements);
+			data.clear();
 			data.put("picture", picture);
 			if(StringUtils.isNotBlank(tableName)){
 				Server_Function.updateDataByTableAndId(tableName, itemId, data);

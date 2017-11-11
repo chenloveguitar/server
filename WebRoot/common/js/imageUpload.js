@@ -30,8 +30,6 @@ var deleteds = [];
 					id:data_ids
 				},
 				success:function(data){
-					debugger;
-					console.log(data);
 					if(data.code == "0000" ){//&& success
 // 						alert("文件关联成功！");
 					success = true;
@@ -65,7 +63,7 @@ var deleteds = [];
 	        });
 		}
 		
-		if(data_ids && sum == 0){
+		if(!data_ids && sum == 0){
 			alert("请上传或从图库中选择图片！");
 			return false;
 		}
@@ -77,6 +75,7 @@ var deleteds = [];
 			url : "/mServer/CommonServlet",
 			type : "post",
 			dataType : "json",
+			async:false,
 			data : {
 				type:'getUsers'
 			},

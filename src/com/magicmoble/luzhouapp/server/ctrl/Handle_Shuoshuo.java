@@ -39,9 +39,7 @@ public class Handle_Shuoshuo extends HttpServlet {
 
 			List<Shuoshuo_xiangqing> list = Server_Func.limitShuoshuo_ser(1, 15);
 			req.setAttribute("list", list); //
-			// response.sendRedirect("/mServer/page/Shuoshuo_management.jsp");
-			req.getRequestDispatcher("/page/Shuoshuo_management.jsp").forward(req, resp);
-
+			resp.sendRedirect("/mServer/page/Shuoshuo_management.jsp");
 		}
 
 		String blur_rec = req.getParameter("blur_rec");

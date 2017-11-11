@@ -285,6 +285,7 @@ public class Server_Func {
 				shuoshuo.setDianzan_count(dianzan_count);
 				shuoshuo.setYuedu_count(yuedu_count);
 				shuoshuo.setShoucang_count(shoucang_count);
+				shuoshuo.setReleaser_id(releaser_id);
 				list.add(shuoshuo);
 			}
 		} catch (SQLException e) {

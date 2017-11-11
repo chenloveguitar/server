@@ -615,7 +615,7 @@
 						var id = results[i].id;
 			   	        var url = "${pageContext.request.contextPath}/FileDownLoadServlet?absolutePath="+absolute_path;
 			   	        var type = results[i].type;
-			   	        if(type === "upload"){
+			   	        if(type === "upload" || type === "null"){
 				   	        var li = $(getUploadImagesHtml(url,name));
 				   		    $(li).appendTo($("#manage-list-ul"));
 			   	        }else if(type == "relevance"){
@@ -627,7 +627,7 @@
 				}
 			},
 			error:function(data){
-				
+				alert(12);
 			}
 		});
 		//将所有值显示到页面上

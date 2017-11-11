@@ -19,6 +19,7 @@ import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.magicmoble.luzhouapp.entity.Shuoshuo;
 import com.magicmoble.luzhouapp.model.Admin_xinxi;
 import com.magicmoble.luzhouapp.model.FileManagement;
 import com.magicmoble.luzhouapp.model.Tuijian_list;
@@ -26,11 +27,131 @@ import com.mysql.jdbc.Statement;
 
 public class CommonBusiness {
 
+	public static Integer PAGE_SIZE = 5;//每页显示条数
+	public static Integer TOTAL_SIZE = 0;//总条数
+	public static Integer CURRENT_PAGE = 0;//当前页
+	public static Integer TOTAL_PAGE = 0;//总页数
+	
+	public static Integer getTotalSize(String sql){
+		StringBuilder countSql = new StringBuilder(" select count(results.id) from (");
+		countSql.append(sql);
+		countSql.append(") as results ");
+		DBHelper db1 = new DBHelper(countSql.toString());
+		try {
+			ResultSet resultSet = db1.pst.executeQuery();
+			if(resultSet.next()){
+				return resultSet.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+	
+	public static String getLimitSql(String sql){
+		String limitSql = "SELECT results.* FROM (" + sql +") as results limit "+(CURRENT_PAGE - 1) * PAGE_SIZE+" ," +PAGE_SIZE;
+		return limitSql;
+	}
+	
+	/**
+	 * 注意:该方法需要在进行只支持and条件拼接,
+	 * 对于like查询或等值查询时需要传入'%value%' 或 'value',
+	 * 考虑到不确定会是等值还是like查询,所以程序中在查询字符串数据的时候需要自己拼接''
+	 * 如果有排序需要添加orderBy字段,并将改字段的值设置为 field 排序方式,如:create_time desc
+	 * @param table_name
+	 * @param params
+	 * @param c
+	 * @return
+	 */
+	public static <T>List<T> getPageDataByTable(String table_name,Map<String, String> params,Class<T> c){
+		String sql = "select * from " + table_name + " where 1=1 ";
+		Set<String> keys = params.keySet();
+		Iterator<String> iterator = keys.iterator();
+		while (iterator.hasNext()) {
+			String key = iterator.next();
+			if(!key.equals("orderBy")){
+				if(params.get(key).contains(",")){
+					String[] values = params.get(key).split(",");
+					String symbol = values[0];
+					String value = values[1];
+					sql += " and " + key + " " + " " + symbol + " " + value;
+				}
+			}
+		}
+		
+		TOTAL_SIZE = getTotalSize(sql);
+		if(params.containsKey("orderBy")){
+			String[] values = params.get("orderBy").split(",");
+			sql += " order by " + values[0] + " " + values[1];
+		}
+		sql = getLimitSql(sql);
+		
+		DBHelper db = null;
+		ResultSet ret = null;
+		List<T> lists = new ArrayList<T>();
+		try {
+			db = new DBHelper(sql);
+			ret = db.pst.executeQuery();
+			while(ret.next()){
+				T t = c.newInstance();
+				ResultSetMetaData metaData = ret.getMetaData();
+				int count = metaData.getColumnCount();
+				for (int i = 1; i <= count; i++) {
+					String columnLabel = metaData.getColumnLabel(i);
+					
+					PropertyDescriptor property = new PropertyDescriptor(columnLabel,t.getClass());
+		            Method method = property.getWriteMethod();
+		            Class<?> type = method.getParameterTypes()[0];
+		            if(type.getName().equals("java.util.List")){
+		            	List<String> list = new ArrayList<String>();
+		            	String value = ret.getString(i);
+		            	if(StringUtils.isNotBlank(value)){
+		            		String[] split = value.split(",");
+		            		for (int j = 0; j < split.length; j++) {
+		            			list.add(split[j]);
+							}
+		            	}
+		            	method.invoke(t, list);
+		            }else if(type.getName().equals("java.lang.String")){
+		            	String value = ret.getString(i);
+		            	method.invoke(t, value);
+		            }else if(type.getName().equals("java.sql.Timestamp")){
+		            	Timestamp value = ret.getTimestamp(i);
+		            	method.invoke(t, value);
+		            }else if(type.getName().equals("int")){
+		            	int value = ret.getInt(i);
+		            	method.invoke(t, value);
+		            }else if(type.getName().equals("java.lang.Integer")){
+		            	int value = ret.getInt(i);
+		            	method.invoke(t, value);
+		            }else if(type.getName().equals("float")){
+		            	float value = ret.getFloat(i);
+		            	method.invoke(t, value);
+		            }else if(type.getName().equals("double")){
+		            	double value = ret.getDouble(i);
+		            	method.invoke(t, value);
+		            }
+				}
+				lists.add(t);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			db.close();
+		}
+		return lists;
+	}
 	public static void main(String[] args) {
 		Map<String, String> params = new HashMap<>();
-		params.put("tiaomu_id", "2");
-		params.put("tuijian_user", "3C41163EAF3FED61BFB009766D58864D");
-		List<Tuijian_list> list = getDataByTable("tuijian_list", params, Tuijian_list.class);
+		CommonBusiness.CURRENT_PAGE = 1;
+//		params.put("tiaomu_id", "2");
+//		params.put("tuijian_user", "3C41163EAF3FED61BFB009766D58864D");
+//		List<Tuijian_list> list = getDataByTable("tuijian_list", params, Tuijian_list.class);
+//		params.put("content", "like,'%点滴滴%'");
+//		params.put("orderBy", "time,desc");
+		List<Shuoshuo> list = getPageDataByTable(Shuoshuo.class.getSimpleName().toLowerCase(), params, Shuoshuo.class);
+		
+		
 		System.out.println(list);
 	}
 	
