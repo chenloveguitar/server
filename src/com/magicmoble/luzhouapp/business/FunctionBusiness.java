@@ -1491,7 +1491,7 @@ public class FunctionBusiness {
 				if (num == 3) {
 					break;
 				}
-				System.out.println(pinglun_list.size());
+//				System.out.println(pinglun_list.size());
 			}
 
 			db1.close();
@@ -2079,7 +2079,7 @@ public class FunctionBusiness {
 		try {
 			db2 = new DBHelper(sql1);
 			ret1 = db2.pst.executeQuery();
-			System.out.println(ret1);
+//			System.out.println(ret1);
 			while (ret1.next()) {
 				_id = ret1.getString(1);
 			}

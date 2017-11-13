@@ -152,7 +152,7 @@ public class CommonBusiness {
 		List<Shuoshuo> list = getPageDataByTable(Shuoshuo.class.getSimpleName().toLowerCase(), params, Shuoshuo.class);
 		
 		
-		System.out.println(list);
+//		System.out.println(list);
 	}
 	
 	public static <T>List<T> getDataByTable(String table_name,Map<String, String> params,Class<T> c){

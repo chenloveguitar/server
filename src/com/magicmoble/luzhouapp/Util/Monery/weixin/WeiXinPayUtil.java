@@ -59,7 +59,7 @@ public class WeiXinPayUtil {
 
 		byte[] bytess = HttpUtils.postXml("https://api.mch.weixin.qq.com/pay/unifiedorder", xml, "ISO-8859-1");
 		String s = new String(bytess, "UTF-8");
-		System.out.println("s:" + s);
+//		System.out.println("s:" + s);
 		SortedMap<Object, Object> finalpackage = new TreeMap<Object, Object>();
 		String timestamp = WXUtil.getTimeStamp();
 		finalpackage.put("appid", ConstantUtil.APP_ID);

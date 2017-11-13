@@ -34,7 +34,7 @@ public void contextInitialized(ServletContextEvent arg0) {
         try {   
             
             timer = new Timer(true); 
-            System.out.println(timer);
+//            System.out.println(timer);
             GregorianCalendar now = new GregorianCalendar();   
             //每天9:22执行   Calendar.DAY_OF_YEAR(一年中第一天的值为 1)
             //HOUR_OF_DAY( 用于 24 小时制时钟)

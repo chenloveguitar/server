@@ -496,7 +496,7 @@ public class Server_Function<T> {
 				shuoshuo.setYuedu_count(yuedu_count);
 				shuoshuo.setId(id);
 				list.add(shuoshuo);
-				System.out.println("list:" + list.size());
+//				System.out.println("list:" + list.size());
 			}
 			db1.close();
 		} catch (SQLException e) {
@@ -666,7 +666,7 @@ public class Server_Function<T> {
 				shuoshuo.setYuedu_count(yuedu_count);
 				shuoshuo.setId(id);
 				list.add(shuoshuo);
-				System.out.println("list:" + list.size());
+//				System.out.println("list:" + list.size());
 			}
 			db1.close();
 		} catch (SQLException e) {
@@ -1522,7 +1522,7 @@ public class Server_Function<T> {
 				list.add(fs.getName());
 			} else {
 				list.add(fs.getName());
-				System.out.println(fs.getName());
+//				System.out.println(fs.getName());
 			}
 		}
 		return list;
@@ -1542,7 +1542,7 @@ public class Server_Function<T> {
 			while (ret.next()) {
 				String id = ret.getString(1);
 				String tiaomu_id = ret.getString(2);
-				System.out.println(tiaomu_id);
+//				System.out.println(tiaomu_id);
 				List<Toutiao_Xiangqing> toutiao = ToutiaoBusiness.getToutiaoById("1", tiaomu_id);
 				Toutiao_Xiangqing toutiao_Xiangqing = null;
 				if (toutiao != null) {

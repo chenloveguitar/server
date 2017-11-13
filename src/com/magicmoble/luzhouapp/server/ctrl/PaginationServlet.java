@@ -32,10 +32,10 @@ public class PaginationServlet extends HttpServlet {
 
 	public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String pagecountStr=request.getParameter("pagecount");
-		System.out.println("起始位置："+pagecountStr);
+//		System.out.println("起始位置："+pagecountStr);
 		if(pagecountStr!=null){
 			pagecount=Integer.parseInt(pagecountStr);
-			System.out.println("pagecount:"+pagecount);
+//			System.out.println("pagecount:"+pagecount);
 		}
 		
 		request.setAttribute("pagecount", pagecount);

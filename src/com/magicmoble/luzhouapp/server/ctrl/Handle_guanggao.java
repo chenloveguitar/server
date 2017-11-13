@@ -35,7 +35,7 @@ public class Handle_guanggao extends HttpServlet {
 
 		for (int i = 0; i < banner.length; i++) {
 			Map<String, String> map = new HashMap<String, String>();
-			System.out.println(banner[i]);
+//			System.out.println(banner[i]);
 
 			if (i % 4 == 0) {
 				map.put("picture", banner[i]);

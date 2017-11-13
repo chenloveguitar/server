@@ -31,9 +31,13 @@ import com.magicmoble.luzhouapp.business.RenzhengBusiness;
 import com.magicmoble.luzhouapp.model.Admin_xinxi;
 import com.magicmoble.luzhouapp.model.Commodity;
 import com.magicmoble.luzhouapp.model.Dianzan_Number;
+import com.magicmoble.luzhouapp.model.Faxian;
+import com.magicmoble.luzhouapp.model.Fuwu;
 import com.magicmoble.luzhouapp.model.Guangjie_Xiangqing;
 import com.magicmoble.luzhouapp.model.Guanzhu;
 import com.magicmoble.luzhouapp.model.Picture;
+import com.magicmoble.luzhouapp.model.Pinglun;
+import com.magicmoble.luzhouapp.model.Quchu;
 import com.magicmoble.luzhouapp.model.server.Dingdan_model;
 import com.magicmoble.luzhouapp.model.server.Guanggao_model;
 import com.magicmoble.luzhouapp.model.server.Home_model;
@@ -2784,27 +2788,34 @@ public class Server_Func {
 
 	/**
 	 * 
-	 * @param params 查询条件 及参数值
+	 * @param params params 查询条件 及参数值 
+	 * 		    其中join 表示连接条件,如 l.id = r.item_id 必须为数据库字段,不能是实体字段,
+	 * 		  	orderBy 表示排序字段,如需要按照time升序排序,则传入 key:orderBy value:tiem,desc	
+	 * 			其他条件则如:想查找content字段like内容,则传入key:content value:like,'%内容%',注意一定要使用''
+	 * 			等值或其他匹配查询,传入key:fieldName value:=(>或<或<>或!=或>=或<=),fieldValue;	
 	 * @param tables 表名 第一个是主表,后面的都是从表
-	 * @return
+	 * @return List<Map<String,String>>
 	 */
-	public static List<Map<String, String>> findDataToLinkedQuery(String leftTableName,String rightTableName,Map<String, String> params) {
+	public static List<Map<String, String>> findDataToLinkedQuery(String leftTableName,String selectFields,String rightTableName,Map<String, String> params) {
 		StringBuilder sql = new StringBuilder();
-		sql.append(" select * from ");
-		sql.append(leftTableName);
+		sql.append(" select ");
+//		sql.append(selectFields);
+		sql.append(selectFields + ",'" + rightTableName + "' as " + "table_name") ; 
+		sql.append(" from ");
+		sql.append(leftTableName + " as l ");
 		sql.append(",");
-		sql.append(rightTableName);
+		sql.append(rightTableName + " as r ");
 		sql.append(" where 1=1 ");
 		Set<String> keys = params.keySet();
 		for (Iterator<String> iterator = keys.iterator(); iterator.hasNext();) {
 			String key =  iterator.next();
 			if(key.equals("join")){
 				sql.append(" and " + params.get(key) + " ");
-			}else{
+			}else if(!key.equals("orderBy")){
 				String value = params.get(key);
 				if(value.contains(",")){
 					String[] symbol = value.split(",");
-					sql.append(" and " + key + symbol[0] + symbol[1]);
+					sql.append(" and " + key + " " + symbol[0] + " " + " " + symbol[1]);
 				}
 			}
 		}
@@ -2825,13 +2836,20 @@ public class Server_Func {
 			while(ret.next()){
 				ResultSetMetaData metaData = ret.getMetaData();
 				int count = metaData.getColumnCount();
+				Map<String, String> data = new HashMap<String,String>();
 				for (int i = 1; i <= count; i++) {
 					String key = metaData.getColumnLabel(i);
 					String value = ret.getString(i);
-					Map<String, String> data = new HashMap<String,String>();
+					if(key.equals("pingluner_id")){
+						Admin_xinxi admin = Admin_xinxi_Business.getAdmin_xinxiInfoById(value);
+						String pingluner_name = admin.getName();
+						String pingluner_touxiang = admin.getTouxiang_picture();
+						data.put("pingluner_name", pingluner_name);
+						data.put("pingluner_touxiang", pingluner_touxiang);
+					}
 					data.put(key, value);
-					lists.add(data);
 				}
+				lists.add(data);
 			}
 		}catch(Exception e){
 			e.printStackTrace();
@@ -2841,4 +2859,109 @@ public class Server_Func {
 		return lists;
 	}
 
+	/**
+	 * 
+	 * @param params 查询条件 及参数值 
+	 * 		    其中join 表示连接条件,如 l.id = r.item_id 必须为数据库字段,不能是实体字段,
+	 * 		  	orderBy 表示排序字段,如需要按照time升序排序,则传入 key:orderBy value:tiem,desc	
+	 * 			其他条件则如:想查找content字段like内容,则传入key:content value:like,'%内容%',注意一定要使用''
+	 * 			等值或其他匹配查询,传入key:fieldName value:=(>或<或<>或!=或>=或<=),fieldValue;	
+	 * @param leftTableName 表名 主表表名
+	 * @param selectFields 查询的字段
+	 * @param rightTableNames 连接的表名们
+	 * @return List<Map<String,String>>
+	 */
+	public static List<Map<String, String>> findUnionAllDataToLinkedQuery(String leftTableName, String selectFields,Map<String, String> params,
+			String...rightTableNames) {
+		StringBuilder sql = new StringBuilder();
+//		sql.append(" select * from(");
+		for (int i = 0; i < rightTableNames.length; i++) {
+			sql.append(" select ");
+			sql.append(selectFields + ",'" + rightTableNames[i] + "' as " + "table_name") ;  
+			sql.append(" from ");
+			sql.append(leftTableName + " as l ");
+			sql.append(",");
+			sql.append(rightTableNames[i] + " as r ");
+			sql.append(" where 1=1 ");
+			Set<String> keys = params.keySet();
+			for (Iterator<String> iterator = keys.iterator(); iterator.hasNext();) {
+				String key =  iterator.next();
+				if(key.equals("join")){
+					sql.append(" and " + params.get(key) + " ");
+				}else if(!key.equals("orderBy")){
+					String value = params.get(key);
+					if(value.contains(",")){
+						String[] symbol = value.split(",");
+						sql.append(" and " + key + " " + symbol[0] + " " + " " + symbol[1]);
+					}
+				}
+			}
+			if(i < rightTableNames.length - 1){
+				sql.append(" union all ");
+			}
+		}
+//		sql.append(" )");
+		TOTAL_SIZE = getTotalSize(sql.toString());
+		if(params.containsKey("orderBy")){
+			String[] values = params.get("orderBy").split(",");
+			sql.append(" order by " + values[0] + " " + values[1]);
+		}
+		String limitSql = getLimitSql(sql.toString());
+		DBHelper db = null;
+		ResultSet ret = null;
+		List<Map<String, String>> lists = new ArrayList<Map<String,String>>();
+		try {
+			db = new DBHelper(limitSql);
+			ret = db.pst.executeQuery();
+			while(ret.next()){
+				ResultSetMetaData metaData = ret.getMetaData();
+				Map<String, String> data = new HashMap<String,String>();
+				int count = metaData.getColumnCount();
+				for (int i = 1; i <= count; i++) {
+					String key = metaData.getColumnLabel(i);
+					String value = ret.getString(i);
+					if(key.equals("pingluner_id")){
+						Admin_xinxi admin = Admin_xinxi_Business.getAdmin_xinxiInfoById(value);
+						String pingluner_name = admin.getName();
+						String pingluner_touxiang = admin.getTouxiang_picture();
+						data.put("pingluner_name", pingluner_name);
+						data.put("pingluner_touxiang", pingluner_touxiang);
+					}
+					data.put(key, value);
+				}
+				lists.add(data);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			db.close();
+		}
+		return lists;
+	}
+
+	
+	public static void main(String[] args) {
+		List<Map<String, String>> list = new ArrayList<Map<String,String>>();
+		Map<String, String> params = new HashMap<String,String>();
+		Server_Func.CURRENT_PAGE = 1;
+		Server_Func.PAGE_SIZE = 2;
+//		params.put("r.content", " like,'%内容%'");
+		params.put("orderBy", "time,desc");
+//		params.put("l.time", " =,'2017-11-10'");
+		params.put("join", " l.tiaomu_id = r.id ");
+		String selectFields = "l.id,l.tiaomu_id,l.pingluner_id,l.time,l.dianzan_count,l.now_time,r.content";
+		list = Server_Func.findDataToLinkedQuery(Pinglun.class.getSimpleName().toLowerCase(),selectFields,Toutiao.class.getSimpleName().toLowerCase(),params);
+//		System.out.println(list);
+		list = Server_Func.findUnionAllDataToLinkedQuery(
+				Pinglun.class.getSimpleName().toLowerCase(),
+				selectFields,
+				params, 
+				Toutiao.class.getSimpleName().toLowerCase(),
+				Faxian.class.getSimpleName().toLowerCase(),
+				Quchu.class.getSimpleName().toLowerCase(),
+				Commodity.class.getSimpleName().toLowerCase(),
+				Fuwu.class.getSimpleName().toLowerCase());
+//		System.out.println(list);
+		
+	}
 }

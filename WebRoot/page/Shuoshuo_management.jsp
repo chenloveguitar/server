@@ -409,7 +409,7 @@
 			$('.position ul li').each(function() {})
 		})
 		
-		/**  
+	/**  
 	 * 日期格式化（原型扩展或重载）  
 	 * 格式 YYYY/yyyy/ 表示年份  
 	 * MM/M 月份  

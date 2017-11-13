@@ -21,15 +21,15 @@ org.springframework.context.ApplicationContext,java.io.*"%>
 		SortedMap<String, String> queryRes = resHandler.getAllParameters();
 		String result_code = queryRes.get("result_code");
 		if ("SUCCESS".equals(result_code)) {
-			System.out.println("订单查询成功");
+// 			System.out.println("订单查询成功");
 			//取结果参数做业务处理
-			System.out.println("out_trade_no:" + queryRes.get("out_trade_no") + " transaction_id:"
-					+ queryRes.get("transaction_id"));
-			System.out.println(
-					"trade_state:" + queryRes.get("trade_state") + " total_fee:" + queryRes.get("total_fee"));
+// 			System.out.println("out_trade_no:" + queryRes.get("out_trade_no") + " transaction_id:"
+// 					+ queryRes.get("transaction_id"));
+// 			System.out.println(
+// 					"trade_state:" + queryRes.get("trade_state") + " total_fee:" + queryRes.get("total_fee"));
 			//如果有使用折扣券，discount有值，total_fee+discount=原请求的total_fee
-			System.out
-					.println("discount:" + queryRes.get("discount") + " time_end:" + queryRes.get("time_end"));
+// 			System.out
+// 					.println("discount:" + queryRes.get("discount") + " time_end:" + queryRes.get("time_end"));
 			//------------------------------
 			//处理业务开始
 			//------------------------------
@@ -50,11 +50,11 @@ org.springframework.context.ApplicationContext,java.io.*"%>
 			resHandler.sendToCFT("Success");
 		} else {
 			//错误时，返回结果未签名，记录retcode、retmsg看失败详情。
-			System.out.println("查询验证签名失败或业务错误");
+// 			System.out.println("查询验证签名失败或业务错误");
 
 		}
 	} else {
-		System.out.println("通知签名验证失败");
+// 		System.out.println("通知签名验证失败");
 	}
 %>
 

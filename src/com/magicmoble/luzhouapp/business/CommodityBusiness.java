@@ -336,7 +336,7 @@ public class CommodityBusiness {
 			int guangjie_fenlei_Tag) {
 		String sql = null;
 		DBHelper db1 = null;
-		System.out.println("byid:" + guangjie_id);
+//		System.out.println("byid:" + guangjie_id);
 		List<Biaoqian> biaoqian_list = new ArrayList<Biaoqian>();
 		List<Tuijian> tuijian = new ArrayList<Tuijian>();
 		sql = "select id,picture,title,releaser_id,yuedu,price,unit,dianpu_id,content,biaoqian,shoucang_Tag,guanggao_url,phone,time,freight,seller_id,shuliang from commodity WHERE id='"

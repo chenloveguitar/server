@@ -39,7 +39,7 @@ public class WXUtil {
 		}
 		sb.append("key=" + ConstantUtil.PARTNER_KEY);
 		String sign = MD5Util.MD5Encode(sb.toString(), "UTF-8").toUpperCase();
-		System.out.println("签名：" + sign);
+//		System.out.println("签名：" + sign);
 		return sign;
 
 	}

@@ -56,40 +56,40 @@
 </style>
 </head>
 <%
-	List<Pinglun_model> list1 = Server_Function.getpinglun_toutiao();
-	request.setAttribute("list1", list1);
-	List<Pinglun_model> list2 = Server_Function.getpinglun_faxian();
-	request.setAttribute("list2", list2);
-	List<Pinglun_model> list3 = Server_Function.getpinglun_quchu();
-	request.setAttribute("list3", list3);
-	List<Pinglun_model> list4 = Server_Function.getpinglun_commodity();
-	request.setAttribute("list4", list4);
-	List<Pinglun_model> list5 = Server_Function.getpinglun_fuwu();
-	request.setAttribute("list5", list5);
-	List<Pinglun_model> list6 = new ArrayList<Pinglun_model>();
-	list6.addAll(list1);
-	list6.addAll(list2);
-	list6.addAll(list3);
-	list6.addAll(list4);
-	list6.addAll(list5);
-	request.setAttribute("list6", list6);
+// 	List<Pinglun_model> list1 = Server_Function.getpinglun_toutiao();
+// 	request.setAttribute("list1", list1);
+// 	List<Pinglun_model> list2 = Server_Function.getpinglun_faxian();
+// 	request.setAttribute("list2", list2);
+// 	List<Pinglun_model> list3 = Server_Function.getpinglun_quchu();
+// 	request.setAttribute("list3", list3);
+// 	List<Pinglun_model> list4 = Server_Function.getpinglun_commodity();
+// 	request.setAttribute("list4", list4);
+// 	List<Pinglun_model> list5 = Server_Function.getpinglun_fuwu();
+// 	request.setAttribute("list5", list5);
+// 	List<Pinglun_model> list6 = new ArrayList<Pinglun_model>();
+// 	list6.addAll(list1);
+// 	list6.addAll(list2);
+// 	list6.addAll(list3);
+// 	list6.addAll(list4);
+// 	list6.addAll(list5);
+// 	request.setAttribute("list6", list6);
 %>
 <body>
 	<div class="content">
 		<div class="position-header">
 			<ul class="clearfix">
-				<li class="position-header-click"><img
+				<li class="position-header-click" onclick="Tag(1)"><img
 					src="../common/image/icon-1.png">
 					<p>全部</p></li>
-				<li><img src="../common/image/icon-3.png">
+				<li onclick="Tag(2)"><img src="../common/image/icon-3.png">
 					<p>头条</p></li>
-				<li><img src="../common/image/icon-7.png">
+				<li onclick="Tag(3)"><img src="../common/image/icon-7.png">
 					<p>发现</p></li>
-				<li><img src="../common/image/icon-8.png">
+				<li onclick="Tag(4)"><img src="../common/image/icon-8.png">
 					<p>去处</p></li>
-				<li><img src="../common/image/icon-9.png">
+				<li onclick="Tag(5)"><img src="../common/image/icon-9.png">
 					<p>商品</p></li>
-				<li><img src="../common/image/icon-9.png">
+				<li onclick="Tag(6)"><img src="../common/image/icon-9.png">
 					<p>服务</p></li>
 
 			</ul>
@@ -109,13 +109,13 @@
 				</a>
 				<select name="" class="third-select" id="sort">
 					<option value="">排序</option>
-					<option value="yuedu,desc">阅读量从高到低</option>
-					<option value="yuedu,asc">阅读量从低到高</option>
+<!-- 					<option value="yuedu,desc">阅读量从高到低</option> -->
+<!-- 					<option value="yuedu,asc">阅读量从低到高</option> -->
 					<option value="dianzan_count,desc">点赞量从高到低</option>
 					<option value="dianzan_count,asc">点赞量从低到高</option>
 					<option value="time,desc">日期从早到晚</option>
 					<option value="time,asc">日期从晚到早</option>
-				</select> <a href="Add_Shuoshuo.jsp" class="rebuild">添加评论</a>
+				</select> <a href="comment-add.jsp" class="rebuild">添加评论</a>
 			</div>
 			<div class="position-write">
 				<ul class="clearfix">
@@ -150,7 +150,9 @@
 		</div>
 	</div>
 	<script type="text/javascript">
+	var tag = 1;
 		$(function() {
+			Tag(1);
 			//切换样式选项卡
 			$(".position-header ul li").click(function() {
 				$(this).addClass("position-header-click").siblings().removeClass("position-header-click");
@@ -163,8 +165,6 @@
 				var index = lis.index(this);
 				listxt.eq(index).show().siblings().hide();
 				listxt.eq(index).attr("id", "clear-fix").siblings().removeAttr("id");
-	
-	
 			});
 	
 			//input点击效果
@@ -218,13 +218,306 @@
 				$(".list-click").parent().parent().remove();
 				$(this).css("color", "#00C8E8");
 			})
-	
-		})
+			//选择日期
+			$('#rate-search').date_input();
+			$("#change_recommend").change(function() {
+				$.ajax({
+					url : "/mServer/PinglunServlet",
+					type : "POST",
+					data : {
+						"Tag":tag,
+// 						"tuijian_Tag" : "=,"+$("#change_recommend").val(),
+						"type":"search"
+					},
+					dataType : "json",
+					success : function(data) {
+						data = data.data.results;
+						var str = "";
+						for (var i in data) {
+							var lianmu = "";
+							var table_name = data[i]["table_name"];
+							switch(table_name){
+							case "toutiao":
+								lianmu = "头条";
+								break;
+							case "faxian":
+								lianmu = "发现";
+								break;
+							case "quchu":
+								lianmu = "去处";
+								break;
+							case "commodity":
+								lianmu = "商品";
+								break;
+							case "fuwu":
+								lianmu = "服务";
+								break;
+							}
+							str +=  "<li>"+
+							"<p class=\"position-show-title column-content\">"+
+//							 <img class=\"position-square\"src=\"#\" /> " +//" + data["pictures"][0]["picture_url"] + 
+								"<i class=\"position-circle\"></i>"+
+								"<span class=\"position-title\" id=\"position-title-1\"> " +
+								"<span>" + data[i]["content"] + "</span>"+
+								"<span class=\"position-share\">阅读量:" + /*data[i]["yuedu_count"]*/ 0 + "&nbsp;分享:" + /*data[i]["share_count"]*/ 0 + "&nbsp;点赞:"+data[i]["dianzan_count"]+"&nbsp;收藏:"+ /*data[i]["shoucang_count"]*/ 0 +"&nbsp;时间:" + data[i]["time"] + "</span>"+
+								"</span>"+
+							"</p>"+
+							"<p class=\"position-author column-author\">"+
+								"<img class=\"icon-author\" src=\""+data[i]["pingluner_touxiang"]+"\">" +
+								"<span class=\"position-title\" id=\"position-title-2\"> " +
+									"<span>" + data[i]["pingluner_name"] + "</span>" +
+//									"<span class=\"position-share\">" + data[i]["qianming"] + "</span>"+
+								"</span>"+
+							"</p>"+
+							"<p class=\"position-public column-status\">"+
+								"<span class=\"position-title position-p\" id=\"position-title-3\">"+
+									"<span>" + lianmu + "</span>"+
+								"</span>"+
+							"</p>"+
+							"<p class=\"edit-exit column-operate\">"+
+								"<a class=\"icon-edit icon-webpage\" href='comment-add.jsp?updete_id=" + data[i]["id"] + "'></a>"+
+								"<a class=\"icon-edit icon-del\" href=/mServer/PinglunServlet?type=delete&id=" + data[i]["id"] + " \"></a>"+
+							"</p>"+
+						"</li>";
+						}
+						$("#clear-fix").html(str);
+					},
+					error : function() {
+						alert("error");
+					}
+				});
+			});
+			$("#searchIcon").click(function() {
+				$.ajax({
+					url : "/mServer/PinglunServlet",
+					type : "POST",
+					data : {
+						"Tag":tag,
+						"content" : $("#guanjianzi_search").val(),
+						"type":"search"
+					},
+					dataType : "json",
+					success : function(data) {
+						data = data.data.results;
+						var str = "";
+						for (var i in data) {
+							var lianmu = "";
+							var table_name = data[i]["table_name"];
+							switch(table_name){
+							case "toutiao":
+								lianmu = "头条";
+								break;
+							case "faxian":
+								lianmu = "发现";
+								break;
+							case "quchu":
+								lianmu = "去处";
+								break;
+							case "commodity":
+								lianmu = "商品";
+								break;
+							case "fuwu":
+								lianmu = "服务";
+								break;
+							}
+							str +=  "<li>"+
+							"<p class=\"position-show-title column-content\">"+
+//							 <img class=\"position-square\"src=\"#\" /> " +//" + data["pictures"][0]["picture_url"] + 
+								"<i class=\"position-circle\"></i>"+
+								"<span class=\"position-title\" id=\"position-title-1\"> " +
+								"<span>" + data[i]["content"] + "</span>"+
+								"<span class=\"position-share\">阅读量:" + /*data[i]["yuedu_count"]*/ 0 + "&nbsp;分享:" + /*data[i]["share_count"]*/ 0 + "&nbsp;点赞:"+data[i]["dianzan_count"]+"&nbsp;收藏:"+ /*data[i]["shoucang_count"]*/ 0 +"&nbsp;时间:" + data[i]["time"] + "</span>"+
+								"</span>"+
+							"</p>"+
+							"<p class=\"position-author column-author\">"+
+								"<img class=\"icon-author\" src=\""+data[i]["pingluner_touxiang"]+"\">" +
+								"<span class=\"position-title\" id=\"position-title-2\"> " +
+									"<span>" + data[i]["pingluner_name"] + "</span>" +
+//									"<span class=\"position-share\">" + data[i]["qianming"] + "</span>"+
+								"</span>"+
+							"</p>"+
+							"<p class=\"position-public column-status\">"+
+								"<span class=\"position-title position-p\" id=\"position-title-3\">"+
+									"<span>" + lianmu + "</span>"+
+								"</span>"+
+							"</p>"+
+							"<p class=\"edit-exit column-operate\">"+
+								"<a class=\"icon-edit icon-webpage\" href='comment-add.jsp?updete_id=" + data[i]["id"] + "'></a>"+
+								"<a class=\"icon-edit icon-del\" href=/mServer/PinglunServlet?type=delete&id=" + data[i]["id"] + " \"></a>"+
+							"</p>"+
+						"</li>";
+						}
+						$("#clear-fix").html(str);
+					},
+					error : function() {
+						alert("error");
+					}
+				});
+			})
+			$("#sort").change(function() {
+				$.ajax({
+					url : "/mServer/PinglunServlet",
+					type : "POST",
+					data : {
+						"Tag":tag,
+						"type":"search",
+						"orderBy" : $("#sort").val()
+					},
+					dataType : "json",
+					success : function(data) {
+						data = data.data.results;
+						var str = "";
+						for (var i in data) {
+							var lianmu = "";
+							var table_name = data[i]["table_name"];
+							switch(table_name){
+							case "toutiao":
+								lianmu = "头条";
+								break;
+							case "faxian":
+								lianmu = "发现";
+								break;
+							case "quchu":
+								lianmu = "去处";
+								break;
+							case "commodity":
+								lianmu = "商品";
+								break;
+							case "fuwu":
+								lianmu = "服务";
+								break;
+							}
+							str +=  "<li>"+
+							"<p class=\"position-show-title column-content\">"+
+//							 <img class=\"position-square\"src=\"#\" /> " +//" + data["pictures"][0]["picture_url"] + 
+								"<i class=\"position-circle\"></i>"+
+								"<span class=\"position-title\" id=\"position-title-1\"> " +
+								"<span>" + data[i]["content"] + "</span>"+
+								"<span class=\"position-share\">阅读量:" + /*data[i]["yuedu_count"]*/ 0 + "&nbsp;分享:" + /*data[i]["share_count"]*/ 0 + "&nbsp;点赞:"+data[i]["dianzan_count"]+"&nbsp;收藏:"+ /*data[i]["shoucang_count"]*/ 0 +"&nbsp;时间:" + data[i]["time"] + "</span>"+
+								"</span>"+
+							"</p>"+
+							"<p class=\"position-author column-author\">"+
+								"<img class=\"icon-author\" src=\""+data[i]["pingluner_touxiang"]+"\">" +
+								"<span class=\"position-title\" id=\"position-title-2\"> " +
+									"<span>" + data[i]["pingluner_name"] + "</span>" +
+//									"<span class=\"position-share\">" + data[i]["qianming"] + "</span>"+
+								"</span>"+
+							"</p>"+
+							"<p class=\"position-public column-status\">"+
+								"<span class=\"position-title position-p\" id=\"position-title-3\">"+
+									"<span>" + lianmu + "</span>"+
+								"</span>"+
+							"</p>"+
+							"<p class=\"edit-exit column-operate\">"+
+								"<a class=\"icon-edit icon-webpage\" href='comment-add.jsp?updete_id=" + data[i]["id"] + "'></a>"+
+								"<a class=\"icon-edit icon-del\" href=/mServer/PinglunServlet?type=delete&id=" + data[i]["id"] + " \"></a>"+
+							"</p>"+
+						"</li>";
+						}
+						$("#clear-fix").html(str);
+					},
+					error : function() {
+						alert("error");
+					}
+				});
+			})
+			
+			$("#rate-search").change(function() {
+				$.ajax({
+					url : "/mServer/PinglunServlet",
+					type : "POST",
+					data : {
+						"Tag":tag,
+						"type":"search",
+						"time" : $("#rate-search").val()?new Date($("#rate-search").val()).format("yyyy-MM-dd"):""
+					},
+					dataType : "json",
+					success : function(data) {
+						data = data.data.results;
+						var str = "";
+						for (var i in data) {
+							var lianmu = "";
+							var table_name = data[i]["table_name"];
+							switch(table_name){
+							case "toutiao":
+								lianmu = "头条";
+								break;
+							case "faxian":
+								lianmu = "发现";
+								break;
+							case "quchu":
+								lianmu = "去处";
+								break;
+							case "commodity":
+								lianmu = "商品";
+								break;
+							case "fuwu":
+								lianmu = "服务";
+								break;
+							}
+							str +=  "<li>"+
+								"<p class=\"position-show-title column-content\">"+
+//								 <img class=\"position-square\"src=\"#\" /> " +//" + data["pictures"][0]["picture_url"] + 
+									"<i class=\"position-circle\"></i>"+
+									"<span class=\"position-title\" id=\"position-title-1\"> " +
+									"<span>" + data[i]["content"] + "</span>"+
+									"<span class=\"position-share\">阅读量:" + /*data[i]["yuedu_count"]*/ 0 + "&nbsp;分享:" + /*data[i]["share_count"]*/ 0 + "&nbsp;点赞:"+data[i]["dianzan_count"]+"&nbsp;收藏:"+ /*data[i]["shoucang_count"]*/ 0 +"&nbsp;时间:" + data[i]["time"] + "</span>"+
+									"</span>"+
+								"</p>"+
+								"<p class=\"position-author column-author\">"+
+									"<img class=\"icon-author\" src=\""+data[i]["pingluner_touxiang"]+"\">" +
+									"<span class=\"position-title\" id=\"position-title-2\"> " +
+										"<span>" + data[i]["pingluner_name"] + "</span>" +
+//										"<span class=\"position-share\">" + data[i]["qianming"] + "</span>"+
+									"</span>"+
+								"</p>"+
+								"<p class=\"position-public column-status\">"+
+									"<span class=\"position-title position-p\" id=\"position-title-3\">"+
+										"<span>" + lianmu + "</span>"+
+									"</span>"+
+								"</p>"+
+								"<p class=\"edit-exit column-operate\">"+
+									"<a class=\"icon-edit icon-webpage\" href='comment-add.jsp?updete_id=" + data[i]["id"] + "'></a>"+
+									"<a class=\"icon-edit icon-del\" href=/mServer/PinglunServlet?type=delete&id=" + data[i]["id"] + " \"></a>"+
+								"</p>"+
+							"</li>";
+						}
+						$("#clear-fix").html(str);
+					},
+					error : function() {
+						alert("error");
+					}
+				});
+			})
+		});
+		function Tag(a) {
+			$("ul[id^='clear-fix-']").hide();
+			$("#clear-fix-"+a).show();
+			$("div[id^='page-']").hide();
+			$("#page-"+a).show();
+			tag = a;
+		}
 		function tiaozhuan(a) {
 			window.location.href = "comment-detail.jsp?id=" + a;
-	
-	
 		}
+		
+		/**  
+		 * 日期格式化（原型扩展或重载）  
+		 * 格式 YYYY/yyyy/ 表示年份  
+		 * MM/M 月份  
+		 * dd/DD/d/D 日期  
+		 * @param {formatStr} 格式模版  
+		 * @type string  
+		 * @returns 日期字符串  
+		 */  
+		Date.prototype.format = function(formatStr){   
+		        var str = formatStr;   
+		        var Week = ['日','一','二','三','四','五','六'];   
+		        str=str.replace(/yyyy|YYYY/,this.getFullYear());  
+		        str=str.replace(/MM/,(this.getMonth()+1)>9?(this.getMonth()+1).toString():'0' + (this.getMonth()+1));   
+		        str=str.replace(/dd|DD/,this.getDate()>9?this.getDate().toString():'0' + this.getDate());   
+		       return str;   
+		} 
 	</script>
 </body>
 </html>

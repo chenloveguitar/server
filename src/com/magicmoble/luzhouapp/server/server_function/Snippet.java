@@ -13,7 +13,7 @@ public class Snippet {
 		if (!f.exists())
 
 		{
-			System.out.println(path + " not exists");
+//			System.out.println(path + " not exists");
 
 		}
 
@@ -25,7 +25,7 @@ public class Snippet {
 			if (fs.isDirectory()) {
 				list.add(fs.getName());
 			} else {
-				System.out.println(fs.getName());
+//				System.out.println(fs.getName());
 			}
 		}
 		return list;

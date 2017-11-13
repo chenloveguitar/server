@@ -17,6 +17,46 @@ public class Pinglun {
 	String tiaomu_id;
 	int huifu_count;
 
+	private java.lang.String tiaomu_type;
+
+	public void setTiaomu_type(java.lang.String tiaomu_type) {
+		this.tiaomu_type = tiaomu_type;
+	}
+
+	public java.lang.String getTiaomu_type() {
+		return this.tiaomu_type;
+	}
+
+	private java.sql.Timestamp now_time;
+
+	private java.lang.String id;
+
+	private java.sql.Timestamp see_time;
+
+	public void setNow_time(java.sql.Timestamp now_time) {
+		this.now_time = now_time;
+	}
+
+	public java.sql.Timestamp getNow_time() {
+		return this.now_time;
+	}
+
+	public void setId(java.lang.String id) {
+		this.id = id;
+	}
+
+	public java.lang.String getId() {
+		return this.id;
+	}
+
+	public void setSee_time(java.sql.Timestamp see_time) {
+		this.see_time = see_time;
+	}
+
+	public java.sql.Timestamp getSee_time() {
+		return this.see_time;
+	}
+
 	public String getTiaomu_id() {
 		return tiaomu_id;
 	}

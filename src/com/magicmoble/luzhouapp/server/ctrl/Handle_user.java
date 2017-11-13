@@ -29,7 +29,7 @@ public class Handle_user extends HttpServlet {
 		String Tag = req.getParameter("Tag");
 		if ("" != sex_change && sex_change != null) {
 			List<User_model> list = Server_Function.sex_change(sex_change,Tag);
-			System.out.println("2222222222222222222");
+//			System.out.println("2222222222222222222");
 			String responseText = JackJsonUtils.toJson(list);
 			 resp.getWriter().write(responseText);
 			//resp.sendRedirect("/mServer/page/Shuoshuo_management.jsp");
@@ -49,7 +49,7 @@ public class Handle_user extends HttpServlet {
 		String blur_rec = req.getParameter("guanjianzi_search");
 		if (blur_rec != null) {
 			List<User_model> list = Server_Function.search_User(blur_rec,Tag);
-			System.out.println("2222222222222222222");
+//			System.out.println("2222222222222222222");
 			String responseText = JackJsonUtils.toJson(list);
 			
 			ResponseUtils.renderJson(resp, responseText); 

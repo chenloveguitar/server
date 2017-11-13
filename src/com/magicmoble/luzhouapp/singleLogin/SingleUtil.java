@@ -62,13 +62,13 @@ public class SingleUtil implements HttpSessionListener {
 			}
 			// 添加现在的sessionID和username
 			hUserName.put(session.getId(), sUserName);
-			System.out.println("hUserName   =   " + hUserName);
-			System.out.println("session.getId()   =   " + session.getId());
+//			System.out.println("hUserName   =   " + hUserName);
+//			System.out.println("session.getId()   =   " + session.getId());
 		} else {// 如果该用户没登录过，直接添加现在的sessionID和username
 			flag = false;
 			hUserName.put(session.getId(), sUserName);
-			System.out.println("session.getId()   =   " + session.getId());
-			System.out.println("hUserName   =   " + hUserName);
+//			System.out.println("session.getId()   =   " + session.getId());
+//			System.out.println("hUserName   =   " + hUserName);
 		}
 		return flag;
 	}

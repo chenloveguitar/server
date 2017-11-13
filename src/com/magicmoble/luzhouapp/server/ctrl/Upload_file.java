@@ -40,7 +40,7 @@ public class Upload_file extends HttpServlet {
 		String update_id = request.getParameter("update_id");
 
 		String _Tag = request.getParameter("Tag");
-		System.out.println(_Tag);
+//		System.out.println(_Tag);
 		int Tag = 0;
 		int tuijian_Tag;
 		Tag = Integer.parseInt(_Tag);
@@ -88,8 +88,8 @@ public class Upload_file extends HttpServlet {
 						String value = item.getString();
 
 						String _value = new String(value.getBytes("ISO-8859-1"), "utf-8");
-						System.out.println(name);
-						System.out.println(_value);
+//						System.out.println(name);
+//						System.out.println(_value);
 						map.put(name, _value);
 
 						request.setAttribute(name, _value);
@@ -146,8 +146,8 @@ public class Upload_file extends HttpServlet {
 						String value = item.getString();
 
 						String _value = new String(value.getBytes("ISO-8859-1"), "utf-8");
-						System.out.println(name);
-						System.out.println(_value);
+//						System.out.println(name);
+//						System.out.println(_value);
 						map.put(name, _value);
 
 						request.setAttribute(name, _value);

@@ -36,7 +36,7 @@ public class RenzhengBusiness {
 			String sql = "INSERT INTO renzheng(id,my_id,picture,name,message,renzheng_Tag,leixing_Tag) VALUES('" + uuid
 					+ "','" + my_id + "','" + picture + "','" + name + "','" + message + "','" + renzheng_Tag + "','"
 					+ leixing_Tag + "')";
-			System.out.println(sql);
+//			System.out.println(sql);
 			db1 = new DBHelper(sql);
 			try {
 				boolean ret = db1.pst.execute();
@@ -50,7 +50,7 @@ public class RenzhengBusiness {
 			String sql = "INSERT INTO renzheng(id,my_id,picture,name,message,renzheng_Tag,leixing_Tag) VALUES('" + uuid
 					+ "','" + my_id + "','" + picture + "','" + name + "','" + message + "'," + renzheng_Tag + ","
 					+ leixing_Tag + ")";
-			System.out.println(sql);
+//			System.out.println(sql);
 			db1 = new DBHelper(sql);
 			try {
 				boolean ret = db1.pst.execute();

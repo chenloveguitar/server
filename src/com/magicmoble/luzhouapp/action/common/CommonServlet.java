@@ -23,9 +23,14 @@ import com.magicmoble.luzhouapp.json.responseUtils.ResponseUtils;
 import com.magicmoble.luzhouapp.json.status.StatusHouse;
 import com.magicmoble.luzhouapp.json.utils.JackJsonUtils;
 import com.magicmoble.luzhouapp.model.Admin_xinxi;
+import com.magicmoble.luzhouapp.model.Commodity;
+import com.magicmoble.luzhouapp.model.Faxian;
 import com.magicmoble.luzhouapp.model.FileManagement;
+import com.magicmoble.luzhouapp.model.Fuwu;
 import com.magicmoble.luzhouapp.model.Pinglun;
+import com.magicmoble.luzhouapp.model.Quchu;
 import com.magicmoble.luzhouapp.model.server.Toutiao;
+import com.magicmoble.luzhouapp.server.server_function.Server_Func;
 import com.magicmoble.luzhouapp.server.server_function.Server_Function;
 
 @WebServlet("/CommonServlet")
@@ -197,6 +202,32 @@ public class CommonServlet extends HttpServlet {
 				List<FileManagement> images = CommonBusiness.getDataByTable("file_management", params, FileManagement.class);
 				DataObject dataObject = new DataObject();
 				dataObject.setdata(images);
+				dataObject.setStatusObject(StatusHouse.COMMON_STATUS_OK);
+				String responseText = JackJsonUtils.toJson(dataObject);
+				ResponseUtils.renderJson(response, responseText);
+			}else if(type.equals("loadItems")){
+				Map<String, String> params = new HashMap<String,String>();
+				List list = null;
+				String tableName = paramMap.get("tableName");
+				switch(tableName){
+					case "toutiao":
+						list = CommonBusiness.getDataByTable(tableName, params, Toutiao.class);
+						break;
+					case "faxian":
+						list = CommonBusiness.getDataByTable(tableName, params, Faxian.class);
+						break;
+					case "commodity":
+						list = CommonBusiness.getDataByTable(tableName, params, Commodity.class);
+						break;
+					case "fuwu":
+						list = CommonBusiness.getDataByTable(tableName, params, Fuwu.class);
+						break;
+					case "quchu":
+						list = CommonBusiness.getDataByTable(tableName, params, Quchu.class);
+						break;
+				}
+				DataObject dataObject = new DataObject();
+				dataObject.setdata(list);
 				dataObject.setStatusObject(StatusHouse.COMMON_STATUS_OK);
 				String responseText = JackJsonUtils.toJson(dataObject);
 				ResponseUtils.renderJson(response, responseText);

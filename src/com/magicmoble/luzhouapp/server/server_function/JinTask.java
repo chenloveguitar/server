@@ -34,7 +34,7 @@ public class JinTask extends TimerTask {
 					String sql1 = "update dingdan set buyer_zhuangtai=7,seller_zhuangtai=7 where id='" + id + "'";
 					db2 = new DBHelper(sql1);
 					boolean ret2 = db2.pst.execute();
-System.out.println("11111111111111");
+//System.out.println("11111111111111");
 					 JiguangPush.push(buyer_id, "你的订单超出时间未付款 系统自动取消");
 				}
 

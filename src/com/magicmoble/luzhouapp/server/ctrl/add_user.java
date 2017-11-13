@@ -81,8 +81,8 @@ public class add_user extends HttpServlet {
 					String value = item.getString();
 
 					String _value = new String(value.getBytes("ISO-8859-1"), "utf-8");
-					System.out.println(name);
-					System.out.println(_value);
+//					System.out.println(name);
+//					System.out.println(_value);
 					map.put(name, _value);
 
 					request.setAttribute(name, _value);
