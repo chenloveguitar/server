@@ -8,15 +8,14 @@
 <head>
 <meta charset="UTF-8">
 <title></title>
-<link rel="stylesheet" type="text/css" href="../common/css/luzou.css" />
-<link rel="stylesheet" type="text/css"
-	href="../common/css/calendar1.css" />
-<script src="../common/lib/jquery-1.9.0.min.js" type="text/javascript"
-	charset="utf-8"></script>
-<script src="../common/js/jquery.min.js" type="text/javascript"
-	charset="utf-8"></script>
-<script src="../common/js/jquery.date_input.pack.js"
-	type="text/javascript" charset="utf-8"></script>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/common/css/luzou.css" />
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/common/css/calendar1.css" />
+<script src="${pageContext.request.contextPath}/common/lib/jquery-1.9.0.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="${pageContext.request.contextPath}/common/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="${pageContext.request.contextPath}/common/js/jquery.date_input.pack.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/common/pager/jquery.z-pager.js"></script>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/common/pager/pager.css">
+<script src="../common/page/js/User_management.js"></script>
 </head>
 <%
 	List<User_model> list = Server_Func.get_User();
@@ -59,210 +58,219 @@
 		</div>
 		<div class="position-content">
 			<div class="position-status">
-				<select name="" class="input-text">
+				<select name="classify" id="classify" class="input-text">
 					<option value="">分类查找</option>
-					<option value="">个人已加V</option>
-					<option value="">第三方注册</option>
-					<option value="">手机注册</option>
-				</select> <select name="" class="input-text" id="sex-change">
+					<option value="1">个人已加V</option>
+					<option value="2">第三方注册</option>
+					<option value="3">手机注册</option>
+				</select> 
+				<select name="" class="input-text" id="sex-change">
 					<option value="">性别</option>
 					<option value="男">男</option>
-					<option value="女">女</option> </select>
-					<input type="text" name="" id="guangjianzi_search" value=""
-					placeholder="关键字" class="input-rate key-bord" /> <select name=""
-					class="third-select">
+					<option value="女">女</option> 
+				</select>
+					<input type="text" name="" id="guangjianzi_search" value="" placeholder="关键字" class="input-rate" />
+					<a href="javascript:void(0);" id="guangjianzi_search_button" style="position: absolute; z-index: 2; margin-left: -70px; margin-top: 8px;">
+						<img src="${pageContext.request.contextPath}/common/image/search.png">
+					</a> 
+					<select name="orderBy" id="orderBy" class="third-select">
 					<option value="">排序</option>
-					<option value="">粉丝量从高到低</option>
-					<option value="">粉丝量从低到高</option>
-					<option value="">关注量从高到低</option>
-					<option value="">关注量从低到高</option>
-					<option value="">发布说说量从高到低</option>
-					<option value="">发布说说量从低到高</option>
-					<option value="">注册时间从早到晚</option>
-					<option value="">注册时间从晚到早</option>
+					<option value="fensi,desc">粉丝量从高到低</option>
+					<option value="fensi,asc">粉丝量从低到高</option>
+					<option value="guanzhu,desc">关注量从高到低</option>
+					<option value="guanzhu,asc">关注量从低到高</option>
+					<option value="shuoshuo,desc">发布说说量从高到低</option>
+					<option value="shuoshuo,asc">发布说说量从低到高</option>
+					<option value="time,desc">注册时间从早到晚</option>
+					<option value="time,asc">注册时间从晚到早</option>
 				</select> <a href="user-add.jsp" class="rebuild">添加用户</a>
 			</div>
 			<div class="position-show">
-				<ul class="clearfix" id="clear-fix">
-					<c:forEach var="list" items="${list5}">
-						<li>
-							<p class="position-show-title">
-								<i class="position-circle"></i> <img class="position-square"
-									src="${list.touxiang}" /> <span class="position-title">
-									<span>${list.name}</span> <span class="position-share">粉丝:${list.fensi}
-										关注:${list.guanzhu} 时间:${list.time}</span>
-								</span>
+				<ul class="clearfix" id="clear-fix-1">
+<%-- 					<c:forEach var="list" items="${list5}"> --%>
+<!-- 						<li> -->
+<!-- 							<p class="position-show-title"> -->
+<!-- 								<i class="position-circle"></i> <img class="position-square" -->
+<%-- 									src="${list.touxiang}" /> <span class="position-title"> --%>
+<%-- 									<span>${list.name}</span> <span class="position-share">粉丝:${list.fensi} --%>
+<%-- 										关注:${list.guanzhu} 时间:${list.time}</span> --%>
+<!-- 								</span> -->
 
-							</p>
-							<p class="position-author">
-								<span class="position-title"> <span>${list.qianming}</span>
-								</span>
-							</p>
-							<p class="position-public">
-								<span class="position-title position-p"> <span>加V说明</span>
-									<span class="position-share">${list.renzheng_Tag}</span>
-								</span> <span class="position-title position-p"> <span>余额</span>
-									<span class="position-share">剩余${list.qianbao}元</span>
-								</span>
-							</p>
-							<p class="edit-exit">
-								<a class="icon-edit icon-webpage" href="<%=request.getContextPath()%>/page/user-update.jsp?id=${list.id}"></a> <i
-									class="icon-edit icon-del"></i>
-							</p>
-						</li>
-					</c:forEach>
+<!-- 							</p> -->
+<!-- 							<p class="position-author"> -->
+<%-- 								<span class="position-title"> <span>${list.qianming}</span> --%>
+<!-- 								</span> -->
+<!-- 							</p> -->
+<!-- 							<p class="position-public"> -->
+<!-- 								<span class="position-title position-p"> <span>加V说明</span> -->
+<%-- 									<span class="position-share">${list.renzheng_Tag}</span> --%>
+<!-- 								</span> <span class="position-title position-p"> <span>余额</span> -->
+<%-- 									<span class="position-share">剩余${list.qianbao}元</span> --%>
+<!-- 								</span> -->
+<!-- 							</p> -->
+<!-- 							<p class="edit-exit"> -->
+<%-- 								<a class="icon-edit icon-webpage" href="<%=request.getContextPath()%>/page/user-update.jsp?id=${list.id}"></a> <i --%>
+<!-- 									class="icon-edit icon-del"></i> -->
+<!-- 							</p> -->
+<!-- 						</li> -->
+<%-- 					</c:forEach> --%>
 				</ul>
 
-				<ul class="clearfix" style="display: none;">
-					<c:forEach var="list" items="${list6}">
-						<li>
-							<p class="position-show-title">
-								<i class="position-circle"></i> <img class="position-square"
-									src="${list.touxiang}" /> <span class="position-title">
-									<span>${list.name}</span> <span class="position-share">粉丝:${list.fensi}
-										关注:${list.guanzhu} 时间:${list.time}</span>
-								</span>
+				<ul class="clearfix" id="clear-fix-2" style="display: none;">
+<%-- 					<c:forEach var="list" items="${list6}"> --%>
+<!-- 						<li> -->
+<!-- 							<p class="position-show-title"> -->
+<!-- 								<i class="position-circle"></i> <img class="position-square" -->
+<%-- 									src="${list.touxiang}" /> <span class="position-title"> --%>
+<%-- 									<span>${list.name}</span> <span class="position-share">粉丝:${list.fensi} --%>
+<%-- 										关注:${list.guanzhu} 时间:${list.time}</span> --%>
+<!-- 								</span> -->
 
-							</p>
-							<p class="position-author">
-								<span class="position-title"> <span>${list.qianming}</span>
-								</span>
-							</p>
-							<p class="position-public">
-								<span class="position-title position-p"> <span>加V说明</span>
-									<span class="position-share">${list.renzheng_Tag}</span>
-								</span> <span class="position-title position-p"> <span>余额</span>
-									<span class="position-share">剩余${list.qianbao}元</span>
-								</span>
-							</p>
-							<p class="edit-exit">
-								<a class="icon-edit icon-webpage" href="<%=request.getContextPath()%>/page/user-update.jsp?id=${list.id}"></a> <i
-									class="icon-edit icon-del"></i>
-							</p>
-						</li>
-					</c:forEach>
+<!-- 							</p> -->
+<!-- 							<p class="position-author"> -->
+<%-- 								<span class="position-title"> <span>${list.qianming}</span> --%>
+<!-- 								</span> -->
+<!-- 							</p> -->
+<!-- 							<p class="position-public"> -->
+<!-- 								<span class="position-title position-p"> <span>加V说明</span> -->
+<%-- 									<span class="position-share">${list.renzheng_Tag}</span> --%>
+<!-- 								</span> <span class="position-title position-p"> <span>余额</span> -->
+<%-- 									<span class="position-share">剩余${list.qianbao}元</span> --%>
+<!-- 								</span> -->
+<!-- 							</p> -->
+<!-- 							<p class="edit-exit"> -->
+<%-- 								<a class="icon-edit icon-webpage" href="<%=request.getContextPath()%>/page/user-update.jsp?id=${list.id}"></a> <i --%>
+<!-- 									class="icon-edit icon-del"></i> -->
+<!-- 							</p> -->
+<!-- 						</li> -->
+<%-- 					</c:forEach> --%>
 				</ul>
-				<ul class="clearfix" style="display: none;">
-					<c:forEach var="list" items="${list}">
-						<li>
-							<p class="position-show-title">
-								<i class="position-circle"></i> <img class="position-square"
-									src="${list.touxiang}" /> <span class="position-title">
-									<span>${list.name}</span> <span class="position-share">粉丝:${list.fensi}
-										关注:${list.guanzhu} 时间:${list.time}</span>
-								</span>
+				<ul class="clearfix" id="clear-fix-3" style="display: none;">
+<%-- 					<c:forEach var="list" items="${list}"> --%>
+<!-- 						<li> -->
+<!-- 							<p class="position-show-title"> -->
+<!-- 								<i class="position-circle"></i> <img class="position-square" -->
+<%-- 									src="${list.touxiang}" /> <span class="position-title"> --%>
+<%-- 									<span>${list.name}</span> <span class="position-share">粉丝:${list.fensi} --%>
+<%-- 										关注:${list.guanzhu} 时间:${list.time}</span> --%>
+<!-- 								</span> -->
 
-							</p>
-							<p class="position-author">
-								<span class="position-title"> <span>${list.qianming}</span>
-								</span>
-							</p>
-							<p class="position-public">
-								<span class="position-title position-p"> <span>加V说明</span>
-									<span class="position-share">${list.renzheng_Tag}</span>
-								</span> <span class="position-title position-p"> <span>余额</span>
-									<span class="position-share">剩余${list.qianbao}元</span>
-								</span>
-							</p>
-							<p class="edit-exit">
-								<a class="icon-edit icon-webpage" href="<%=request.getContextPath()%>/page/user-update.jsp?id=${list.id}"></a> <i
-									class="icon-edit icon-del"></i>
-							</p>
-						</li>
-					</c:forEach>
+<!-- 							</p> -->
+<!-- 							<p class="position-author"> -->
+<%-- 								<span class="position-title"> <span>${list.qianming}</span> --%>
+<!-- 								</span> -->
+<!-- 							</p> -->
+<!-- 							<p class="position-public"> -->
+<!-- 								<span class="position-title position-p"> <span>加V说明</span> -->
+<%-- 									<span class="position-share">${list.renzheng_Tag}</span> --%>
+<!-- 								</span> <span class="position-title position-p"> <span>余额</span> -->
+<%-- 									<span class="position-share">剩余${list.qianbao}元</span> --%>
+<!-- 								</span> -->
+<!-- 							</p> -->
+<!-- 							<p class="edit-exit"> -->
+<%-- 								<a class="icon-edit icon-webpage" href="<%=request.getContextPath()%>/page/user-update.jsp?id=${list.id}"></a> <i --%>
+<!-- 									class="icon-edit icon-del"></i> -->
+<!-- 							</p> -->
+<!-- 						</li> -->
+<%-- 					</c:forEach> --%>
 				</ul>
-				<ul class="clearfix" style="display: none;">
-					<c:forEach var="list" items="${list2}">
-						<li>
-							<p class="position-show-title">
-								<i class="position-circle"></i> <img class="position-square"
-									src="${list.touxiang}" /> <span class="position-title">
-									<span>${list.name}</span> <span class="position-share">粉丝:${list.fensi}
-										关注:${list.guanzhu} 时间:${list.time}</span>
-								</span>
+				<ul class="clearfix" id="clear-fix-4" style="display: none;">
+<%-- 					<c:forEach var="list" items="${list2}"> --%>
+<!-- 						<li> -->
+<!-- 							<p class="position-show-title"> -->
+<!-- 								<i class="position-circle"></i> <img class="position-square" -->
+<%-- 									src="${list.touxiang}" /> <span class="position-title"> --%>
+<%-- 									<span>${list.name}</span> <span class="position-share">粉丝:${list.fensi} --%>
+<%-- 										关注:${list.guanzhu} 时间:${list.time}</span> --%>
+<!-- 								</span> -->
 
-							</p>
-							<p class="position-author">
-								<span class="position-title"> <span>${list.qianming}</span>
-								</span>
-							</p>
-							<p class="position-public">
-								<span class="position-title position-p"> <span>加V说明</span>
-									<span class="position-share">${list.renzheng_Tag}</span>
-								</span> <span class="position-title position-p"> <span>余额</span>
-									<span class="position-share">剩余${list.qianbao}元</span>
-								</span>
-							</p>
-							<p class="edit-exit">
-								<a class="icon-edit icon-webpage" href="<%=request.getContextPath()%>/page/user-update.jsp?id=${list.id}"></a> <i
-									class="icon-edit icon-del"></i>
-							</p>
-						</li>
-					</c:forEach>
+<!-- 							</p> -->
+<!-- 							<p class="position-author"> -->
+<%-- 								<span class="position-title"> <span>${list.qianming}</span> --%>
+<!-- 								</span> -->
+<!-- 							</p> -->
+<!-- 							<p class="position-public"> -->
+<!-- 								<span class="position-title position-p"> <span>加V说明</span> -->
+<%-- 									<span class="position-share">${list.renzheng_Tag}</span> --%>
+<!-- 								</span> <span class="position-title position-p"> <span>余额</span> -->
+<%-- 									<span class="position-share">剩余${list.qianbao}元</span> --%>
+<!-- 								</span> -->
+<!-- 							</p> -->
+<!-- 							<p class="edit-exit"> -->
+<%-- 								<a class="icon-edit icon-webpage" href="<%=request.getContextPath()%>/page/user-update.jsp?id=${list.id}"></a> <i --%>
+<!-- 									class="icon-edit icon-del"></i> -->
+<!-- 							</p> -->
+<!-- 						</li> -->
+<%-- 					</c:forEach> --%>
 				</ul>
-				<ul class="clearfix" style="display: none;">
-					<c:forEach var="list" items="${list3}">
-						<li>
-							<p class="position-show-title">
-								<i class="position-circle"></i> <img class="position-square"
-									src="${list.touxiang}" /> <span class="position-title">
-									<span>${list.name}</span> <span class="position-share">粉丝:${list.fensi}
-										关注:${list.guanzhu} 时间:${list.time}</span>
-								</span>
+				<ul class="clearfix" id="clear-fix-5" style="display: none;">
+<%-- 					<c:forEach var="list" items="${list3}"> --%>
+<!-- 						<li> -->
+<!-- 							<p class="position-show-title"> -->
+<!-- 								<i class="position-circle"></i> <img class="position-square" -->
+<%-- 									src="${list.touxiang}" /> <span class="position-title"> --%>
+<%-- 									<span>${list.name}</span> <span class="position-share">粉丝:${list.fensi} --%>
+<%-- 										关注:${list.guanzhu} 时间:${list.time}</span> --%>
+<!-- 								</span> -->
 
-							</p>
-							<p class="position-author">
-								<span class="position-title"> <span>${list.qianming}</span>
-								</span>
-							</p>
-							<p class="position-public">
-								<span class="position-title position-p"> <span>加V说明</span>
-									<span class="position-share">${list.renzheng_Tag}</span>
-								</span> <span class="position-title position-p"> <span>余额</span>
-									<span class="position-share">剩余${list.qianbao}元</span>
-								</span>
-							</p>
-							<p class="edit-exit">
-								<a class="icon-edit icon-webpage" href="<%=request.getContextPath()%>/page/user-update.jsp?id=${list.id}"></a> <i
-									class="icon-edit icon-del"></i>
-							</p>
-						</li>
-					</c:forEach>
+<!-- 							</p> -->
+<!-- 							<p class="position-author"> -->
+<%-- 								<span class="position-title"> <span>${list.qianming}</span> --%>
+<!-- 								</span> -->
+<!-- 							</p> -->
+<!-- 							<p class="position-public"> -->
+<!-- 								<span class="position-title position-p"> <span>加V说明</span> -->
+<%-- 									<span class="position-share">${list.renzheng_Tag}</span> --%>
+<!-- 								</span> <span class="position-title position-p"> <span>余额</span> -->
+<%-- 									<span class="position-share">剩余${list.qianbao}元</span> --%>
+<!-- 								</span> -->
+<!-- 							</p> -->
+<!-- 							<p class="edit-exit"> -->
+<%-- 								<a class="icon-edit icon-webpage" href="<%=request.getContextPath()%>/page/user-update.jsp?id=${list.id}"></a> <i --%>
+<!-- 									class="icon-edit icon-del"></i> -->
+<!-- 							</p> -->
+<!-- 						</li> -->
+<%-- 					</c:forEach> --%>
 				</ul>
-				<ul class="clearfix" style="display: none;">
-					<c:forEach var="list" items="${list4}">
-						<li>
-							<p class="position-show-title">
-								<i class="position-circle"></i> <img class="position-square"
-									src="${list.touxiang}" /> <span class="position-title">
-									<span>${list.name}</span> <span class="position-share">粉丝:${list.fensi}
-										关注:${list.guanzhu} 时间:${list.time}</span>
-								</span>
+				<ul class="clearfix" id="clear-fix-6" style="display: none;">
+<%-- 					<c:forEach var="list" items="${list4}"> --%>
+<!-- 						<li> -->
+<!-- 							<p class="position-show-title"> -->
+<!-- 								<i class="position-circle"></i> <img class="position-square" -->
+<%-- 									src="${list.touxiang}" /> <span class="position-title"> --%>
+<%-- 									<span>${list.name}</span> <span class="position-share">粉丝:${list.fensi} --%>
+<%-- 										关注:${list.guanzhu} 时间:${list.time}</span> --%>
+<!-- 								</span> -->
 
-							</p>
-							<p class="position-author">
-								<span class="position-title"> <span>${list.qianming}</span>
-								</span>
-							</p>
-							<p class="position-public">
-								<span class="position-title position-p"> <span>加V说明</span>
-									<span class="position-share">${list.renzheng_Tag}</span>
-								</span> <span class="position-title position-p"> <span>余额</span>
-									<span class="position-share">剩余${list.qianbao}元</span>
-								</span>
-							</p>
-							<p class="edit-exit">
-								<a class="icon-edit icon-webpage" href="<%=request.getContextPath()%>/page/user-update.jsp?id=${list.id}"></a> <i
-									class="icon-edit icon-del"></i>
-							</p>
-						</li>
-					</c:forEach>
+<!-- 							</p> -->
+<!-- 							<p class="position-author"> -->
+<%-- 								<span class="position-title"> <span>${list.qianming}</span> --%>
+<!-- 								</span> -->
+<!-- 							</p> -->
+<!-- 							<p class="position-public"> -->
+<!-- 								<span class="position-title position-p"> <span>加V说明</span> -->
+<%-- 									<span class="position-share">${list.renzheng_Tag}</span> --%>
+<!-- 								</span> <span class="position-title position-p"> <span>余额</span> -->
+<%-- 									<span class="position-share">剩余${list.qianbao}元</span> --%>
+<!-- 								</span> -->
+<!-- 							</p> -->
+<!-- 							<p class="edit-exit"> -->
+<%-- 								<a class="icon-edit icon-webpage" href="<%=request.getContextPath()%>/page/user-update.jsp?id=${list.id}"></a> <i --%>
+<!-- 									class="icon-edit icon-del"></i> -->
+<!-- 							</p> -->
+<!-- 						</li> -->
+<%-- 					</c:forEach> --%>
 				</ul>
 			</div>
 		</div>
 		<div class="position-footer">
-			<input type="radio" class="select-all" />全选 <a href="###"
-				class="position-delete">删除</a> <span>分页的位置</span>
+			<input type="radio" class="select-all" />全选 <a href="###" class="position-delete">删除</a> 
+				<div id="page-1" class="pager clearfix"></div>
+				<div id="page-2" class="pager clearfix hide"></div>
+				<div id="page-3" class="pager clearfix hide"></div>
+				<div id="page-4" class="pager clearfix hide"></div>
+				<div id="page-5" class="pager clearfix hide"></div>
+				<div id="page-6" class="pager clearfix hide"></div>
 		</div>
 	</div>
 
@@ -322,48 +330,166 @@
 		})
 	
 		function Tag(a) {
+			$("ul[id^='clear-fix-']").hide();
+			$("#clear-fix-"+a).show();
+			$("div[id^='page-']").hide();
+			$("#page-"+a).show();
 			flag = a;
 		}
 	
-		$("#guangjianzi_search").blur(function() {
-	
-	
+		$("#classify").change(function() {
 			$.ajax({
 				url : "/mServer/Handle_user?Tag=" + flag,
 				type : "POST",
 				data : {
-					"guangjianzi_search" : $("#guangjianzi_search").val()
+					"classify" : $("#classify").val(),
+					"type":"search"
 				},
 				dataType : "json",
 				success : function(message) {
 					var str = "";
-					for (var i in message) {
+					var data = message.data.results;
+					for (var i in data) {
 	
-						str += "		<li>"
-						str += "		<p class=\"position-show-title\">"
-						str += "				<i class=\"position-circle\"></i> <img class=\"position-square\""
-						str += "					src=\"" + message["touxiang"] + "\" /> <span class=\"position-title\">"
-						str += "			<span>" + message["name"] + "</span> <span class=\"position-share\">粉丝:" + message["fensi"] + ""
-						str += "		关注:" + message["guanzhu"] + " 时间:" + message["time"] + "</span>"
-						str += "						</span>"
-						str += "						</p>"
-						str += "				<p class=\"position-author\">"
-						str += "			<span class=\"position-title\"> <span>" + message["qianming"] + "</span>"
-						str += "					</span>"
-						str += "					</p>"
-						str += "					<p class=\"position-public\">"
-						str += "						<span class=\"position-title position-p\"> <span>加V说明</span>"
-						str += "							<span class=\"position-share\">" + message["renzheng_Tag"] + "</span>"
-						str += "						</span> <span class=\"position-title position-p\"> <span>余额</span>"
-						str += "							<span class=\"position-share\">剩余" + message["qianbao"] + "元</span>"
-						str += "						</span>"
-						str += "					</p>"
-						str += "					<p class=\"edit-exit\">"
-						str += "						<i class=\"icon-edit icon-webpage\"></i> <i"
-						str += "							class=\"icon-edit icon-del\"></i>"
-						str += "					</p>"
-						str += "				</li>"
+						str +='<li>'+
+					    '<p class="position-show-title">'+
+					    '<i class="position-circle"></i>'+
+					    '<img class="position-square" src="'+data[i].touxiang_picture+'" />'+
+					    '<span class="position-title">'+
+					        '<span>'+data[i].name+'</span>'+
+					        '<span class="position-share">粉丝:'+data[i].fensi+' 关注:'+data[i].guanzhu+' 时间:'+data[i].time+'</span>'+
+					    '</span>'+
+						'</p>'+
+						'<p class="position-author">'+
+						    '<span class="position-title">'+
+						        '<span>'+data[i].qianming+'</span>'+
+						    '</span>'+	
+						'</p>'+
+						'<p class="position-public">'+
+						    '<span class="position-title position-p">'+
+						        '<span>加V说明</span>'+
+						        '<span class="position-share">'+data[i].renzheng_Tag+'</span>'+
+						    '</span>'+
+						    '<span class="position-title position-p">'+
+						        '<span>余额</span>'+
+						        '<span class="position-share">剩余'+data[i].qianbao+'元</span>'+
+						    '</span>'+
+						'</p>'+
+						'<p class="edit-exit">'+
+						    '<a class="icon-edit icon-webpage" href="/mServer/page/user-update.jsp?id='+data[i].id+'"></a>'+
+						    '<a class="icon-edit icon-del" href="/mServer/Handle_user?type=delete&del_id='+data[i].id+'"></a></i>'+
+						'</p>'+
+						'</li>';
 	
+					}
+	
+	
+					$("#clear-fix").html(str);
+				},
+				error : function() {
+					alert("error");
+				}
+			});
+		})
+		
+		$("#orderBy").change(function() {
+			$.ajax({
+				url : "/mServer/Handle_user?Tag=" + flag,
+				type : "POST",
+				data : {
+					"orderBy" : $("#orderBy").val(),
+					"type":"search"
+				},
+				dataType : "json",
+				success : function(message) {
+					var str = "";
+					var data = message.data.results;
+					for (var i in data) {
+	
+						str +='<li>'+
+					    '<p class="position-show-title">'+
+					    '<i class="position-circle"></i>'+
+					    '<img class="position-square" src="'+data[i].touxiang_picture+'" />'+
+					    '<span class="position-title">'+
+					        '<span>'+data[i].name+'</span>'+
+					        '<span class="position-share">粉丝:'+data[i].fensi+' 关注:'+data[i].guanzhu+' 时间:'+data[i].time+'</span>'+
+					    '</span>'+
+						'</p>'+
+						'<p class="position-author">'+
+						    '<span class="position-title">'+
+						        '<span>'+data[i].qianming+'</span>'+
+						    '</span>'+	
+						'</p>'+
+						'<p class="position-public">'+
+						    '<span class="position-title position-p">'+
+						        '<span>加V说明</span>'+
+						        '<span class="position-share">'+data[i].renzheng_Tag+'</span>'+
+						    '</span>'+
+						    '<span class="position-title position-p">'+
+						        '<span>余额</span>'+
+						        '<span class="position-share">剩余'+data[i].qianbao+'元</span>'+
+						    '</span>'+
+						'</p>'+
+						'<p class="edit-exit">'+
+						    '<a class="icon-edit icon-webpage" href="/mServer/page/user-update.jsp?id='+data[i].id+'"></a>'+
+						    '<a class="icon-edit icon-del" href="/mServer/Handle_user?type=delete&del_id='+data[i].id+'"></a></i>'+
+						'</p>'+
+						'</li>';
+	
+					}
+	
+	
+					$("#clear-fix").html(str);
+				},
+				error : function() {
+					alert("error");
+				}
+			});
+		})
+		
+		$("#guangjianzi_search").blur(function() {
+			$.ajax({
+				url : "/mServer/Handle_user?Tag=" + flag,
+				type : "POST",
+				data : {
+					"name" : $("#guangjianzi_search").val(),
+					"type":"search"
+				},
+				dataType : "json",
+				success : function(message) {
+					var str = "";
+					var data = message.data.results;
+					for (var i in data) {
+	
+						str +='<li>'+
+					    '<p class="position-show-title">'+
+					    '<i class="position-circle"></i>'+
+					    '<img class="position-square" src="'+data[i].touxiang_picture+'" />'+
+					    '<span class="position-title">'+
+					        '<span>'+data[i].name+'</span>'+
+					        '<span class="position-share">粉丝:'+data[i].fensi+' 关注:'+data[i].guanzhu+' 时间:'+data[i].time+'</span>'+
+					    '</span>'+
+						'</p>'+
+						'<p class="position-author">'+
+						    '<span class="position-title">'+
+						        '<span>'+data[i].qianming+'</span>'+
+						    '</span>'+	
+						'</p>'+
+						'<p class="position-public">'+
+						    '<span class="position-title position-p">'+
+						        '<span>加V说明</span>'+
+						        '<span class="position-share">'+data[i].renzheng_Tag+'</span>'+
+						    '</span>'+
+						    '<span class="position-title position-p">'+
+						        '<span>余额</span>'+
+						        '<span class="position-share">剩余'+data[i].qianbao+'元</span>'+
+						    '</span>'+
+						'</p>'+
+						'<p class="edit-exit">'+
+						    '<a class="icon-edit icon-webpage" href="/mServer/page/user-update.jsp?id='+data[i].id+'"></a>'+
+						    '<a class="icon-edit icon-del" href="/mServer/Handle_user?type=delete&del_id='+data[i].id+'"></a></i>'+
+						'</p>'+
+						'</li>';
 	
 					}
 	
@@ -382,39 +508,43 @@
 				url : "/mServer/Handle_user?Tag=" + flag,
 				type : "POST",
 				data : {
-					"sex-change" : $("#sex-change").val()
+					"sex" : $("#sex-change").val(),
+					"type":"search"
 				},
 				dataType : "json",
 				success : function(message) {
+					var data = message.data.results;
 					var str = "";
-					for (var i in message) {
-	
-						str += "		<li>"
-						str += "		<p class=\"position-show-title\">"
-						str += "				<i class=\"position-circle\"></i> <img class=\"position-square\""
-						str += "					src=\"" + message["touxiang"] + "\" /> <span class=\"position-title\">"
-						str += "			<span>" + message["name"] + "</span> <span class=\"position-share\">粉丝:" + message["fensi"] + ""
-						str += "		关注:" + message["guanzhu"] + " 时间:" + message["time"] + "</span>"
-						str += "						</span>"
-						str += "						</p>"
-						str += "				<p class=\"position-author\">"
-						str += "			<span class=\"position-title\"> <span>" + message["qianming"] + "</span>"
-						str += "					</span>"
-						str += "					</p>"
-						str += "					<p class=\"position-public\">"
-						str += "						<span class=\"position-title position-p\"> <span>加V说明</span>"
-						str += "							<span class=\"position-share\">" + message["renzheng_Tag"] + "</span>"
-						str += "						</span> <span class=\"position-title position-p\"> <span>余额</span>"
-						str += "							<span class=\"position-share\">剩余" + message["qianbao"] + "元</span>"
-						str += "						</span>"
-						str += "					</p>"
-						str += "					<p class=\"edit-exit\">"
-						str += "						<i class=\"icon-edit icon-webpage\"></i> <i"
-						str += "							class=\"icon-edit icon-del\"></i>"
-						str += "					</p>"
-						str += "				</li>"
-	
-	
+					for (var i in data) {
+						str +='<li>'+
+							    '<p class="position-show-title">'+
+							    '<i class="position-circle"></i>'+
+							    '<img class="position-square" src="'+data[i].touxiang_picture+'" />'+
+							    '<span class="position-title">'+
+							        '<span>'+data[i].name+'</span>'+
+							        '<span class="position-share">粉丝:'+data[i].fensi+' 关注:'+data[i].guanzhu+' 时间:'+data[i].time+'</span>'+
+							    '</span>'+
+							'</p>'+
+							'<p class="position-author">'+
+							    '<span class="position-title">'+
+							        '<span>'+data[i].qianming+'</span>'+
+							    '</span>'+	
+							'</p>'+
+							'<p class="position-public">'+
+							    '<span class="position-title position-p">'+
+							        '<span>加V说明</span>'+
+							        '<span class="position-share">'+data[i].renzheng_Tag+'</span>'+
+							    '</span>'+
+							    '<span class="position-title position-p">'+
+							        '<span>余额</span>'+
+							        '<span class="position-share">剩余'+data[i].qianbao+'元</span>'+
+							    '</span>'+
+							'</p>'+
+							'<p class="edit-exit">'+
+							    '<a class="icon-edit icon-webpage" href="/mServer/page/user-update.jsp?id='+data[i].id+'"></a>'+
+							    '<a class="icon-edit icon-del" href="/mServer/Handle_user?type=delete&del_id='+data[i].id+'"></a>'+
+							'</p>'+
+						'</li>';
 					}
 	
 	

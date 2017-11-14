@@ -212,6 +212,7 @@
 	                cache : false,  
         			async : false,
 	                success: function(data) {
+	                	console.log(data)
 	                	if(data.code === "0000"){
 		                	if(data.data.totalSize && (data.data.totalSize!==0)){
 		                        parms['total'] = data.data.totalSize;

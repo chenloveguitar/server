@@ -2,11 +2,20 @@ package com.magicmoble.luzhouapp.model;
 
 public class Login {
 	private String login_id;
+	private String id;
 	private String phone;
 	private String password;
 
 	public String getLogin_id() {
 		return login_id;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public void setLogin_id(String login_id) {

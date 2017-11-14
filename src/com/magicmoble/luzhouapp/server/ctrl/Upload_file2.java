@@ -228,7 +228,7 @@ public class Upload_file2 extends HttpServlet {
 			params.put("tiaomu_id", id);
 			params.put("hongbao_price", dzhongbao_price);
 			params.put("hongbao_count", dzhongbao_count);
-			Server_Function.insterDataByTable("hongbao",params);
+			Server_Function.insertDataByTable("hongbao",params);
 		}else{
 			List<Hongbao> dzHongbaos = FunctionBusiness.getHongbaoByTiaomuId(id, "1");
 			List<Hongbao> dzhongbaoupdate = new ArrayList<Hongbao>();
@@ -247,7 +247,7 @@ public class Upload_file2 extends HttpServlet {
 			params.put("tiaomu_id", id);
 			params.put("hongbao_price", fxhongbao_price);
 			params.put("hongbao_count", fxhongbao_count);
-			Server_Function.insterDataByTable("hongbao",params);
+			Server_Function.insertDataByTable("hongbao",params);
 		}else{
 			//获取分享红包总金额和数量
 			List<Hongbao> fxHongbaos = FunctionBusiness.getHongbaoByTiaomuId(id, "2");
@@ -276,7 +276,7 @@ public class Upload_file2 extends HttpServlet {
 		//没有推荐人从新添加一个关联
 		}else{
 			params.put("tiaomu_id", id);
-			Server_Function.insterDataByTable("tuijian_list",params);
+			Server_Function.insertDataByTable("tuijian_list",params);
 		}
 		if(StringUtils.isNotBlank(id)){
 			DataObject dataObject = new DataObject();

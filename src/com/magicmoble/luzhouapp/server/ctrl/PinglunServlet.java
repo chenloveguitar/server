@@ -75,7 +75,7 @@ public class PinglunServlet extends HttpServlet {
 					params.put("see_time", time);
 					params.put("now_time", time);
 					params.put("dianzan_count", "0");
-					Server_Function.insterDataByTable(Pinglun.class.getSimpleName().toLowerCase(), params);
+					Server_Function.insertDataByTable(Pinglun.class.getSimpleName().toLowerCase(), params);
 					//重定向
 					response.sendRedirect("/mServer/page/comment.jsp");
 				}

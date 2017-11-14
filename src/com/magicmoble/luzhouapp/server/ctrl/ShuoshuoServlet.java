@@ -81,7 +81,7 @@ public class ShuoshuoServlet extends HttpServlet {
 					shuoshuo.setTime(new Timestamp(new Date().getTime()));
 					shuoshuo.setNow_time(new Timestamp(new Date().getTime()));
 					Map<String, String> data = ObjectUtils.entityToMap(shuoshuo);
-					int inserted = Server_Function.insterDataByTable(Shuoshuo.class.getSimpleName().toLowerCase(), data);
+					int inserted = Server_Function.insertDataByTable(Shuoshuo.class.getSimpleName().toLowerCase(), data);
 					if(inserted > 0){
 						flag = true;
 					}

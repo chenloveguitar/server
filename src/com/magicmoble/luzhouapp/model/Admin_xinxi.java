@@ -35,10 +35,29 @@ public class Admin_xinxi {
 	String phone;
 	Timestamp time;
 	double qianbao;
-	
-	
-	
 
+
+	private java.lang.String id;
+
+	private int yonghu_Tag;
+
+
+	public void setId(java.lang.String id){
+		this.id = id;
+	}
+
+	public java.lang.String getId(){
+		return this.id;
+	}
+
+	public void setYonghu_Tag(int yonghu_Tag){
+		this.yonghu_Tag = yonghu_Tag;
+	}
+
+	public int getYonghu_Tag(){
+		return this.yonghu_Tag;
+	}
+	
 	public Timestamp getTime() {
 		return time;
 	}

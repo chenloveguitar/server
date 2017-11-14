@@ -2428,18 +2428,25 @@ public class Server_Function<T> {
 
 	}
 
-	public static int insterDataByTable(String tableName, Map<String, String> params) {
+	public static int insertDataByTable(String tableName, Map<String, String> params) {
 		String sql = null;
 		DBHelper db1 = null;
-		String uuid = UUID.randomUUID().toString();
+		String uuid = null;
+		if(params.containsKey("id")){
+			uuid = params.get("id");
+		}else{
+			uuid = UUID.randomUUID().toString();
+		}
 
 		sql = "INSERT INTO "+tableName;
 		Set<String> keys = params.keySet();
 		String column = "(";
 		String value = "VALUES(";
 		for (String key : keys) {
-			column += key + ",";
-			value += "'" + params.get(key) + "'" + ",";
+			if(!key.equals("id")){
+				column += key + ",";
+				value += "'" + params.get(key) + "'" + ",";
+			}
 		}
 		column += "id";
 		column += ")";

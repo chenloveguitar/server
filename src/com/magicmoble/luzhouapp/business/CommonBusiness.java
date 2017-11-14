@@ -22,7 +22,10 @@ import org.apache.commons.lang3.StringUtils;
 import com.magicmoble.luzhouapp.entity.Shuoshuo;
 import com.magicmoble.luzhouapp.model.Admin_xinxi;
 import com.magicmoble.luzhouapp.model.FileManagement;
+import com.magicmoble.luzhouapp.model.Renzheng;
 import com.magicmoble.luzhouapp.model.Tuijian_list;
+import com.magicmoble.luzhouapp.server.server_function.Server_Func;
+import com.magicmoble.luzhouapp.server.server_function.Server_Function;
 import com.mysql.jdbc.Statement;
 
 public class CommonBusiness {
@@ -141,6 +144,74 @@ public class CommonBusiness {
 		}
 		return lists;
 	}
+	
+	public static List<Map<String, String>> getPageMapDataByTable(String table_name,Map<String, String> params){
+		String sql = "select * from " + table_name + " where 1=1 ";
+		Set<String> keys = params.keySet();
+		Iterator<String> iterator = keys.iterator();
+		while (iterator.hasNext()) {
+			String key = iterator.next();
+			if(!key.equals("orderBy")){
+				if(params.get(key).contains(",")){
+					String[] values = params.get(key).split(",");
+					String symbol = values[0];
+					String value = values[1];
+					sql += " and " + key + " " + " " + symbol + " " + value;
+				}
+			}
+		}
+		
+		TOTAL_SIZE = getTotalSize(sql);
+		if(params.containsKey("orderBy")){
+			String[] values = params.get("orderBy").split(",");
+			sql += " order by " + values[0] + " " + values[1];
+		}
+		sql = getLimitSql(sql);
+		
+		DBHelper db = null;
+		ResultSet ret = null;
+		List<Map<String, String>> lists = new ArrayList<Map<String, String>>();
+		try {
+			db = new DBHelper(sql);
+			ret = db.pst.executeQuery();
+			while(ret.next()){
+				Map<String, String> data = new HashMap<String,String>();
+				ResultSetMetaData metaData = ret.getMetaData();
+				int count = metaData.getColumnCount();
+				for (int i = 1; i <= count; i++) {
+					String columnLabel = metaData.getColumnLabel(i);
+					String value = ret.getString(i);
+					data.put(columnLabel, value);
+				}
+				if(table_name.equals(Admin_xinxi.class.getSimpleName().toLowerCase())){
+					int fensi = GuanzhuBusiness.getZhuye_Friend_id(data.get("id"), 0).size();
+					int guanzhu = GuanzhuBusiness.getZhuye_My_id(data.get("id"), 0).size();
+					Renzheng renzheng = Server_Function.findDataByTableAndId(Renzheng.class.getSimpleName().toLowerCase(), data.get("id"), Renzheng.class);
+					String  renzheng_Tag = renzheng.getRenzheng_Tag();
+					String renzheng_message = "";
+					if(StringUtils.isNotBlank(renzheng_Tag)){
+						if (renzheng_Tag.equals("1")) {
+							renzheng_Tag = "未认证";
+						} else if (renzheng_Tag.equals("2")) {
+							renzheng_Tag = "认证中";
+						} else if (renzheng_Tag.equals("3")) {
+							renzheng_Tag = "已认证";
+						}
+					}
+					data.put("fensi", String.valueOf(fensi));
+					data.put("guanzhu", String.valueOf(guanzhu));
+					data.put("renzheng_Tag", String.valueOf(renzheng_message));
+				}
+				lists.add(data);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			db.close();
+		}
+		return lists;
+	}
+	
 	public static void main(String[] args) {
 		Map<String, String> params = new HashMap<>();
 		CommonBusiness.CURRENT_PAGE = 1;

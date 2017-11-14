@@ -38,6 +38,7 @@ import com.magicmoble.luzhouapp.model.Guanzhu;
 import com.magicmoble.luzhouapp.model.Picture;
 import com.magicmoble.luzhouapp.model.Pinglun;
 import com.magicmoble.luzhouapp.model.Quchu;
+import com.magicmoble.luzhouapp.model.Renzheng;
 import com.magicmoble.luzhouapp.model.server.Dingdan_model;
 import com.magicmoble.luzhouapp.model.server.Guanggao_model;
 import com.magicmoble.luzhouapp.model.server.Home_model;
@@ -2848,6 +2849,25 @@ public class Server_Func {
 						data.put("pingluner_touxiang", pingluner_touxiang);
 					}
 					data.put(key, value);
+				}
+				if(leftTableName.equals(Admin_xinxi.class.getSimpleName().toLowerCase())){
+					int fensi = GuanzhuBusiness.getZhuye_Friend_id(data.get("id"), 0).size();
+					int guanzhu = GuanzhuBusiness.getZhuye_My_id(data.get("id"), 0).size();
+					Renzheng renzheng = Server_Function.findDataByTableAndId(Renzheng.class.getSimpleName().toLowerCase(), data.get("id"), Renzheng.class);
+					String  renzheng_Tag = renzheng.getRenzheng_Tag();
+					String renzheng_message = "";
+					if(StringUtils.isNotBlank(renzheng_Tag)){
+						if (renzheng_Tag.equals("1")) {
+							renzheng_Tag = "未认证";
+						} else if (renzheng_Tag.equals("2")) {
+							renzheng_Tag = "认证中";
+						} else if (renzheng_Tag.equals("3")) {
+							renzheng_Tag = "已认证";
+						}
+					}
+					data.put("fensi", String.valueOf(fensi));
+					data.put("guanzhu", String.valueOf(guanzhu));
+					data.put("renzheng_Tag", String.valueOf(renzheng_message));
 				}
 				lists.add(data);
 			}
