@@ -9,21 +9,54 @@
 <meta charset="UTF-8">
 <title></title>
 <link rel="stylesheet" type="text/css" href="../common/css/luzou.css" />
-<link rel="stylesheet" type="text/css" href="common/css/luzou.css" />
 <link rel="stylesheet" type="text/css" href="../common/css/calendar1.css" />
-<link rel="stylesheet" type="text/css" href="common/css/calendar1.css" />
-<script src="../common/lib/jquery-1.9.0.min.js" type="text/javascript"
-	charset="utf-8"></script>
-<script src="common/lib/jquery-1.9.0.min.js" type="text/javascript"
-	charset="utf-8"></script>
-<script src="../common/js/jquery.min.js" type="text/javascript"
-	charset="utf-8"></script>
-<script src="common/js/jquery.min.js" type="text/javascript"
-	charset="utf-8"></script>
-<script src="../common/js/jquery.date_input.pack.js"
-	type="text/javascript" charset="utf-8"></script>
-<script src="common/js/jquery.date_input.pack.js"
-	type="text/javascript" charset="utf-8"></script>
+<script src="../common/lib/jquery-1.9.0.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../common/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../common/js/jquery.date_input.pack.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="../common/page/js/Advertisement_management.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/common/pager/jquery.z-pager.js"></script>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/common/pager/pager.css">
+<style>
+	.header-title{
+		width:54%;
+	}
+	.header-author{
+		width:15%;
+	}
+	.header-status{
+		width:15%;
+	}
+	.header-operate{
+		width:15%;
+	}
+	
+	.column-content{
+		width:54%;
+	}
+	.column-content .position-square{
+		width:30px;
+	}
+	.column-author{
+		width:15%;
+	    position: relative;
+    	left: 3%;
+	}
+	.column-status{
+		text-align: center;
+		width:15%;
+	}
+	.column-operate{
+		width:15%;
+		padding:0;
+		text-align: center;
+	}
+	.column-image{
+		width:12%;
+	}
+	.column-position{
+		width:98%;
+	}
+</style>
 </head>
 
 
@@ -61,90 +94,106 @@
 					<option value="">点击量从低到高</option>
 				</select> <a href="advert-add.jsp" class="rebuild">添加广告</a>
 			</div>
-			<div class="position-show">
-
+			<div class="position-write">
 				<ul class="clearfix">
-					<c:forEach var="list" items="${list}">
-						<li>
-							<p class="position-show-title">
-								<i class="position-circle "></i> <span class="position-title">
-									<span class="advert-manage"> <img src="${list.picture}"
-										alt="" />
-								</span> <span class="advert-position">${list.url}</span>
-								</span>
-							</p>
-							<p class="position-author">
-								<span class="position-title advert-time"> ${list.time} </span>
-							</p>
-							<p class="position-author">
-								<span class="position-title advert-time">
-									${list.shangjia_message}</span>
-							</p>
-							<p class="edit-exit">
-								<a class="icon-edit icon-webpage" href="<%=request.getContextPath()%>/page/advert-add.jsp"></a> <i
-									class="icon-edit icon-del"></i>
-							</p>
-						</li>
+					<li class="position-show-title1 header-title">广告内容</li>
+					<li class="position-author1 header-author">时间</li>
+					<li class="position-ye header-status">状态</li>
+					<li class="position-de header-operate">操作</li>
+				</ul>
+			</div>
+			<div class="position-show">
+<!-- 				<ul class="clearfix" id="clear-fix-1"> -->
+<!-- 				</ul> -->
+<!-- 				<ul class="clearfix" id="clear-fix-2"> -->
+<!-- 				</ul> --> 
+<!-- 				<ul class="clearfix" id="clear-fix-3"> -->
+<!-- 				</ul> -->
+				<ul class="clearfix">
+<%-- 					<c:forEach var="list" items="${list}"> --%>
+<!-- 						<li> -->
+<!-- 							<p class="position-show-title column-content"> -->
+<!-- 								<i class="position-circle "></i> <span class="position-title"> -->
+<%-- 									<span class="advert-manage column-image"> <img src="${list.picture}" --%>
+<!-- 										alt="" /> -->
+<%-- 								</span> <span class="advert-position column-position">${list.url}</span> --%>
+<!-- 								</span> -->
+<!-- 							</p> -->
+<!-- 							<p class="position-author column-author"> -->
+<%-- 								<span class="position-title advert-time"> ${list.time} </span> --%>
+<!-- 							</p> -->
+<!-- 							<p class="position-author column-status"> -->
+<!-- 								<span class="position-title advert-time"> -->
+<%-- 									${list.shangjia_message}</span> --%>
+<!-- 							</p> -->
+<!-- 							<p class="edit-exit column-operate"> -->
+<%-- 								<a class="icon-edit icon-webpage" href="<%=request.getContextPath()%>/page/advert-add.jsp"></a> <i --%>
+<!-- 									class="icon-edit icon-del"></i> -->
+<!-- 							</p> -->
+<!-- 						</li> -->
 
-					</c:forEach>
+<%-- 					</c:forEach> --%>
 
 				</ul>
 
 				<ul class="clearfix" style="display: none;">
-					<c:forEach var="list" items="${list}">
-						<li>
-							<p class="position-show-title">
-								<i class="position-circle "></i> <span class="position-title">
-									<span class="advert-manage"> <img src="${list.picture}"
-										alt="" />
-								</span> <span class="advert-position">${list.url}</span>
-								</span>
-							</p>
-							<p class="position-author">
-								<span class="position-title advert-time"> ${list.time} </span>
-							</p>
-							<p class="position-author">
-								<span class="position-title advert-time">
-									${list.shangjia_message}</span>
-							</p>
-							<p class="edit-exit">
-								<a class="icon-edit icon-webpage" href="<%=request.getContextPath()%>/page/advert-update.jsp"></a> <i
-									class="icon-edit icon-del"></i>
-							</p>
-						</li>
+<%-- 					<c:forEach var="list" items="${list}"> --%>
+<!-- 						<li> -->
+<!-- 							<p class="position-show-title"> -->
+<!-- 								<i class="position-circle "></i> <span class="position-title"> -->
+<%-- 									<span class="advert-manage"> <img src="${list.picture}" --%>
+<!-- 										alt="" /> -->
+<%-- 								</span> <span class="advert-position">${list.url}</span> --%>
+<!-- 								</span> -->
+<!-- 							</p> -->
+<!-- 							<p class="position-author"> -->
+<%-- 								<span class="position-title advert-time"> ${list.time} </span> --%>
+<!-- 							</p> -->
+<!-- 							<p class="position-author"> -->
+<!-- 								<span class="position-title advert-time"> -->
+<%-- 									${list.shangjia_message}</span> --%>
+<!-- 							</p> -->
+<!-- 							<p class="edit-exit"> -->
+<%-- 								<a class="icon-edit icon-webpage" href="<%=request.getContextPath()%>/page/advert-update.jsp"></a> <i --%>
+<!-- 									class="icon-edit icon-del"></i> -->
+<!-- 							</p> -->
+<!-- 						</li> -->
 
-					</c:forEach>
+<%-- 					</c:forEach> --%>
 				</ul>
 				<ul class="clearfix" style="display: none;">
-					<c:forEach var="list" items="${list}">
-						<li>
-							<p class="position-show-title">
-								<i class="position-circle "></i> <span class="position-title">
-									<span class="advert-manage"> <img  src="${list.picture}"
-										alt="" />
-								</span> <span class="advert-position">${list.url}</span>
-								</span>
-							</p>
-							<p class="position-author">
-								<span class="position-title advert-time"> ${list.time} </span>
-							</p>
-							<p class="position-author">
-								<span class="position-title advert-time">
-									${list.shangjia_message}</span>
-							</p>
-							<p class="edit-exit">
-								<a class="icon-edit icon-webpage" href="<%=request.getContextPath()%>/page/advert-update.jsp"></a> <i
-									class="icon-edit icon-del"></i>
-							</p>
-						</li>
+<%-- 					<c:forEach var="list" items="${list}"> --%>
+<!-- 						<li> -->
+<!-- 							<p class="position-show-title"> -->
+<!-- 								<i class="position-circle "></i> <span class="position-title"> -->
+<%-- 									<span class="advert-manage"> <img  src="${list.picture}" --%>
+<!-- 										alt="" /> -->
+<%-- 								</span> <span class="advert-position">${list.url}</span> --%>
+<!-- 								</span> -->
+<!-- 							</p> -->
+<!-- 							<p class="position-author"> -->
+<%-- 								<span class="position-title advert-time"> ${list.time} </span> --%>
+<!-- 							</p> -->
+<!-- 							<p class="position-author"> -->
+<!-- 								<span class="position-title advert-time"> -->
+<%-- 									${list.shangjia_message}</span> --%>
+<!-- 							</p> -->
+<!-- 							<p class="edit-exit"> -->
+<%-- 								<a class="icon-edit icon-webpage" href="<%=request.getContextPath()%>/page/advert-update.jsp"></a> <i --%>
+<!-- 									class="icon-edit icon-del"></i> -->
+<!-- 							</p> -->
+<!-- 						</li> -->
 
-					</c:forEach>
+<%-- 					</c:forEach> --%>
 				</ul>
 			</div>
 		</div>
 		<div class="position-footer">
-			<input type="radio" class="select-all" />全选 <a href="###"
-				class="position-delete">删除</a> <span>分页的位置</span>
+			<input type="radio" class="select-all" />全选 
+			<a href="###" class="position-delete">删除</a> 
+			<div id="page-1" class="pager clearfix"></div>
+			<div id="page-2" class="pager clearfix"></div>
+			<div id="page-3" class="pager clearfix"></div>
 		</div>
 	</div>
 

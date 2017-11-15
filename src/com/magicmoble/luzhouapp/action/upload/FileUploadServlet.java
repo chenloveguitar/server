@@ -25,6 +25,7 @@ import com.magicmoble.luzhouapp.json.status.StatusHouse;
 import com.magicmoble.luzhouapp.json.utils.JackJsonUtils;
 import com.magicmoble.luzhouapp.model.Admin_xinxi;
 import com.magicmoble.luzhouapp.model.FileManagement;
+import com.magicmoble.luzhouapp.model.server.Advertisement;
 import com.magicmoble.luzhouapp.server.server_function.Server_Function;
 import com.magicmoble.luzhouapp.utils.FileUploadUtil;
 
@@ -68,7 +69,8 @@ public class FileUploadServlet extends HttpServlet {
 			List<FileManagement> managements = CommonBusiness.getDataByTable("file_management", data, FileManagement.class);
 			String path = p.getProperty("path");
 			String picture = path + "absolutePath=zwtp.png,";
-			if(!tableName.equals(Admin_xinxi.class.getSimpleName().toLowerCase())){
+			if(!tableName.equals(Admin_xinxi.class.getSimpleName().toLowerCase())&&
+				!tableName.equals(Advertisement.class.getSimpleName().toLowerCase())){
 				for (FileManagement fileManagement : managements) {
 					String absolute_path = fileManagement.getAbsolute_path();
 					picture += path + "absolutePath=" + absolute_path+",";
@@ -80,6 +82,8 @@ public class FileUploadServlet extends HttpServlet {
 			if(StringUtils.isNotBlank(tableName)){
 				if(tableName.equals(Admin_xinxi.class.getSimpleName().toLowerCase())){
 					data.put("touxiang_picture", picture.substring(0, picture.length()-1));
+				}else if(tableName.equals(Advertisement.class.getSimpleName().toLowerCase())){
+					data.put("picture", picture);
 				}else{
 					data.put("picture", picture);
 				}

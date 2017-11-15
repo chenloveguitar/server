@@ -1,33 +1,145 @@
 package com.magicmoble.luzhouapp.server.ctrl;
 
-import com.magicmoble.luzhouapp.server.server_function.Server_Func;
-import com.magicmoble.luzhouapp.server.server_function.Server_Function;
-
-import net.sf.json.JSONArray;
-
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
+
+import com.magicmoble.luzhouapp.json.core.DataObject;
 import com.magicmoble.luzhouapp.json.responseUtils.ResponseUtils;
+import com.magicmoble.luzhouapp.json.status.StatusHouse;
 import com.magicmoble.luzhouapp.json.utils.JackJsonUtils;
 import com.magicmoble.luzhouapp.json.utils.UploadPicture;
-import com.magicmoble.luzhouapp.model.server.Shuoshuo;
-import com.magicmoble.luzhouapp.model.server.Shuoshuo_xiangqing;
-import com.magicmoble.luzhouapp.model.server.User_model;
+import com.magicmoble.luzhouapp.model.Commodity;
+import com.magicmoble.luzhouapp.model.Faxian;
+import com.magicmoble.luzhouapp.model.Fuwu;
+import com.magicmoble.luzhouapp.model.Pinglun;
+import com.magicmoble.luzhouapp.model.Quchu;
+import com.magicmoble.luzhouapp.model.server.Advertisement;
+import com.magicmoble.luzhouapp.model.server.Toutiao;
+import com.magicmoble.luzhouapp.server.server_function.Server_Func;
+import com.magicmoble.luzhouapp.server.server_function.Server_Function;
 
 public class Handle_guanggao extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
+	@Override
+	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String type = request.getParameter("type");
+		String Tag = request.getParameter("Tag");
+		String currentPage = request.getParameter("currentPage");
+		String pageSize = request.getParameter("pageSize");
+		Server_Func.CURRENT_PAGE = Integer.valueOf(currentPage == null ? "1":currentPage);
+		Map<String,String> paramMap = new HashMap<String,String>();
+		Enumeration<String> names = request.getParameterNames();
+		while(names.hasMoreElements()){
+			String name = names.nextElement();
+			String value = request.getParameter(name);
+			paramMap.put(name, value);
+		}
+		
+		String id = paramMap.get("id");
+		boolean flag = false;
+		if(StringUtils.isNotBlank(type)){
+			if(type.equals("edit")){
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				String time = sdf.format(new Date());
+				Map<String, String> params = new HashMap<String,String>();
+				params.put("guanggao_id", paramMap.get("guanggao_id"));
+				params.put("fenlei_Tag", paramMap.get("fenlei_Tag"));
+				params.put("url", paramMap.get("url"));
+				if(StringUtils.isNotBlank(paramMap.get("guangjie_fenlei_Tag"))){
+					params.put("guangjie_fenlei_Tag", paramMap.get("guangjie_fenlei_Tag"));
+				}
+				params.put("shangjia_Tag", paramMap.get("shangjia_Tag"));
+				//编辑
+				if(StringUtils.isNotBlank(paramMap.get("id"))){
+					Server_Function.updateDataByTableAndId(Advertisement.class.getSimpleName().toLowerCase(),id,params);
+				//添加
+				}else{
+					params.put("time", time);
+					params.put("muban_Tag", "4");
+					Server_Function.insertDataByTable(Advertisement.class.getSimpleName().toLowerCase(), params);
+					id=params.get("id");
+				}
+				DataObject dataObject = new DataObject();
+				dataObject.setdata(id);
+				dataObject.setStatusObject(StatusHouse.COMMON_STATUS_OK);
+				String responseText = JackJsonUtils.toJson(dataObject);
+				ResponseUtils.renderJson(response, responseText);
+			}else if(type.equals("delete")){
+				Server_Function.deleteDataByTbaleAndId(Advertisement.class.getSimpleName().toLowerCase(), id, null);
+				//重定向
+				response.sendRedirect("/mServer/page/comment.jsp");
+			}else if(type.equals("search")){
+				List<Map<String, String>> list = new ArrayList<Map<String,String>>();
+				String tag = request.getParameter("Tag");
+				String time = request.getParameter("time");
+				String content = request.getParameter("content");
+				String orderBy = request.getParameter("orderBy");
+				String tuijian_Tag = request.getParameter("tuijian_Tag");
+				Map<String, String> params = new HashMap<String,String>();
+				if(StringUtils.isNotBlank(time)){
+					params.put("l.time", " like,'%"+paramMap.get("time")+"%'");
+				}
+				if(StringUtils.isNotBlank(content)){
+					params.put("l.content", " like,'%"+paramMap.get("content")+"%'");
+				}
+				if(StringUtils.isNotBlank(orderBy)){
+					params.put("orderBy", paramMap.get("orderBy"));
+				}
+				if(StringUtils.isNotBlank(tuijian_Tag)){
+					params.put("l.tuijian_Tag", " =,l.'"+paramMap.get("tuijian_Tag")+"'");
+				}
+				
+				params.put("join", "l.tiaomu_id = r.id");
+				
+				String selectFields = "l.id,l.tiaomu_id,l.pingluner_id,l.time,l.dianzan_count,l.now_time,l.content";
+				
+				switch(tag){
+					case "1"://全部
+						list = Server_Func.findUnionAllDataToLinkedQuery(
+								Pinglun.class.getSimpleName().toLowerCase(),
+								selectFields,
+								params, 
+								Toutiao.class.getSimpleName().toLowerCase(),
+								Faxian.class.getSimpleName().toLowerCase(),
+								Quchu.class.getSimpleName().toLowerCase(),
+								Commodity.class.getSimpleName().toLowerCase(),
+								Fuwu.class.getSimpleName().toLowerCase());
+						break;
+					case "2"://头条
+						list = Server_Func.findDataToLinkedQuery(Pinglun.class.getSimpleName().toLowerCase(),selectFields,Toutiao.class.getSimpleName().toLowerCase(),params);
+						break;
+					case "3"://发现
+						list = Server_Func.findDataToLinkedQuery(Pinglun.class.getSimpleName().toLowerCase(),selectFields,Faxian.class.getSimpleName().toLowerCase(),params);
+						break;
+				}
+				Map<String, Object> page = new HashMap<String,Object>();
+				int totalSize = Server_Func.TOTAL_SIZE;
+				int totalPage = Server_Func.TOTAL_PAGE;
+				page.put("results", list);
+				page.put("totalSize", totalSize);
+				page.put("totalPage", totalPage);
+				DataObject dataObject = new DataObject();
+				dataObject.setdata(page);
+				dataObject.setStatusObject(StatusHouse.COMMON_STATUS_OK);
+				String responseText = JackJsonUtils.toJson(dataObject);
+				ResponseUtils.renderJson(response, responseText);
+			}
+		}
+	}
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String[] banner = req.getParameterValues("banner");
@@ -35,7 +147,6 @@ public class Handle_guanggao extends HttpServlet {
 
 		for (int i = 0; i < banner.length; i++) {
 			Map<String, String> map = new HashMap<String, String>();
-//			System.out.println(banner[i]);
 
 			if (i % 4 == 0) {
 				map.put("picture", banner[i]);

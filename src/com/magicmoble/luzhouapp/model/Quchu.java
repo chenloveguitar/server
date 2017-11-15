@@ -7,7 +7,16 @@ public class Quchu {
 	String id;
 	String described;
 	int share_count;
+	String publish_date;
 	
+	public String getPublish_date() {
+		return publish_date;
+	}
+
+	public void setPublish_date(String publish_date) {
+		this.publish_date = publish_date;
+	}
+
 	public int getShare_count() {
 		return share_count;
 	}
