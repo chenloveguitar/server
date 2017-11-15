@@ -7,7 +7,8 @@ public class Advertisement implements Serializable{
 
 	private java.lang.String url;
 	private java.lang.String guanggao_id;
-
+	private java.lang.String guanggao_name;
+	private int dianji_count;
 	private int muban_Tag;
 
 	private int guangjie_fenlei_Tag;
@@ -26,12 +27,28 @@ public class Advertisement implements Serializable{
 		return url;
 	}
 
+	public int getDianji_count() {
+		return dianji_count;
+	}
+
+	public void setDianji_count(int dianji_count) {
+		this.dianji_count = dianji_count;
+	}
+
 	public void setUrl(java.lang.String url) {
 		this.url = url;
 	}
 
 	public void setGuanggao_id(java.lang.String guanggao_id){
 		this.guanggao_id = guanggao_id;
+	}
+
+	public java.lang.String getGuanggao_name() {
+		return guanggao_name;
+	}
+
+	public void setGuanggao_name(java.lang.String guanggao_name) {
+		this.guanggao_name = guanggao_name;
 	}
 
 	public java.lang.String getGuanggao_id(){

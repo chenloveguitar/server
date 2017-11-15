@@ -244,7 +244,7 @@ public class ShuoshuoBusiness {
 	public static void shuoshuo_yuedu(String _id) {
 		DBHelper db2 = null;
 		String sql1 = null;
-		sql1 = "UPDATE shuoshuo SET yuedu_count=yuedu_count+1 WHERE id='" + _id + "'";
+		sql1 = "UPDATE shuoshuo SET yuedu=yuedu+1 WHERE id='" + _id + "'";
 		db2 = new DBHelper(sql1);
 		int ret2;
 		try {

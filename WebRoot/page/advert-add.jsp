@@ -46,10 +46,10 @@
 			margin-bottom:10px;
 		}
 		.ad-clone > li{
-			height:145px !important;
+			height:185px !important;
 		}
 		.ad-clone .add > a {
-    		margin-top: 40px;
+    		margin-top: 70px;
 		}
 		.ad-clone .add{
     		position: relative
@@ -86,6 +86,9 @@
 						<a href="javaScript:;"></a>
 						<p>添加图片</p> <input type="file" name="file" id="file" value="" onchange="addImages(this);" /></li>
 					<li class="ad-detail">
+						<p class="ad-link">
+							<input type="text" name="guanggao_name" id="guanggao_name" value="${advertisement.guanggao_name}"> <span>广告名称</span>
+						</p>
 						<p class="ad-name">
 							<span> 
 								<select class="selectpicker" onchange="loadItems(this.value);" name="fenlei_Tag" id="select" data-live-search="true" title="请选择广告分类">
@@ -203,7 +206,8 @@
 		}
 		$("#banner").click(function() {
 			var fileNum = document.getElementById("file").files.length;
-			if(fileNum == 0){
+			var imageNum = $("#guanggao_picture").length;
+			if(fileNum == 0 && imageNum == 0){
 				alert("请选择广告图片！");
 				return;
 			}
@@ -235,6 +239,7 @@
 				data : {
 					"id":"${advertisement.id}",
 					"guanggao_id":$("#items").val(),
+					"guanggao_name":$("#guanggao_name").val(),
 					"fenlei_Tag":fenlei_Tag,
 					"guangjie_fenlei_Tag":guangjie_fenlei_Tag,
 					"shangjia_Tag":$("#shangjia_Tag").val(),
@@ -305,6 +310,7 @@
 			$jquery1_9_1("#shangjia_Tag").val("${advertisement.shangjia_Tag}");
 			
 			$("#url").val("${advertisement.url}");
+			$("#guanggao_name").val("${advertisement.guanggao_name}");
 			var url = "${advertisement.picture}";
 			var urls = url.split(",");
 			console.log(urls);

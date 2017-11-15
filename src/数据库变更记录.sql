@@ -53,3 +53,7 @@ ALTER TABLE admin_xinxi ADD COLUMN classify int(11) default 0; #1:个人已加v�
 ALTER TABLE admin_xinxi ADD COLUMN fensi int(11) default 0;#粉丝数量
 ALTER TABLE admin_xinxi ADD COLUMN guanzhu int(11) default 0;#关注数量
 ALTER TABLE admin_xinxi ADD COLUMN shuoshuo int(11) default 0;#说说数量
+
+#新增广告管理字段
+ALTER TABLE advertisement ADD COLUMN dianji_count int(11) default 0;#点击量
+ALTER TABLE advertisement ADD COLUMN guanggao_name varchar(255);#广告名称

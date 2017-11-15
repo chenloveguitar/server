@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.magicmoble.luzhouapp.business.CommonBusiness;
 import com.magicmoble.luzhouapp.json.core.DataObject;
 import com.magicmoble.luzhouapp.json.responseUtils.ResponseUtils;
 import com.magicmoble.luzhouapp.json.status.StatusHouse;
@@ -40,7 +41,7 @@ public class Handle_guanggao extends HttpServlet {
 		String Tag = request.getParameter("Tag");
 		String currentPage = request.getParameter("currentPage");
 		String pageSize = request.getParameter("pageSize");
-		Server_Func.CURRENT_PAGE = Integer.valueOf(currentPage == null ? "1":currentPage);
+		CommonBusiness.CURRENT_PAGE = Integer.valueOf(currentPage == null ? "1":currentPage);
 		Map<String,String> paramMap = new HashMap<String,String>();
 		Enumeration<String> names = request.getParameterNames();
 		while(names.hasMoreElements()){
@@ -59,6 +60,7 @@ public class Handle_guanggao extends HttpServlet {
 				params.put("guanggao_id", paramMap.get("guanggao_id"));
 				params.put("fenlei_Tag", paramMap.get("fenlei_Tag"));
 				params.put("url", paramMap.get("url"));
+				params.put("guanggao_name", paramMap.get("guanggao_name"));
 				if(StringUtils.isNotBlank(paramMap.get("guangjie_fenlei_Tag"))){
 					params.put("guangjie_fenlei_Tag", paramMap.get("guangjie_fenlei_Tag"));
 				}
@@ -83,52 +85,34 @@ public class Handle_guanggao extends HttpServlet {
 				//重定向
 				response.sendRedirect("/mServer/page/comment.jsp");
 			}else if(type.equals("search")){
-				List<Map<String, String>> list = new ArrayList<Map<String,String>>();
+				List<Advertisement> list = new ArrayList<Advertisement>();
+				
 				String tag = request.getParameter("Tag");
+				String shangjia_Tag = request.getParameter("shangjia_Tag");
 				String time = request.getParameter("time");
-				String content = request.getParameter("content");
+				String guanggao_name = request.getParameter("guanggao_name");
 				String orderBy = request.getParameter("orderBy");
-				String tuijian_Tag = request.getParameter("tuijian_Tag");
 				Map<String, String> params = new HashMap<String,String>();
 				if(StringUtils.isNotBlank(time)){
-					params.put("l.time", " like,'%"+paramMap.get("time")+"%'");
+					params.put("time", " like,'%"+paramMap.get("time")+"%'");
 				}
-				if(StringUtils.isNotBlank(content)){
-					params.put("l.content", " like,'%"+paramMap.get("content")+"%'");
+				if(StringUtils.isNotBlank(guanggao_name)){
+					params.put("guanggao_name", " like,'%"+paramMap.get("guanggao_name")+"%'");
+				}
+				if(StringUtils.isNotBlank(shangjia_Tag)){
+					params.put("shangjia_Tag", " =,'"+paramMap.get("shangjia_Tag")+"'");
 				}
 				if(StringUtils.isNotBlank(orderBy)){
 					params.put("orderBy", paramMap.get("orderBy"));
 				}
-				if(StringUtils.isNotBlank(tuijian_Tag)){
-					params.put("l.tuijian_Tag", " =,l.'"+paramMap.get("tuijian_Tag")+"'");
-				}
-				
-				params.put("join", "l.tiaomu_id = r.id");
-				
-				String selectFields = "l.id,l.tiaomu_id,l.pingluner_id,l.time,l.dianzan_count,l.now_time,l.content";
-				
 				switch(tag){
-					case "1"://全部
-						list = Server_Func.findUnionAllDataToLinkedQuery(
-								Pinglun.class.getSimpleName().toLowerCase(),
-								selectFields,
-								params, 
-								Toutiao.class.getSimpleName().toLowerCase(),
-								Faxian.class.getSimpleName().toLowerCase(),
-								Quchu.class.getSimpleName().toLowerCase(),
-								Commodity.class.getSimpleName().toLowerCase(),
-								Fuwu.class.getSimpleName().toLowerCase());
-						break;
-					case "2"://头条
-						list = Server_Func.findDataToLinkedQuery(Pinglun.class.getSimpleName().toLowerCase(),selectFields,Toutiao.class.getSimpleName().toLowerCase(),params);
-						break;
-					case "3"://发现
-						list = Server_Func.findDataToLinkedQuery(Pinglun.class.getSimpleName().toLowerCase(),selectFields,Faxian.class.getSimpleName().toLowerCase(),params);
+					case "1"://发现
+						list = CommonBusiness.getPageDataByTable(Advertisement.class.getSimpleName().toLowerCase(),params,Advertisement.class);
 						break;
 				}
 				Map<String, Object> page = new HashMap<String,Object>();
-				int totalSize = Server_Func.TOTAL_SIZE;
-				int totalPage = Server_Func.TOTAL_PAGE;
+				int totalSize = CommonBusiness.TOTAL_SIZE;
+				int totalPage = CommonBusiness.TOTAL_PAGE;
 				page.put("results", list);
 				page.put("totalSize", totalSize);
 				page.put("totalPage", totalPage);

@@ -71,27 +71,21 @@
 				<li class="position-header-click"><img
 					src="../common/image/icon-1.png" />
 					<p>全部</p></li>
-				<li><img src="../common/image/icon-3.png" />
-					<p>详情页广告</p></li>
-				<li><img src="../common/image/icon-4.png" />
-					<p>轮播广告</p></li>
-
-
 			</ul>
 		</div>
 		<div class="position-content">
 			<div class="position-status">
-				<select name="" class="input-text">
+				<select name="shangjia_Tag" id="shangjia_Tag" class="input-text">
 					<option value="">状态</option>
 					<option value="">正常</option>
 					<option value="">已过期</option>
-				</select> <input type="text" placeholder="日期查找" class="input-rate "
-					id="rate-search" /> <input type="text" name="" id="" value=""
-					placeholder="关键字" class="input-rate key-bord" /> <select name=""
-					class="third-select">
+				</select> 
+				<input type="text" placeholder="日期查找" name="time" class="input-rate " id="rate-search" /> 
+				<input type="text" name="guanggao_name" id="guanggao_name" value="" placeholder="关键字" class="input-rate key-bord" /> 
+				<select name="orderBy" id="orderBy" class="third-select">
 					<option value="">排序</option>
-					<option value="">点击量从高到低</option>
-					<option value="">点击量从低到高</option>
+					<option value="dianji_count,desc">点击量从高到低</option>
+					<option value="dianji_count,asc">点击量从低到高</option>
 				</select> <a href="advert-add.jsp" class="rebuild">添加广告</a>
 			</div>
 			<div class="position-write">
@@ -103,13 +97,13 @@
 				</ul>
 			</div>
 			<div class="position-show">
-<!-- 				<ul class="clearfix" id="clear-fix-1"> -->
-<!-- 				</ul> -->
-<!-- 				<ul class="clearfix" id="clear-fix-2"> -->
-<!-- 				</ul> --> 
-<!-- 				<ul class="clearfix" id="clear-fix-3"> -->
-<!-- 				</ul> -->
-				<ul class="clearfix">
+				<ul class="clearfix" id="clear-fix-1">
+				</ul>
+				<ul class="clearfix" id="clear-fix-2">
+				</ul> 
+				<ul class="clearfix" id="clear-fix-3">
+				</ul>
+<!-- 				<ul class="clearfix"> -->
 <%-- 					<c:forEach var="list" items="${list}"> --%>
 <!-- 						<li> -->
 <!-- 							<p class="position-show-title column-content"> -->
@@ -134,9 +128,9 @@
 
 <%-- 					</c:forEach> --%>
 
-				</ul>
+<!-- 				</ul> -->
 
-				<ul class="clearfix" style="display: none;">
+<!-- 				<ul class="clearfix" style="display: none;"> -->
 <%-- 					<c:forEach var="list" items="${list}"> --%>
 <!-- 						<li> -->
 <!-- 							<p class="position-show-title"> -->
@@ -160,8 +154,8 @@
 <!-- 						</li> -->
 
 <%-- 					</c:forEach> --%>
-				</ul>
-				<ul class="clearfix" style="display: none;">
+<!-- 				</ul> -->
+<!-- 				<ul class="clearfix" style="display: none;"> -->
 <%-- 					<c:forEach var="list" items="${list}"> --%>
 <!-- 						<li> -->
 <!-- 							<p class="position-show-title"> -->
@@ -185,15 +179,15 @@
 <!-- 						</li> -->
 
 <%-- 					</c:forEach> --%>
-				</ul>
+<!-- 				</ul> -->
 			</div>
 		</div>
 		<div class="position-footer">
 			<input type="radio" class="select-all" />全选 
 			<a href="###" class="position-delete">删除</a> 
 			<div id="page-1" class="pager clearfix"></div>
-			<div id="page-2" class="pager clearfix"></div>
-			<div id="page-3" class="pager clearfix"></div>
+<!-- 			<div id="page-2" class="pager clearfix"></div> -->
+<!-- 			<div id="page-3" class="pager clearfix"></div> -->
 		</div>
 	</div>
 
@@ -249,8 +243,202 @@
 	
 	
 			//关键字搜索
-			var a = $('.key-bord').val();
-			$('.position ul li').each(function() {})
+			
+		$("#rate-search").change(function() {
+			$.ajax({
+				url : "/mServer/Handle_guanggao?Tag=1",
+				type : "POST",
+				data : {
+					"time" : $("#rate-search").val(),
+					"type":"search"
+				},
+				dataType : "json",
+				success : function(message) {
+					var str = "";
+					var data = message.data.results;
+					for (var i in data) {
+	
+						str +='<li>'+
+								    '<p class="position-show-title column-content">'+
+								    '<i class="position-circle "></i>'+
+								    '<span class="position-title">'+
+								        '<span class="advert-manage column-image">'+
+								            '<img src="'+data.picture+'" alt="" />'+
+								        '</span>'+
+								        '<span class="advert-position column-position">'+data.url+'</span>'+
+								    '</span>'+
+								'</p>'+
+								'<p class="position-author column-author">'+
+								    '<span class="position-title advert-time">'+data.time+'</span>'+
+								'</p>'+
+								'<p class="position-author column-status">'+
+								    '<span class="position-title advert-time">'+
+								        data.shangjia_message+
+								    '</span>'+
+								'</p>'+
+								'<p class="edit-exit column-operate">'+
+								    '<a class="icon-edit icon-webpage" href="/mServer/page/advert-add.jsp?type=edit&id='+data.id+'"></a>'+
+								    '<a class="icon-edit icon-del" href="/mServer/GuanggaoServlet?type=delete&id='+data.id+'"></a>'
+								'</p>'+
+							'</li>';
+	
+					}
+	
+	
+					$("#clear-fix").html(str);
+				},
+				error : function() {
+					alert("error");
+				}
+			});
+		})
+		
+		$("#orderBy").change(function() {
+			$.ajax({
+				url : "/mServer/Handle_guanggao?Tag=1",
+				type : "POST",
+				data : {
+					"orderBy" : $("#orderBy").val(),
+					"type":"search"
+				},
+				dataType : "json",
+				success : function(message) {
+					var str = "";
+					var data = message.data.results;
+					for (var i in data) {
+	
+						str +='<li>'+
+							    '<p class="position-show-title column-content">'+
+							    '<i class="position-circle "></i>'+
+							    '<span class="position-title">'+
+							        '<span class="advert-manage column-image">'+
+							            '<img src="'+data.picture+'" alt="" />'+
+							        '</span>'+
+							        '<span class="advert-position column-position">'+data.url+'</span>'+
+							    '</span>'+
+							'</p>'+
+							'<p class="position-author column-author">'+
+							    '<span class="position-title advert-time">'+data.time+'</span>'+
+							'</p>'+
+							'<p class="position-author column-status">'+
+							    '<span class="position-title advert-time">'+
+							        data.shangjia_message+
+							    '</span>'+
+							'</p>'+
+							'<p class="edit-exit column-operate">'+
+							    '<a class="icon-edit icon-webpage" href="/mServer/page/advert-add.jsp?type=edit&id='+data.id+'"></a>'+
+							    '<a class="icon-edit icon-del" href="/mServer/GuanggaoServlet?type=delete&id='+data.id+'"></a>'
+							'</p>'+
+						'</li>';
+			
+					}
+	
+	
+					$("#clear-fix").html(str);
+				},
+				error : function() {
+					alert("error");
+				}
+			});
+		})
+		
+		$("#guanggao_name").blur(function() {
+			$.ajax({
+				url : "/mServer/Handle_guanggao?Tag=1",
+				type : "POST",
+				data : {
+					"guanggao_name" : $("#guanggao_name").val(),
+					"type":"search"
+				},
+				dataType : "json",
+				success : function(message) {
+					var str = "";
+					var data = message.data.results;
+					for (var i in data) {
+	
+						str +='<li>'+
+								    '<p class="position-show-title column-content">'+
+								    '<i class="position-circle "></i>'+
+								    '<span class="position-title">'+
+								        '<span class="advert-manage column-image">'+
+								            '<img src="'+data.picture+'" alt="" />'+
+								        '</span>'+
+								        '<span class="advert-position column-position">'+data.url+'</span>'+
+								    '</span>'+
+								'</p>'+
+								'<p class="position-author column-author">'+
+								    '<span class="position-title advert-time">'+data.time+'</span>'+
+								'</p>'+
+								'<p class="position-author column-status">'+
+								    '<span class="position-title advert-time">'+
+								        data.shangjia_message+
+								    '</span>'+
+								'</p>'+
+								'<p class="edit-exit column-operate">'+
+								    '<a class="icon-edit icon-webpage" href="/mServer/page/advert-add.jsp?type=edit&id='+data.id+'"></a>'+
+								    '<a class="icon-edit icon-del" href="/mServer/GuanggaoServlet?type=delete&id='+data.id+'"></a>'
+								'</p>'+
+							'</li>';
+	
+					}
+	
+	
+					$("#clear-fix").html(str);
+				},
+				error : function() {
+					alert("error");
+				}
+			});
+		})
+		$("#shangjia_Tag").change(function() {
+	
+	
+			$.ajax({
+				url : "/mServer/Handle_guanggao?Tag=1",
+				type : "POST",
+				data : {
+					"shangjia_Tag" : $("#shangjia_Tag").val(),
+					"type":"search"
+				},
+				dataType : "json",
+				success : function(message) {
+					var data = message.data.results;
+					var str = "";
+					for (var i in data) {
+						str +='<li>'+
+								    '<p class="position-show-title column-content">'+
+								    '<i class="position-circle "></i>'+
+								    '<span class="position-title">'+
+								        '<span class="advert-manage column-image">'+
+								            '<img src="'+data.picture+'" alt="" />'+
+								        '</span>'+
+								        '<span class="advert-position column-position">'+data.url+'</span>'+
+								    '</span>'+
+								'</p>'+
+								'<p class="position-author column-author">'+
+								    '<span class="position-title advert-time">'+data.time+'</span>'+
+								'</p>'+
+								'<p class="position-author column-status">'+
+								    '<span class="position-title advert-time">'+
+								        data.shangjia_message+
+								    '</span>'+
+								'</p>'+
+								'<p class="edit-exit column-operate">'+
+								    '<a class="icon-edit icon-webpage" href="/mServer/page/advert-add.jsp?type=edit&id='+data.id+'"></a>'+
+								    '<a class="icon-edit icon-del" href="/mServer/GuanggaoServlet?type=delete&id='+data.id+'"></a>'
+								'</p>'+
+							'</li>';
+					}
+	
+	
+					$("#clear-fix").html(str);
+				},
+				error : function() {
+					alert("error");
+				}
+			});
+		})
+			
 		})
 	</script>
 </body>
