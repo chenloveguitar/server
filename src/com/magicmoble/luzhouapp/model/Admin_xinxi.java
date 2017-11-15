@@ -35,7 +35,42 @@ public class Admin_xinxi {
 	String phone;
 	Timestamp time;
 	double qianbao;
+	int classify;
+	int fensi;
+	int guanzhu;
+	int shuoshuo;
+	public int getFensi() {
+		return fensi;
+	}
 
+	public void setFensi(int fensi) {
+		this.fensi = fensi;
+	}
+
+	public int getGuanzhu() {
+		return guanzhu;
+	}
+
+	public void setGuanzhu(int guanzhu) {
+		this.guanzhu = guanzhu;
+	}
+
+	public int getShuoshuo() {
+		return shuoshuo;
+	}
+
+	public void setShuoshuo(int shuoshuo) {
+		this.shuoshuo = shuoshuo;
+	}
+
+
+	public int getClassify() {
+		return classify;
+	}
+
+	public void setClassify(int classify) {
+		this.classify = classify;
+	}
 
 	private java.lang.String id;
 

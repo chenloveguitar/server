@@ -34,6 +34,7 @@ public class FileDownLoadServlet extends HttpServlet {
 			String absolutePath = request.getParameter("absolutePath");
 			String itemId = request.getParameter("itemId");
 			if (StringUtils.isNotBlank(absolutePath)) {
+				absolutePath = absolutePath.split(",")[0];
 				writeFile(response, absolutePath);
 			}
 			if(StringUtils.isNotBlank(itemId)){
@@ -41,7 +42,7 @@ public class FileDownLoadServlet extends HttpServlet {
 				List<String> paths = commonBusiness.getAbsolutePathsByItemId(itemId);
 				if(paths.size() == 0){
 					paths = new ArrayList<String>();
-					paths.add("187728108884091077.png");
+					paths.add("zwtp.png");
 				}
 				writeFile(response, paths.get(0));
 			}
@@ -50,7 +51,7 @@ public class FileDownLoadServlet extends HttpServlet {
 			dataObject.setMsg("文件不存在!");
 			dataObject.setStatusObject(StatusHouse.COMMON_STATUS_ERROR);
 			String responseText = JackJsonUtils.toJson(dataObject);
-			ResponseUtils.renderJson(response, responseText);
+			ResponseUtils.printJson(response, responseText);
 		}
 	}
 	public void writeFile(HttpServletResponse response,String path){
@@ -62,7 +63,7 @@ public class FileDownLoadServlet extends HttpServlet {
 				dataObject.setMsg("文件不存在!");
 				dataObject.setStatusObject(StatusHouse.COMMON_STATUS_ERROR);
 				String responseText = JackJsonUtils.toJson(dataObject);
-				ResponseUtils.renderJson(response, responseText);
+				ResponseUtils.printJson(response, responseText);
 			}
 			FileInputStream input = new FileInputStream(file);
 			int length = -1;

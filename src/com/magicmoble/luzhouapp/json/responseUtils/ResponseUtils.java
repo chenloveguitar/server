@@ -14,6 +14,10 @@ public class ResponseUtils {
 	public static void renderJson(HttpServletResponse response, String text) {
 		render(response, "text/plain;charset=UTF-8", text);
 	}
+	
+	public static void printJson(HttpServletResponse response, String text) {
+		print(response, "text/plain;charset=UTF-8", text);
+	}
 
 	public static void render(HttpServletResponse response, String contentType, String text) {
 		response.setContentType(contentType);
@@ -23,6 +27,18 @@ public class ResponseUtils {
 		response.setDateHeader("Expires", 0L);
 		try {
 			response.getWriter().write(text);
+		} catch (IOException localIOException) {
+		}
+	}
+	
+	public static void print(HttpServletResponse response, String contentType, String text) {
+		response.setContentType(contentType);
+		response.setCharacterEncoding("utf-8");
+		response.setHeader("Pragma", "No-cache");
+		response.setHeader("Cache-Control", "no-cache");
+		response.setDateHeader("Expires", 0L);
+		try {
+			response.getOutputStream().print(text);
 		} catch (IOException localIOException) {
 		}
 	}

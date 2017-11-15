@@ -23,6 +23,7 @@ import com.magicmoble.luzhouapp.json.core.DataObject;
 import com.magicmoble.luzhouapp.json.responseUtils.ResponseUtils;
 import com.magicmoble.luzhouapp.json.status.StatusHouse;
 import com.magicmoble.luzhouapp.json.utils.JackJsonUtils;
+import com.magicmoble.luzhouapp.model.Admin_xinxi;
 import com.magicmoble.luzhouapp.model.FileManagement;
 import com.magicmoble.luzhouapp.server.server_function.Server_Function;
 import com.magicmoble.luzhouapp.utils.FileUploadUtil;
@@ -66,14 +67,22 @@ public class FileUploadServlet extends HttpServlet {
 			data.put("item_id", itemId);
 			List<FileManagement> managements = CommonBusiness.getDataByTable("file_management", data, FileManagement.class);
 			String path = p.getProperty("path");
-			String picture = "";
-			for (FileManagement fileManagement : managements) {
-				String absolute_path = fileManagement.getAbsolute_path();
-				picture += path + "absolutePath=" + absolute_path+",";
+			String picture = path + "absolutePath=zwtp.png,";
+			if(!tableName.equals(Admin_xinxi.class.getSimpleName().toLowerCase())){
+				for (FileManagement fileManagement : managements) {
+					String absolute_path = fileManagement.getAbsolute_path();
+					picture += path + "absolutePath=" + absolute_path+",";
+				}
+			}else{
+				picture = path + "absolutePath=" + listPath.get(0)[1]+",";
 			}
 			data.clear();
-			data.put("picture", picture);
 			if(StringUtils.isNotBlank(tableName)){
+				if(tableName.equals(Admin_xinxi.class.getSimpleName().toLowerCase())){
+					data.put("touxiang_picture", picture.substring(0, picture.length()-1));
+				}else{
+					data.put("picture", picture);
+				}
 				Server_Function.updateDataByTableAndId(tableName, itemId, data);
 			}
 			

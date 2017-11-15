@@ -1,3 +1,8 @@
+<%@page import="com.magicmoble.luzhouapp.server.server_function.Server_Function"%>
+<%@page import="com.magicmoble.luzhouapp.server.server_function.Server_Func"%>
+<%@page import="com.magicmoble.luzhouapp.business.CommonBusiness"%>
+<%@page import="com.magicmoble.luzhouapp.model.Login"%>
+<%@page import="com.magicmoble.luzhouapp.model.Admin_xinxi"%>
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
@@ -38,10 +43,16 @@
 <script src="../common/bootstrap/i18n/defaults-zh_CN.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/common/js/imageUpload.js"></script>
 <link rel="Stylesheet" type="text/css" href="<%=request.getContextPath()%>/common/css/imageUpload.css" />
+<%
+	String id = request.getParameter("id");
+	Admin_xinxi admin_xinxi = Server_Function.findDataByTableAndId(Admin_xinxi.class.getSimpleName().toLowerCase(), id, Admin_xinxi.class);
+	Login login = Server_Function.findDataByTableAndId(Login.class.getSimpleName().toLowerCase(), id, Login.class);
+	request.setAttribute("admin_xinxi", admin_xinxi);
+	request.setAttribute("login", login);
+%>
 </head>
 <body>
 	<div class="user-add">
-		<input type="hidden" value="${admin_xinxi.id}" name="id"> 
 		<div class="user-add-content">
 			<h2>添加用户:</h2>
 				<p>
@@ -54,30 +65,30 @@
 					</select>
 				</p>
 				<p>
-					账号： <input type="text" placeholder="请输入账号" name="zhanghao" id="zhanghao"/>
+					账号： <input type="text" placeholder="请输入账号" name="zhanghao" id="zhanghao" value="${admin_xinxi.phone }"/>
 				</p>
 				<p>
-					用户名： <input type="text" placeholder="请输入用户名" name="user_name" id="user_name" />
+					用户名： <input type="text" placeholder="请输入用户名" name="user_name" id="user_name" value="${admin_xinxi.name }"/>
 				</p>
 				<p>
-					密码： <input type="password" placeholder="请输入密码" name="password" id="password"/>
+					密码： <input type="password" placeholder="请输入密码" name="password" id="password" value="${login.password}"/>
 				</p>
 
 				<p>
-					性别： <input type="radio" name="sex" checked="checked" value="男" />男 <input
-						type="radio" name="sex" value="女" />女
+					性别： 
+					<input type="radio" name="sex" checked="checked" value="男" />男 
+					<input type="radio" name="sex" value="女" />女
 				</p>
 				<p>
-					签名： <input type="text" name="qianming" id="qianming" value=""
-						class="autograph" />
+					签名： <input type="text" name="qianming" id="qianming" value="${admin_xinxi.qianming }" class="autograph" />
 				</p>
 
 				<div class="header-up" style="height: 150px;">
 					头像上传： 
-					<div class="ad-content" style="background-color:#ddd;width: 125px;height: 125px; position: relative; top: -50px; left: 0px;border-radius: 5px;">
+					<div class="ad-content" style="background-color:#ddd;width: 125px;height: 125px; position: relative; top: -60px; left: 0px;border-radius: 5px;">
 						<a href="javaScript:;">
 							<img id="add_img" alt="" style="border-radius: 50%; position: relative; top: 35px; left: 45px;" src="../common/image/content-2.png">
-							<input type="file" id="file" style="width:120px;height: 120px;opacity: 0;position: absolute; top: 0; left: 0;" name="" id="" value="" onchange="addImages(this);">
+							<input type="file" name="file" id="file" style="width:120px;height: 120px;opacity: 0;position: absolute; top: 0; left: 0;" name="" id="" value="" onchange="addImages(this);">
 						</a>
 					</div>
 				</div>
@@ -93,11 +104,12 @@
 		$("#touxiang").remove();
 		var url = window.URL.createObjectURL(obj.files[0]);
        	var name = obj.files[0].name;
-		$("<img></img>").attr("src",url).attr("id","touxiang").attr("style","position: absolute;top: 10px;left: 10px;").insertBefore($("#file"));
+		$("<img></img>").attr("src",url).attr("id","touxiang").attr("style","width:100%;height:100%;position: absolute;").insertBefore($("#file"));
         $("#add_img").remove();
     }
 	
 	$(function(){
+		dataEcho();
 		$(".ad-save").click(function(){
 			$.ajax({
 				url:"/mServer/Handle_user",
@@ -110,11 +122,35 @@
 					password:$("#password").val(),
 					sex:$("input[type='radio']:checked").val(),
 					qianming:$("#qianming").val(),
+					id:"${admin_xinxi.id}",
 					type:"edit"
 					
 				},
 				success:function(data){
-					console.log(data);
+					if(data.code == "0000"){
+						var itemId = data.data;
+						var fileNum = document.getElementById("file").files.length;
+						if(fileNum > 0){
+							$.ajaxFileUpload({
+					            url: '/mServer/FileUploadServlet?parentId=null&deleteds=&itemId='+itemId+'&tableName=admin_xinxi', //用于文件上传的服务器端请求地址
+					            secureuri: false, //是否需要安全协议，一般设置为false
+					            fileElementId: 'file', //文件上传域的ID
+					            async:false,
+					            dataType: 'json', //返回值类型 一般设置为json
+					            success: function (data, status){
+					            	var results = data.data;
+					            	if(data.code === "0000"){
+					            		alert("操作成功!");
+					            	}else{
+					            		alert("文件上传失败!");
+					            	}
+					            },error: function (data, status, e){
+					           		alert("文件上传失败!");
+					            }
+					        });
+						}
+						window.location.href = "User_management.jsp";
+					}
 				},
 				error:function(data){
 					
@@ -122,8 +158,22 @@
 			});
 		});
 		
+		function dataEcho(){
+			var sex = '${admin_xinxi.sex}';
+			$("#yonghu_Tag").val("${admin_xinxi.yonghu_Tag}");
+			$("input[value='"+sex+"']").attr("checked","checked");
+			$("#touxiang").remove();
+			var url = "${admin_xinxi.touxiang_picture}";
+			console.log(url);
+			var urls = url.split(",");
+			console.log(urls)
+			url  = urls[0];
+			$("<img></img>").attr("src",url).attr("id","touxiang").attr("style","width:100%;height:100%;position: absolute;").insertBefore($("#file"));
+	        $("#add_img").remove();
+		}
+		
 		$(".ad-cancel").click(function(){
-			
+			window.location.href = "User_management.jsp";
 		});
 		
 	});

@@ -57,7 +57,7 @@ function getLi(data,Tag) {
 			    '</span>'+
 			'</p>'+
 			'<p class="edit-exit">'+
-			    '<a class="icon-edit icon-webpage" href="/mServer/page/user-update.jsp?id='+data.id+'"></a>'+
+			    '<a class="icon-edit icon-webpage" href="/mServer/page/user-add.jsp?id='+data.id+'"></a>'+
 			    '<a class="icon-edit icon-del" href="/mServer/Handle_user?type=delete&del_id='+data.id+'"></a>'+
 			'</p>'+
 		'</li>';

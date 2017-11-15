@@ -41,6 +41,7 @@ public class Handle_user extends HttpServlet {
 		String currentPage = request.getParameter("currentPage");
 		String pageSize = request.getParameter("pageSize");
 		CommonBusiness.CURRENT_PAGE = Integer.valueOf(currentPage == null ? "1":currentPage);
+		Server_Func.CURRENT_PAGE = Integer.valueOf(currentPage == null ? "1":currentPage);
 		Map<String,String> paramMap = new HashMap<String,String>();
 		Enumeration<String> names = request.getParameterNames();
 		while(names.hasMoreElements()){
@@ -66,8 +67,9 @@ public class Handle_user extends HttpServlet {
 				loginParams.put("password", paramMap.get("password"));
 				//编辑
 				if(StringUtils.isNotBlank(paramMap.get("id"))){
-					boolean updatedAdmin = Server_Function.updateDataByTableAndId(Admin_xinxi.class.getSimpleName().toLowerCase(),id,adminParams);
-					boolean updatedLogin = Server_Function.updateDataByTableAndId(Login.class.getSimpleName().toLowerCase(), id, loginParams);
+					id = paramMap.get("id");
+					boolean updatedAdmin = Server_Function.updateDataByTableAndId(Admin_xinxi.class.getSimpleName().toLowerCase(),paramMap.get("id"),adminParams);
+					boolean updatedLogin = Server_Function.updateDataByTableAndId(Login.class.getSimpleName().toLowerCase(), paramMap.get("id"), loginParams);
 					if(updatedAdmin && updatedLogin){
 						flag = true;
 					}
