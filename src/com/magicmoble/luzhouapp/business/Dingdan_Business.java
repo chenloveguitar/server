@@ -326,12 +326,12 @@ public class Dingdan_Business {
 
 	}
 
-	public static void addPaylist(String yonghu_id, String transaction_id) {
+	public static void addPaylist(String yonghu_id, String transaction_id,String pay_type) {
 
 		String uuid = UUID.randomUUID().toString();
 
-		String sql = "INSERT INTO pay_list(id,yonghu_id,transaction_id) VALUES ('" + uuid + "','" + yonghu_id + "','"
-				+ transaction_id + "') ";
+		String sql = "INSERT INTO pay_list(id,yonghu_id,transaction_id,pay_type) VALUES ('" + uuid + "','" + yonghu_id + "','"
+				+ transaction_id + "','"+pay_type+"') ";
 
 		DBHelper db1 = null;
 		boolean ret = false;

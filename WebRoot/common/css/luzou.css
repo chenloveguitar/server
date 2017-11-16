@@ -361,19 +361,19 @@ div.jHtmlArea { border: solid 1px #D3D3D3; }
 .manage-list .manage-list-ul li div{width: 157px;height: 107px;background: #eee;position: relative;padding-top: 50px;}
 .manage-list ul li img{display:block;margin:auto;}
 .manage-list ul li  .manage-choose{display: inline-block;position: absolute;width: 15px;height: 15px;background: url(../image/images/button_marquee.png) no-repeat;top:10px;right: 10px;cursor: pointer;}
-.filename{margin-top: 10px;text-align: center;}
+.filename{margin-top: 10px;}
 /*.manage-click{background: #00C8E8 !important;color: #fff !important;}*/
 .manage-cover{width: 100%;height: 100%;position: fixed;top: 0;left: 0;background: #000;opacity: 0.5;z-index: 1;}
 .manage-cover-delete{width: 300px;height: 150px;background: #fff;border-radius: 30px;position: fixed;z-index:10;top:30%;left: 20%;}
-.manage-cover-delete p{font-size: 26px;text-align: center;color: #676767;}
+.manage-cover-delete p{font-size: 26px;color: #676767;}
 .manage-cover-delete p:nth-child(1){line-height: 90px;border-bottom: 1px solid #eee;}
-.manage-cover-delete p a{display: inline-block;width: 45%;line-height: 58px;text-align: center;color:#676767}
+.manage-cover-delete p a{display: inline-block;width: 45%;line-height: 58px;color:#676767}
 .manage-cover-delete p a:hover{color: #333;}
 .manage-cover-delete p a:nth-child(1){border-right:1px solid #eee;}
 .manage-cover-rename{width: 300px;height: 150px;background: #fff;border-radius: 30px;position: fixed;z-index:10;top:30%;left: 20%;}
 .manage-cover-rename p input{display:block;width: 230px;height: 35px;margin:30px auto 15px;border:1px solid #F3F3F3;border-radius:10px;padding-left: 10px;color:#898989;}
 .manage-cover-rename p:nth-child(1){border-bottom: 1px solid #F2F2F2; }
-.manage-cover-rename p a{display: inline-block;width: 45%;line-height: 58px;text-align: center;color:#8C8C8C}
+.manage-cover-rename p a{display: inline-block;width: 45%;line-height: 58px;color:#8C8C8C}
 .manage-cover-rename p a:nth-child(1){border-right:1px solid #eee;}
 .manage-cover-rename p a:hover{color: #222;}
 .manage-image li  div{width: 155px;height: 155px;overflow: hidden;position: relative;}
@@ -469,9 +469,9 @@ div.jHtmlArea { border: solid 1px #D3D3D3; }
     background: url(../image/content-2.png) center center;
     background-size: cover;}
 #spe{ background: #C3C3C3 !important;
-    text-align: center;}
+    }
 #img_li1 li{float: left;width: 18%; margin-right: 5%;margin-bottom: 20px;}
-#upp-load div{margin-bottom: 20px;float:left;background-color: #eee;  width: 50px;height: 50px; font-size: 35px;text-align: center;margin-top: 10px;border-radius: 5px;cursor:pointer;}
+#upp-load div{margin-bottom: 20px;float:left;background-color: #eee;  width: 50px;height: 50px; font-size: 35px;margin-top: 10px;border-radius: 5px;cursor:pointer;}
 
 
 
@@ -481,7 +481,7 @@ div.jHtmlArea { border: solid 1px #D3D3D3; }
 .advert-manage img{width: 100%;height: 100%;}
 .advert-manage,.advert-position{float: left;}
 .advert-position{display:inline-block;float: right !important;height:30px;line-height: 30px !important;margin-right:5% ;}
-.advert-time{line-height: 30px;margin-left: 5%;text-align: center;}
+.advert-time{line-height: 30px;margin-left: 5%;}
 .advert-position{width: 76%;margin-right: -14%;}
 /*评论管理*/
 .comment-content{line-height: 30px;text-overflow:ellipsis;overflow:hidden;white-space:nowrap;font-size: 14px;vertical-align: middle;display: inline-block;}
@@ -515,7 +515,7 @@ div.jHtmlArea { border: solid 1px #D3D3D3; }
 .user-add-content p input{height: 40px;padding: 0 5px;line-height: 40px;font-size: 14px;background: #fff;outline: none;border:none;vertical-align: middle;}
 .autograph{width: 250px;}
 .user-addh{margin:50px 135px}
-#add-upload{display: inline-block;width: 50px;height: 50px;border: 1px solid #DBDADA;vertical-align: middle;border-radius: 50%;cursor: pointer;text-align: center;line-height: 50px;margin-left: 5px;overflow: hidden;}
+#add-upload{display: inline-block;width: 50px;height: 50px;border: 1px solid #DBDADA;vertical-align: middle;border-radius: 50%;cursor: pointer;line-height: 50px;margin-left: 5px;overflow: hidden;}
 .add-upload #add-file{width: 100%;height: 100%;float: left;margin-left: 0;margin-top: -50px;cursor: pointer;opacity: 0;}
 .header-up{width: 390px;height: 50px;line-height: 50px;border:1px solid #DBDADA;margin-top: 20px;padding-left: 10px;margin-left: 45px;}
 #add-upload img{width: 100%;height: 100%;margin: 0;}
@@ -552,7 +552,7 @@ div.jHtmlArea { border: solid 1px #D3D3D3; }
 .buyer-address{margin-bottom: 25px;font-size: 16px;color:#8B8B8B;}
 .buyer-status{background: #F8F8F8;padding: 20px 10px;}
 .buyer-status span{display: inline-block;color: #C9BF9B;}
-.buyer-submit{display: inline-block;width: 85px;height: 35px;border: 1px solid #E2E2E2;font-size: 14px;color: #474747;text-align: center;line-height: 35px;border-radius: 5px;margin-left: 250px;}
+.buyer-submit{display: inline-block;width: 85px;height: 35px;border: 1px solid #E2E2E2;font-size: 14px;color: #474747;line-height: 35px;border-radius: 5px;margin-left: 250px;}
 
 
 .comment-detail-content{width: 50%;display: inline-block;}

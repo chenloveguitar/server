@@ -63,3 +63,5 @@ ALTER TABLE admin ADD COLUMN picture varchar(255);#点击量
 ALTER TABLE admin ADD COLUMN admin_Tag int(11) default 0;#广告名称
 ALTER TABLE admin ADD COLUMN register_time timestamp;#广告名称
 
+#新增pay_list中支付类型字段
+ALTER TABLE pay_list ADD COLUMN pay_type varchar(255);#支付类型

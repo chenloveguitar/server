@@ -80,7 +80,7 @@ public class Ali_Pay_RechargeInq extends HttpServlet {
 		try {
 			// 这里和普通的接口调用不同，使用的是sdkExecute
 			response = alipayClient.sdkExecute(request);
-			Dingdan_Business.addPaylist(my_id, orderId);
+			Dingdan_Business.addPaylist(my_id, orderId,"alipay");
 
 			// 可以直接给客户端请求，无需再做处理。
 		} catch (AlipayApiException e) {

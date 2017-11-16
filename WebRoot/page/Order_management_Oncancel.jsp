@@ -35,10 +35,10 @@
 				<li class="position-header-click"><img
 					src="../common/image/icon-1.png" />
 					<p>全部</p></li>
-				<li><img src="../common/image/icon-2.png" />
-					<p>商品</p></li>
-				<li><img src="../common/image/icon-3.png" />
-					<p>服务</p></li>
+<!-- 				<li><img src="../common/image/icon-2.png" /> -->
+<!-- 					<p>商品</p></li> -->
+<!-- 				<li><img src="../common/image/icon-3.png" /> -->
+<!-- 					<p>服务</p></li> -->
 
 
 			</ul>
@@ -70,113 +70,125 @@
 					<option value="价格从低到高">价格从低到高</option>
 				</select> <a href="content.jsp" class="rebuild">新增内容</a>
 			</div>
-
+			<div class="position-write">
+				<ul class="clearfix">
+					<li class="position-show-title">订单信息</li>
+					<li class="position-author position-aut">卖家</li>
+					<li class="position-author position-aut">买家</li>
+					<li class="position-author position-aut">价格数量</li>
+					<li class="edit-exit">操作</li>
+				</ul>
+			</div>
 			<div class="position-show">
 				<ul class="clearfix">
-					<c:forEach var="list" items="${list3}">
+<%-- 					<c:forEach var="list" items="${list3}"> --%>
 						<li>
 							<p class="position-show-title">
-								<i class="position-circle"></i> <img class="position-square"
-									src="${list.pictures.get(0).picture_url}" /> <span
-									class="position-title"> <span>${list.title}</span> <span
-									class="position-share">${list.transaction_id}</span>
-								</span>
-
-							</p>
-							<p class="position-author position-aut">
-								<img class="icon-author" src="${list.buyer_touxiang}" /> <span
-									class="position-title"> <span>${list.buyer_name}</span>
+								<i class="position-circle"></i> 
+								<img class="position-square" src="${list.get(0).pictures.get(0).picture_url}" /> 
+								<span class="position-title"> 
+									<span>${list.get(0).title}</span> 
+									<span class="position-share">${list.get(0).transaction_id}</span>
 								</span>
 							</p>
 							<p class="position-author position-aut">
-								<img class="icon-author" src="${list.seller_touxiang}" /> <span
-									class="position-title"> <span>${list.seller_name}</span>
+								<img class="icon-author" src="${list.get(0).buyer_touxiang}" /> 
+								<span class="position-title"> 
+									<span>${list.get(0).buyer_name}</span>
 								</span>
 							</p>
-							<p class="position-public position-pub">
-
-								<span class="position-title position-p"> <span>数量</span>
-									<span class="position-share">购买数量${list.shuliang}</span>
-								</span> <span class="position-title position-p"> <span>总价</span>
-									<span class="position-share">总价${list.total_price}</span>
+							<p class="position-author position-aut">
+								<img class="icon-author" src="${list.get(0).seller_touxiang}" /> 
+								<span class="position-title"> 
+									<span>${list.get(0).seller_name}</span>
+								</span>
+							</p>
+							<p class="position-author position-aut comment-detail-per">
+								<span class="position-title position-p"> 
+									<span>数量</span>
+									<span class="position-share">购买数量${list.get(0).shuliang}</span>
+								</span> 
+								<span class="position-title position-p"> 
+									<span>总价</span>
+									<span class="position-share">总价${list.get(0).total_price}</span>
 								</span>
 							</p>
 							<p class="edit-exit">
-								<a class="icon-edit icon-webpage"
-									href="<%=request.getContextPath()%>/page/order-detail.jsp?order_id=${list.transaction_id}&guangjie_fenlei_Tag=${list.guangjie_fenlei_Tag}"></a>
+								<a class="icon-edit icon-webpage" href="<%=request.getContextPath()%>/page/order-detail.jsp?order_id=${list.get(0).transaction_id}&guangjie_fenlei_Tag=${list.get(0).guangjie_fenlei_Tag}"></a>
+							</p>
 						</li>
-					</c:forEach>
+<%-- 					</c:forEach> --%>
 				</ul>
-				<ul class="clearfix" style="display: none;">
-					<c:forEach var="list" items="${list}">
-						<li>
-							<p class="position-show-title">
-								<i class="position-circle"></i> <img class="position-square"
-									src="${list.pictures.get(0).picture_url}" /> <span
-									class="position-title"> <span>${list.title}</span> <span
-									class="position-share">${list.transaction_id}</span>
-								</span>
+<!-- 				<ul class="clearfix" style="display: none;"> -->
+<%-- 					<c:forEach var="list" items="${list}"> --%>
+<!-- 						<li> -->
+<!-- 							<p class="position-show-title"> -->
+<!-- 								<i class="position-circle"></i> <img class="position-square" -->
+<%-- 									src="${list.pictures.get(0).picture_url}" /> <span --%>
+<%-- 									class="position-title"> <span>${list.title}</span> <span --%>
+<%-- 									class="position-share">${list.transaction_id}</span> --%>
+<!-- 								</span> -->
 
-							</p>
-							<p class="position-author position-aut">
-								<img class="icon-author" src="${list.buyer_touxiang}" /> <span
-									class="position-title"> <span>${list.buyer_name}</span>
-								</span>
-							</p>
-							<p class="position-author position-aut">
-								<img class="icon-author" src="${list.seller_touxiang}" /> <span
-									class="position-title"> <span>${list.seller_name}</span>
-								</span>
-							</p>
-							<p class="position-public position-pub">
+<!-- 							</p> -->
+<!-- 							<p class="position-author position-aut"> -->
+<%-- 								<img class="icon-author" src="${list.buyer_touxiang}" /> <span --%>
+<%-- 									class="position-title"> <span>${list.buyer_name}</span> --%>
+<!-- 								</span> -->
+<!-- 							</p> -->
+<!-- 							<p class="position-author position-aut"> -->
+<%-- 								<img class="icon-author" src="${list.seller_touxiang}" /> <span --%>
+<%-- 									class="position-title"> <span>${list.seller_name}</span> --%>
+<!-- 								</span> -->
+<!-- 							</p> -->
+<!-- 							<p class="position-public position-pub"> -->
 
-								<span class="position-title position-p"> <span>数量</span>
-									<span class="position-share">购买数量${list.shuliang}</span>
-								</span> <span class="position-title position-p"> <span>总价</span>
-									<span class="position-share">总价${list.total_price}</span>
-								</span>
-							</p>
-							<p class="edit-exit">
-								<a class="icon-edit icon-webpage"
-									href="<%=request.getContextPath()%>/page/order-detail.jsp?order_id=${list.transaction_id}&guangjie_fenlei_Tag=${list.guangjie_fenlei_Tag}"></a>
-						</li>
-					</c:forEach>
-				</ul>
-				<ul class="clearfix" style="display: none;">
-					<c:forEach var="list" items="${list2}">
-						<li>
-							<p class="position-show-title">
-								<i class="position-circle"></i> <img class="position-square"
-									src="${list.pictures.get(0).picture_url}" /> <span
-									class="position-title"> <span>${list.title}</span> <span
-									class="position-share">${list.transaction_id}</span>
-								</span>
+<!-- 								<span class="position-title position-p"> <span>数量</span> -->
+<%-- 									<span class="position-share">购买数量${list.shuliang}</span> --%>
+<!-- 								</span> <span class="position-title position-p"> <span>总价</span> -->
+<%-- 									<span class="position-share">总价${list.total_price}</span> --%>
+<!-- 								</span> -->
+<!-- 							</p> -->
+<!-- 							<p class="edit-exit"> -->
+<!-- 								<a class="icon-edit icon-webpage" -->
+<%-- 									href="<%=request.getContextPath()%>/page/order-detail.jsp?order_id=${list.transaction_id}&guangjie_fenlei_Tag=${list.guangjie_fenlei_Tag}"></a> --%>
+<!-- 						</li> -->
+<%-- 					</c:forEach> --%>
+<!-- 				</ul> -->
+<!-- 				<ul class="clearfix" style="display: none;"> -->
+<%-- 					<c:forEach var="list" items="${list2}"> --%>
+<!-- 						<li> -->
+<!-- 							<p class="position-show-title"> -->
+<!-- 								<i class="position-circle"></i> <img class="position-square" -->
+<%-- 									src="${list.pictures.get(0).picture_url}" /> <span --%>
+<%-- 									class="position-title"> <span>${list.title}</span> <span --%>
+<%-- 									class="position-share">${list.transaction_id}</span> --%>
+<!-- 								</span> -->
 
-							</p>
-							<p class="position-author position-aut">
-								<img class="icon-author" src="${list.buyer_touxiang}" /> <span
-									class="position-title"> <span>${list.buyer_name}</span>
-								</span>
-							</p>
-							<p class="position-author position-aut">
-								<img class="icon-author" src="${list.seller_touxiang}" /> <span
-									class="position-title"> <span>${list.seller_name}</span>
-								</span>
-							</p>
-							<p class="position-public position-pub">
+<!-- 							</p> -->
+<!-- 							<p class="position-author position-aut"> -->
+<%-- 								<img class="icon-author" src="${list.buyer_touxiang}" /> <span --%>
+<%-- 									class="position-title"> <span>${list.buyer_name}</span> --%>
+<!-- 								</span> -->
+<!-- 							</p> -->
+<!-- 							<p class="position-author position-aut"> -->
+<%-- 								<img class="icon-author" src="${list.seller_touxiang}" /> <span --%>
+<%-- 									class="position-title"> <span>${list.seller_name}</span> --%>
+<!-- 								</span> -->
+<!-- 							</p> -->
+<!-- 							<p class="position-public position-pub"> -->
 
-								<span class="position-title position-p"> <span>数量</span>
-									<span class="position-share">购买数量${list.shuliang}</span>
-								</span> <span class="position-title position-p"> <span>总价</span>
-									<span class="position-share">总价${list.total_price}</span>
-								</span>
-							</p>
-							<p class="edit-exit">
-								<a class="icon-edit icon-webpage"
-									href="<%=request.getContextPath()%>/page/order-detail.jsp?order_id=${list.transaction_id}&guangjie_fenlei_Tag=${list.guangjie_fenlei_Tag}"></a>
-						</li>
-					</c:forEach>
-				</ul>
+<!-- 								<span class="position-title position-p"> <span>数量</span> -->
+<%-- 									<span class="position-share">购买数量${list.shuliang}</span> --%>
+<!-- 								</span> <span class="position-title position-p"> <span>总价</span> -->
+<%-- 									<span class="position-share">总价${list.total_price}</span> --%>
+<!-- 								</span> -->
+<!-- 							</p> -->
+<!-- 							<p class="edit-exit"> -->
+<!-- 								<a class="icon-edit icon-webpage" -->
+<%-- 									href="<%=request.getContextPath()%>/page/order-detail.jsp?order_id=${list.transaction_id}&guangjie_fenlei_Tag=${list.guangjie_fenlei_Tag}"></a> --%>
+<!-- 						</li> -->
+<%-- 					</c:forEach> --%>
+<!-- 				</ul> -->
 
 
 			</div>
