@@ -65,3 +65,4 @@ ALTER TABLE admin ADD COLUMN register_time timestamp;#广告名称
 
 #新增pay_list中支付类型字段
 ALTER TABLE pay_list ADD COLUMN pay_type varchar(255);#支付类型
+#http://localhost:8080/mServer/Add_DingdanInq?my_id=&tiaomu_id=&shuliang=&buyer_id=&buyer_name=&buyer_phone=&address=&beizhu=&guangjie_fenlei_Tag=
