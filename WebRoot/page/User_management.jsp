@@ -85,6 +85,15 @@
 					<option value="time,asc">注册时间从晚到早</option>
 				</select> <a href="user-add.jsp" class="rebuild">添加用户</a>
 			</div>
+			<div class="position-write">
+				<ul class="clearfix">
+					<li class="position-show-title">头像昵称</li>
+					<li class="position-author">签名</li>
+					<li class="position-ye">加v说明</li>
+					<li class="position-ye">余额</li>
+					<li class="position-de">操作</li>
+				</ul>
+			</div>
 			<div class="position-show">
 				<ul class="clearfix" id="clear-fix-1">
 <%-- 					<c:forEach var="list" items="${list5}"> --%>
@@ -365,21 +374,18 @@
 						        '<span>'+data[i].qianming+'</span>'+
 						    '</span>'+	
 						'</p>'+
-						'<p class="position-public">'+
-						    '<span class="position-title position-p">'+
-						        '<span>加V说明</span>'+
-						        '<span class="position-share">'+data[i].renzheng_Tag+'</span>'+
-						    '</span>'+
-						    '<span class="position-title position-p">'+
-						        '<span>余额</span>'+
-						        '<span class="position-share">剩余'+data[i].qianbao+'元</span>'+
-						    '</span>'+
+						'<p class="position-author">'+
+					        '<span class="position-title position-p">'+data[i].renzheng_Tag+'</span>'+
 						'</p>'+
+						'<p class="position-public">'+
+				        	'<span class="position-title position-p">剩余'+data[i].qianbao+'元</span>'+
+						'</p>'+
+						
 						'<p class="edit-exit">'+
 						    '<a class="icon-edit icon-webpage" href="/mServer/page/user-add.jsp?id='+data[i].id+'"></a>'+
 						    '<a class="icon-edit icon-del" href="/mServer/Handle_user?type=delete&del_id='+data[i].id+'"></a></i>'+
 						'</p>'+
-						'</li>';
+					'</li>';
 	
 					}
 	
@@ -420,16 +426,13 @@
 						        '<span>'+data[i].qianming+'</span>'+
 						    '</span>'+	
 						'</p>'+
-						'<p class="position-public">'+
-						    '<span class="position-title position-p">'+
-						        '<span>加V说明</span>'+
-						        '<span class="position-share">'+data[i].renzheng_Tag+'</span>'+
-						    '</span>'+
-						    '<span class="position-title position-p">'+
-						        '<span>余额</span>'+
-						        '<span class="position-share">剩余'+data[i].qianbao+'元</span>'+
-						    '</span>'+
+						'<p class="position-author">'+
+					        '<span class="position-title position-p">'+data[i].renzheng_Tag+'</span>'+
 						'</p>'+
+						'<p class="position-public">'+
+				        	'<span class="position-title position-p">剩余'+data[i].qianbao+'元</span>'+
+						'</p>'+
+						
 						'<p class="edit-exit">'+
 						    '<a class="icon-edit icon-webpage" href="/mServer/page/user-add.jsp?id='+data[i].id+'"></a>'+
 						    '<a class="icon-edit icon-del" href="/mServer/Handle_user?type=delete&del_id='+data[i].id+'"></a></i>'+
@@ -475,16 +478,13 @@
 						        '<span>'+data[i].qianming+'</span>'+
 						    '</span>'+	
 						'</p>'+
-						'<p class="position-public">'+
-						    '<span class="position-title position-p">'+
-						        '<span>加V说明</span>'+
-						        '<span class="position-share">'+data[i].renzheng_Tag+'</span>'+
-						    '</span>'+
-						    '<span class="position-title position-p">'+
-						        '<span>余额</span>'+
-						        '<span class="position-share">剩余'+data[i].qianbao+'元</span>'+
-						    '</span>'+
+						'<p class="position-author">'+
+					        '<span class="position-title position-p">'+data[i].renzheng_Tag+'</span>'+
 						'</p>'+
+						'<p class="position-public">'+
+				        	'<span class="position-title position-p">剩余'+data[i].qianbao+'元</span>'+
+						'</p>'+
+						
 						'<p class="edit-exit">'+
 						    '<a class="icon-edit icon-webpage" href="/mServer/page/user-add.jsp?id='+data[i].id+'"></a>'+
 						    '<a class="icon-edit icon-del" href="/mServer/Handle_user?type=delete&del_id='+data[i].id+'"></a></i>'+
@@ -517,33 +517,30 @@
 					var str = "";
 					for (var i in data) {
 						str +='<li>'+
-							    '<p class="position-show-title">'+
-							    '<i class="position-circle"></i>'+
-							    '<img class="position-square" src="'+data[i].touxiang_picture+'" />'+
-							    '<span class="position-title">'+
-							        '<span>'+data[i].name+'</span>'+
-							        '<span class="position-share">粉丝:'+data[i].fensi+' 关注:'+data[i].guanzhu+' 时间:'+data[i].time+'</span>'+
-							    '</span>'+
-							'</p>'+
-							'<p class="position-author">'+
-							    '<span class="position-title">'+
-							        '<span>'+data[i].qianming+'</span>'+
-							    '</span>'+	
-							'</p>'+
-							'<p class="position-public">'+
-							    '<span class="position-title position-p">'+
-							        '<span>加V说明</span>'+
-							        '<span class="position-share">'+data[i].renzheng_Tag+'</span>'+
-							    '</span>'+
-							    '<span class="position-title position-p">'+
-							        '<span>余额</span>'+
-							        '<span class="position-share">剩余'+data[i].qianbao+'元</span>'+
-							    '</span>'+
-							'</p>'+
-							'<p class="edit-exit">'+
-							    '<a class="icon-edit icon-webpage" href="/mServer/page/user-add.jsp?id='+data[i].id+'"></a>'+
-							    '<a class="icon-edit icon-del" href="/mServer/Handle_user?type=delete&del_id='+data[i].id+'"></a>'+
-							'</p>'+
+					    '<p class="position-show-title">'+
+					    '<i class="position-circle"></i>'+
+					    '<img class="position-square" src="'+data[i].touxiang_picture+'" />'+
+					    '<span class="position-title">'+
+					        '<span>'+data[i].name+'</span>'+
+					        '<span class="position-share">粉丝:'+data[i].fensi+' 关注:'+data[i].guanzhu+' 时间:'+data[i].time+'</span>'+
+					    '</span>'+
+						'</p>'+
+						'<p class="position-author">'+
+						    '<span class="position-title">'+
+						        '<span>'+data[i].qianming+'</span>'+
+						    '</span>'+	
+						'</p>'+
+						'<p class="position-author">'+
+					        '<span class="position-title position-p">'+data[i].renzheng_Tag+'</span>'+
+						'</p>'+
+						'<p class="position-public">'+
+				        	'<span class="position-title position-p">剩余'+data[i].qianbao+'元</span>'+
+						'</p>'+
+						
+						'<p class="edit-exit">'+
+						    '<a class="icon-edit icon-webpage" href="/mServer/page/user-add.jsp?id='+data[i].id+'"></a>'+
+						    '<a class="icon-edit icon-del" href="/mServer/Handle_user?type=delete&del_id='+data[i].id+'"></a></i>'+
+						'</p>'+
 						'</li>';
 					}
 	

@@ -38,15 +38,24 @@ function getLi(data,Tag) {
 		shangjia_message = "已下架";
 	}
 	return '<li>'+
-			    '<p class="position-show-title column-content">'+
-				    '<i class="position-circle "></i>'+
-				    '<span class="position-title">'+
-				        '<span class="advert-manage column-image">'+
-				            '<img src="'+data.picture+'" alt="" />'+
-				        '</span>'+
-				        '<span class="advert-position column-position">'+data.url+'</span>'+
-				        '<span class="position-share">点击量:'+data.dianji_count+'发布日期:'+new Date(data.time).format("yyyy-MM-dd")+'</span>'+
-				    '</span>'+
+//			    '<p class="position-show-title column-content">'+
+//				    '<i class="position-circle "></i>'+
+//				    '<span class="position-title">'+
+//				        '<span class="advert-manage column-image">'+
+//				            '<img src="'+data.picture+'" alt="" />'+
+//				        '</span>'+
+//				        '<span class="advert-position column-position">'+data.url+'</span>'+
+//				        
+//				    '</span>'+
+//				'</p>'+
+				
+				'<p class="position-show-title column-content">'+
+					'<i class="position-circle"></i>'+ 
+					'<img class="position-square" src="'+data.picture+'">'+ 
+					'<span class="position-title" id="position-title-1">'+
+						'<span>'+data.url+'</span>'+
+						'<span class="position-share">点击量:'+data.dianji_count+'发布日期:'+new Date(data.time).format("yyyy-MM-dd")+'</span>'+
+					'</span>'+
 				'</p>'+
 				'<p class="position-author column-author">'+
 				    '<span class="position-title advert-time">'+data.guanggao_name+'</span>'+
@@ -58,7 +67,7 @@ function getLi(data,Tag) {
 				'</p>'+
 				'<p class="edit-exit column-operate">'+
 				    '<a class="icon-edit icon-webpage" href="/mServer/page/advert-add.jsp?type=edit&id='+data.id+'"></a>'+
-				    '<a class="icon-edit icon-del" href="/mServer/GuanggaoServlet?type=delete&id='+data.id+'"></a>'
+				    '<a class="icon-edit icon-del" href="/mServer/Handle_guanggao?type=delete&id='+data.id+'"></a>'
 				'</p>'+
 			'</li>';
 }

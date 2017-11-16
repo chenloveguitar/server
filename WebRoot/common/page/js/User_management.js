@@ -40,25 +40,23 @@ function getLi(data,Tag) {
 			        '<span>'+data.name+'</span>'+
 			        '<span class="position-share">粉丝:'+data.fensi+' 关注:'+data.guanzhu+' 时间:'+data.time+'</span>'+
 			    '</span>'+
-			'</p>'+
-			'<p class="position-author">'+
-			    '<span class="position-title">'+
-			        '<span>'+data.qianming+'</span>'+
-			    '</span>'+	
-			'</p>'+
-			'<p class="position-public">'+
-			    '<span class="position-title position-p">'+
-			        '<span>加V说明</span>'+
-			        '<span class="position-share">'+data.renzheng_Tag+'</span>'+
-			    '</span>'+
-			    '<span class="position-title position-p">'+
-			        '<span>余额</span>'+
-			        '<span class="position-share">剩余'+data.qianbao+'元</span>'+
-			    '</span>'+
-			'</p>'+
-			'<p class="edit-exit">'+
-			    '<a class="icon-edit icon-webpage" href="/mServer/page/user-add.jsp?id='+data.id+'"></a>'+
-			    '<a class="icon-edit icon-del" href="/mServer/Handle_user?type=delete&del_id='+data.id+'"></a>'+
-			'</p>'+
-		'</li>';
+				'</p>'+
+				'<p class="position-author">'+
+				    '<span class="position-title">'+
+				        '<span>'+data.qianming+'</span>'+
+				    '</span>'+	
+				'</p>'+
+				'<p class="position-author">'+
+			        '<span class="position-title position-p">'+data.renzheng_Tag+'</span>'+
+				'</p>'+
+				'<p class="position-author">'+
+			    	'<span class="position-title position-p">剩余'+data.qianbao+'元</span>'+
+				'</span>'+
+				'</p>'+
+				
+				'<p class="edit-exit">'+
+				    '<a class="icon-edit icon-webpage" href="/mServer/page/user-add.jsp?id='+data.id+'"></a>'+
+				    '<a class="icon-edit icon-del" href="/mServer/Handle_user?type=delete&del_id='+data.id+'"></a></i>'+
+				'</p>'+
+			'</li>';
 }

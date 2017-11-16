@@ -77,6 +77,10 @@ public class CommonBusiness {
 					String[] values = params.get(key).split(",");
 					String symbol = values[0];
 					String value = values[1];
+					if(symbol.trim().equals("in")){
+						value = params.get(key).replace("in", "");
+						value = value.replace("in", "").substring(1, value.length());
+					}
 					sql += " and " + key + " " + " " + symbol + " " + value;
 				}
 			}

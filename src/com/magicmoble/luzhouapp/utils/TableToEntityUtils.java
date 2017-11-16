@@ -35,7 +35,7 @@ public class TableToEntityUtils {
 	public static final String PASSWORD = "admin123456";
 
 	private static final Pattern linePattern = Pattern.compile("_(\\w)");
-	public static final String TABLE_NAME = "advertisement";
+	public static final String TABLE_NAME = "admin";
 	public static final String PACKAGE_PATH = "com.magicmoble.luzhouapp.model.server";
 	public static final String COLUMN_NAME = "COLUMN_NAME";
 	public static final String TYPE_NAME = "TYPE_NAME";

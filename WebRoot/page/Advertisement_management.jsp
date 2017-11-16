@@ -77,8 +77,8 @@
 			<div class="position-status">
 				<select name="shangjia_Tag" id="shangjia_Tag" class="input-text">
 					<option value="">状态</option>
-					<option value="">正常</option>
-					<option value="">已过期</option>
+					<option value="1">正常</option>
+					<option value="2">已过期</option>
 				</select> 
 				<input type="text" placeholder="日期查找" name="time" class="input-rate " id="rate-search" /> 
 				<input type="text" name="guanggao_name" id="guanggao_name" value="" placeholder="关键字" class="input-rate key-bord" /> 
@@ -91,7 +91,7 @@
 			<div class="position-write">
 				<ul class="clearfix">
 					<li class="position-show-title1 header-title">广告内容</li>
-					<li class="position-author1 header-author">时间</li>
+					<li class="position-author1 header-author">广告名称</li>
 					<li class="position-ye header-status">状态</li>
 					<li class="position-de header-operate">操作</li>
 				</ul>
@@ -254,38 +254,44 @@
 				},
 				dataType : "json",
 				success : function(message) {
+					console.log(message);
 					var str = "";
 					var data = message.data.results;
 					for (var i in data) {
-	
+						var shangjia_Tag = data.shangjia_Tag;
+						var shangjia_message = "";
+						if(shangjia_Tag == "1"){
+							shangjia_message = "已上架";
+						}else if(shangjia_Tag == "2"){
+							shangjia_message = "已下架";
+						}
 						str +='<li>'+
-								    '<p class="position-show-title column-content">'+
-								    '<i class="position-circle "></i>'+
-								    '<span class="position-title">'+
-								        '<span class="advert-manage column-image">'+
-								            '<img src="'+data.picture+'" alt="" />'+
-								        '</span>'+
-								        '<span class="advert-position column-position">'+data.url+'</span>'+
-								    '</span>'+
+									'<p class="position-show-title column-content">'+
+									'<i class="position-circle"></i>'+ 
+									'<img class="position-square" src="'+data[i].picture+'">'+ 
+									'<span class="position-title" id="position-title-1">'+
+										'<span>'+data[i].url+'</span>'+
+										'<span class="position-share">点击量:'+data[i].dianji_count+'发布日期:'+new Date(data[i].time).format("yyyy-MM-dd")+'</span>'+
+									'</span>'+
 								'</p>'+
 								'<p class="position-author column-author">'+
-								    '<span class="position-title advert-time">'+data.time+'</span>'+
+								    '<span class="position-title advert-time">'+data[i].guanggao_name+'</span>'+
 								'</p>'+
 								'<p class="position-author column-status">'+
 								    '<span class="position-title advert-time">'+
-								        data.shangjia_message+
+								    	shangjia_message+
 								    '</span>'+
 								'</p>'+
 								'<p class="edit-exit column-operate">'+
-								    '<a class="icon-edit icon-webpage" href="/mServer/page/advert-add.jsp?type=edit&id='+data.id+'"></a>'+
-								    '<a class="icon-edit icon-del" href="/mServer/GuanggaoServlet?type=delete&id='+data.id+'"></a>'
+								    '<a class="icon-edit icon-webpage" href="/mServer/page/advert-add.jsp?type=edit&id='+data[i].id+'"></a>'+
+								    '<a class="icon-edit icon-del" href="/mServer/Handle_guanggao?type=delete&id='+data[i].id+'"></a>'
 								'</p>'+
 							'</li>';
 	
 					}
 	
 	
-					$("#clear-fix").html(str);
+					$("#clear-fix-1").html(str);
 				},
 				error : function() {
 					alert("error");
@@ -306,35 +312,40 @@
 					var str = "";
 					var data = message.data.results;
 					for (var i in data) {
-	
+						var shangjia_Tag = data.shangjia_Tag;
+						var shangjia_message = "";
+						if(shangjia_Tag == "1"){
+							shangjia_message = "已上架";
+						}else if(shangjia_Tag == "2"){
+							shangjia_message = "已下架";
+						}
 						str +='<li>'+
-							    '<p class="position-show-title column-content">'+
-							    '<i class="position-circle "></i>'+
-							    '<span class="position-title">'+
-							        '<span class="advert-manage column-image">'+
-							            '<img src="'+data.picture+'" alt="" />'+
-							        '</span>'+
-							        '<span class="advert-position column-position">'+data.url+'</span>'+
-							    '</span>'+
-							'</p>'+
-							'<p class="position-author column-author">'+
-							    '<span class="position-title advert-time">'+data.time+'</span>'+
-							'</p>'+
-							'<p class="position-author column-status">'+
-							    '<span class="position-title advert-time">'+
-							        data.shangjia_message+
-							    '</span>'+
-							'</p>'+
-							'<p class="edit-exit column-operate">'+
-							    '<a class="icon-edit icon-webpage" href="/mServer/page/advert-add.jsp?type=edit&id='+data.id+'"></a>'+
-							    '<a class="icon-edit icon-del" href="/mServer/GuanggaoServlet?type=delete&id='+data.id+'"></a>'
-							'</p>'+
-						'</li>';
+									'<p class="position-show-title column-content">'+
+									'<i class="position-circle"></i>'+ 
+									'<img class="position-square" src="'+data[i].picture+'">'+ 
+									'<span class="position-title" id="position-title-1">'+
+										'<span>'+data[i].url+'</span>'+
+										'<span class="position-share">点击量:'+data[i].dianji_count+'发布日期:'+new Date(data[i].time).format("yyyy-MM-dd")+'</span>'+
+									'</span>'+
+								'</p>'+
+								'<p class="position-author column-author">'+
+								    '<span class="position-title advert-time">'+data[i].guanggao_name+'</span>'+
+								'</p>'+
+								'<p class="position-author column-status">'+
+								    '<span class="position-title advert-time">'+
+								    	shangjia_message+
+								    '</span>'+
+								'</p>'+
+								'<p class="edit-exit column-operate">'+
+								    '<a class="icon-edit icon-webpage" href="/mServer/page/advert-add.jsp?type=edit&id='+data[i].id+'"></a>'+
+								    '<a class="icon-edit icon-del" href="/mServer/Handle_guanggao?type=delete&id='+data[i].id+'"></a>'
+								'</p>'+
+							'</li>';
 			
 					}
 	
 	
-					$("#clear-fix").html(str);
+					$("#clear-fix-1").html(str);
 				},
 				error : function() {
 					alert("error");
@@ -355,35 +366,40 @@
 					var str = "";
 					var data = message.data.results;
 					for (var i in data) {
-	
+						var shangjia_Tag = data.shangjia_Tag;
+						var shangjia_message = "";
+						if(shangjia_Tag == "1"){
+							shangjia_message = "已上架";
+						}else if(shangjia_Tag == "2"){
+							shangjia_message = "已下架";
+						}
 						str +='<li>'+
-								    '<p class="position-show-title column-content">'+
-								    '<i class="position-circle "></i>'+
-								    '<span class="position-title">'+
-								        '<span class="advert-manage column-image">'+
-								            '<img src="'+data.picture+'" alt="" />'+
-								        '</span>'+
-								        '<span class="advert-position column-position">'+data.url+'</span>'+
-								    '</span>'+
+									'<p class="position-show-title column-content">'+
+									'<i class="position-circle"></i>'+ 
+									'<img class="position-square" src="'+data[i].picture+'">'+ 
+									'<span class="position-title" id="position-title-1">'+
+										'<span>'+data[i].url+'</span>'+
+										'<span class="position-share">点击量:'+data[i].dianji_count+'发布日期:'+new Date(data[i].time).format("yyyy-MM-dd")+'</span>'+
+									'</span>'+
 								'</p>'+
 								'<p class="position-author column-author">'+
-								    '<span class="position-title advert-time">'+data.time+'</span>'+
+								    '<span class="position-title advert-time">'+data[i].guanggao_name+'</span>'+
 								'</p>'+
 								'<p class="position-author column-status">'+
 								    '<span class="position-title advert-time">'+
-								        data.shangjia_message+
+								    	shangjia_message+
 								    '</span>'+
 								'</p>'+
 								'<p class="edit-exit column-operate">'+
-								    '<a class="icon-edit icon-webpage" href="/mServer/page/advert-add.jsp?type=edit&id='+data.id+'"></a>'+
-								    '<a class="icon-edit icon-del" href="/mServer/GuanggaoServlet?type=delete&id='+data.id+'"></a>'
+								    '<a class="icon-edit icon-webpage" href="/mServer/page/advert-add.jsp?type=edit&id='+data[i].id+'"></a>'+
+								    '<a class="icon-edit icon-del" href="/mServer/Handle_guanggao?type=delete&id='+data[i].id+'"></a>'
 								'</p>'+
 							'</li>';
-	
+				
 					}
 	
 	
-					$("#clear-fix").html(str);
+					$("#clear-fix-1").html(str);
 				},
 				error : function() {
 					alert("error");
@@ -405,33 +421,39 @@
 					var data = message.data.results;
 					var str = "";
 					for (var i in data) {
+						var shangjia_Tag = data.shangjia_Tag;
+						var shangjia_message = "";
+						if(shangjia_Tag == "1"){
+							shangjia_message = "已上架";
+						}else if(shangjia_Tag == "2"){
+							shangjia_message = "已下架";
+						}
 						str +='<li>'+
-								    '<p class="position-show-title column-content">'+
-								    '<i class="position-circle "></i>'+
-								    '<span class="position-title">'+
-								        '<span class="advert-manage column-image">'+
-								            '<img src="'+data.picture+'" alt="" />'+
-								        '</span>'+
-								        '<span class="advert-position column-position">'+data.url+'</span>'+
-								    '</span>'+
+									'<p class="position-show-title column-content">'+
+									'<i class="position-circle"></i>'+ 
+									'<img class="position-square" src="'+data[i].picture+'">'+ 
+									'<span class="position-title" id="position-title-1">'+
+										'<span>'+data[i].url+'</span>'+
+										'<span class="position-share">点击量:'+data[i].dianji_count+'发布日期:'+new Date(data[i].time).format("yyyy-MM-dd")+'</span>'+
+									'</span>'+
 								'</p>'+
 								'<p class="position-author column-author">'+
-								    '<span class="position-title advert-time">'+data.time+'</span>'+
+								    '<span class="position-title advert-time">'+data[i].guanggao_name+'</span>'+
 								'</p>'+
 								'<p class="position-author column-status">'+
 								    '<span class="position-title advert-time">'+
-								        data.shangjia_message+
+								    	shangjia_message+
 								    '</span>'+
 								'</p>'+
 								'<p class="edit-exit column-operate">'+
-								    '<a class="icon-edit icon-webpage" href="/mServer/page/advert-add.jsp?type=edit&id='+data.id+'"></a>'+
-								    '<a class="icon-edit icon-del" href="/mServer/GuanggaoServlet?type=delete&id='+data.id+'"></a>'
+								    '<a class="icon-edit icon-webpage" href="/mServer/page/advert-add.jsp?type=edit&id='+data[i].id+'"></a>'+
+								    '<a class="icon-edit icon-del" href="/mServer/Handle_guanggao?type=delete&id='+data[i].id+'"></a>'
 								'</p>'+
 							'</li>';
 					}
 	
 	
-					$("#clear-fix").html(str);
+					$("#clear-fix-1").html(str);
 				},
 				error : function() {
 					alert("error");

@@ -22,14 +22,7 @@ import com.magicmoble.luzhouapp.json.responseUtils.ResponseUtils;
 import com.magicmoble.luzhouapp.json.status.StatusHouse;
 import com.magicmoble.luzhouapp.json.utils.JackJsonUtils;
 import com.magicmoble.luzhouapp.json.utils.UploadPicture;
-import com.magicmoble.luzhouapp.model.Commodity;
-import com.magicmoble.luzhouapp.model.Faxian;
-import com.magicmoble.luzhouapp.model.Fuwu;
-import com.magicmoble.luzhouapp.model.Pinglun;
-import com.magicmoble.luzhouapp.model.Quchu;
 import com.magicmoble.luzhouapp.model.server.Advertisement;
-import com.magicmoble.luzhouapp.model.server.Toutiao;
-import com.magicmoble.luzhouapp.server.server_function.Server_Func;
 import com.magicmoble.luzhouapp.server.server_function.Server_Function;
 
 public class Handle_guanggao extends HttpServlet {
@@ -83,7 +76,7 @@ public class Handle_guanggao extends HttpServlet {
 			}else if(type.equals("delete")){
 				Server_Function.deleteDataByTbaleAndId(Advertisement.class.getSimpleName().toLowerCase(), id, null);
 				//重定向
-				response.sendRedirect("/mServer/page/comment.jsp");
+				response.sendRedirect("/mServer/page/Advertisement_management.jsp");
 			}else if(type.equals("search")){
 				List<Advertisement> list = new ArrayList<Advertisement>();
 				

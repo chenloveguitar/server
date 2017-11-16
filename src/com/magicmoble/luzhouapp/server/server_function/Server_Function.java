@@ -182,6 +182,9 @@ public class Server_Function<T> {
 		            }else if(type.getName().equals("java.lang.String")){
 		            	String value = ret.getString(i);
 		            	method.invoke(t, value);
+		            }else if(type.getName().equals("java.lang.Integer")){
+		            	int value = ret.getInt(i);
+		            	method.invoke(t, value);
 		            }else if(type.getName().equals("java.sql.Timestamp")){
 		            	Timestamp value = ret.getTimestamp(i);
 		            	method.invoke(t, value);

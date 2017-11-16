@@ -57,3 +57,9 @@ ALTER TABLE admin_xinxi ADD COLUMN shuoshuo int(11) default 0;#说说数量
 #新增广告管理字段
 ALTER TABLE advertisement ADD COLUMN dianji_count int(11) default 0;#点击量
 ALTER TABLE advertisement ADD COLUMN guanggao_name varchar(255);#广告名称
+
+#新增管理员字段
+ALTER TABLE admin ADD COLUMN picture varchar(255);#点击量
+ALTER TABLE admin ADD COLUMN admin_Tag int(11) default 0;#广告名称
+ALTER TABLE admin ADD COLUMN register_time timestamp;#广告名称
+
