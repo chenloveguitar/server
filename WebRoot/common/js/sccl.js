@@ -458,7 +458,54 @@ $(function() {
 						"icon" : "common/image/icon_order.png",
 						"order" : "1",
 						"isHeader" : "0",
-						"childMenus" : [ {
+						"childMenus" : [{
+								"id" : "401",
+								"name" : "待接单",
+								"parentId" : "4",
+								"url" : "page/Order_management.jsp?order_type=djd",
+								"icon" : "",
+								"order" : "1",
+								"isHeader" : "0",
+								"childMenus" : ""
+							}, {
+								"id" : "402",
+								"name" : "进行中",
+								"parentId" : "4",
+
+								"url" : "page/Order_management.jsp?order_type=jxz",
+								"icon" : "",
+								"order" : "1",
+								"isHeader" : "0",
+								"childMenus" : ""
+							}, {
+								"id" : "403",
+								"name" : "已完成",
+								"parentId" : "4",
+								"url" : "page/Order_management.jsp?order_type=ywc",
+								"icon" : "",
+								"order" : "1",
+								"isHeader" : "0",
+								"childMenus" : ""
+							}, {
+								"id" : "404",
+								"name" : "已取消",
+								"parentId" : "4",
+								"url" : "page/Order_management.jsp?order_type=yqx",
+								"icon" : "",
+								"order" : "1",
+								"isHeader" : "0",
+								"childMenus" : ""
+							}, {
+								"id" : "405",
+								"name" : "有争议",
+								"parentId" : "4",
+								"url" : "page/Order_management.jsp?order_type=yzy",
+								"icon" : "",
+								"order" : "1",
+								"isHeader" : "0",
+								"childMenus" : ""
+							}
+							/*{
 							"id" : "401",
 							"name" : "待接单",
 							"parentId" : "4",
@@ -504,7 +551,7 @@ $(function() {
 							"order" : "1",
 							"isHeader" : "0",
 							"childMenus" : ""
-						}, {
+						}*//*, {
 							"id" : "406",
 							"name" : "付款方式",
 							"parentId" : "4",
@@ -513,7 +560,7 @@ $(function() {
 							"order" : "1",
 							"isHeader" : "0",
 							"childMenus" : ""
-						}]
+						}*/]
 					},
 					{
 						"id" : "5",

@@ -435,6 +435,75 @@ public class Server_Func {
 		return limitSql;
 	}
 	
+	public static String getLimitSql(String sql,Map<String, String> params){
+		StringBuilder limitSql = new StringBuilder("SELECT results.* FROM (" + sql +") as results");
+		limitSql.append(" where 1=1 ");
+		Set<String> keys = params.keySet();
+		for (Iterator<String> iterator = keys.iterator(); iterator.hasNext();) {
+			String key =  iterator.next();
+			if(!key.equals("join") &&
+				!key.equals("searchValue") &&
+				!key.equals("guangjie_fenlei_Tag") &&
+				!key.equals("orderBy")){
+				String value = params.get(key);
+				if(value.contains(",")){
+					String[] symbol = value.split(",");
+					limitSql.append(" and " + key + " " + symbol[0] + " " + " " + symbol[1]);
+				}
+			}else if(key.equals("searchValue")){
+				String value = params.get(key);
+				limitSql.append(" and " + value);
+			}else if(key.equals("guangjie_fenlei_Tag")){
+				String value = params.get(key);
+				limitSql.append(" and " + key + " " + value);
+			}
+		}
+		if(params.containsKey("orderBy")){
+			String[] values = params.get("orderBy").split(",");
+			limitSql.append(" order by " + values[0] + " " + values[1]);
+		}
+		limitSql.append(" limit "+(CURRENT_PAGE - 1) * PAGE_SIZE+" ," +PAGE_SIZE);
+		return limitSql.toString();
+	}
+	
+	public static Integer getTotalSize(String sql,Map<String, String> params){
+		StringBuilder countSql = new StringBuilder(" select count(results.id) from (");
+		countSql.append(sql);
+		countSql.append(") as results ");
+		countSql.append(" where 1=1 ");
+		Set<String> keys = params.keySet();
+		for (Iterator<String> iterator = keys.iterator(); iterator.hasNext();) {
+			String key =  iterator.next();
+			if(!key.equals("join") &&
+				!key.equals("searchValue") &&
+				!key.equals("guangjie_fenlei_Tag") &&
+				!key.equals("orderBy")){
+				String value = params.get(key);
+				if(value.contains(",")){
+					String[] symbol = value.split(",");
+					countSql.append(" and " + key + " " + symbol[0] + " " + " " + symbol[1]);
+				}
+			}else if(key.equals("searchValue")){
+				String value = params.get(key);
+				countSql.append(" and " + value);
+			}else if(key.equals("guangjie_fenlei_Tag")){
+				String value = params.get(key);
+				countSql.append(" and " + key + " " + value);
+			}
+		}
+		
+		DBHelper db1 = new DBHelper(countSql.toString());
+		try {
+			ResultSet resultSet = db1.pst.executeQuery();
+			if(resultSet.next()){
+				return resultSet.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+	
 	public static Integer getTotalSize(String sql){
 		StringBuilder countSql = new StringBuilder(" select count(results.id) from (");
 		countSql.append(sql);
@@ -2787,6 +2856,74 @@ public class Server_Func {
 		return list;
 	}
 
+	public static List<Map<String, String>> findLinkedQueryData(String leftTableName,String selectFields,String rightTableName,Map<String, String> params) {
+		StringBuilder sql = new StringBuilder();
+		sql.append(" select ");
+//		sql.append(selectFields);
+		sql.append(selectFields + ",'" + leftTableName + "' as " + "table_name") ; 
+		sql.append(" from ");
+		sql.append(leftTableName + " as l ");
+		sql.append(",");
+		sql.append(rightTableName + " as r ");
+		sql.append(" where 1=1 ");
+		if(params.containsKey("join")){
+			sql.append(" and " + params.get("join") + " ");
+		}
+		TOTAL_SIZE = getTotalSize(sql.toString(),params);
+		
+		String limitSql = getLimitSql(sql.toString(),params);
+		
+		DBHelper db = null;
+		ResultSet ret = null;
+		List<Map<String, String>> lists = new ArrayList<Map<String,String>>();
+		try {
+			db = new DBHelper(limitSql);
+			ret = db.pst.executeQuery();
+			while(ret.next()){
+				ResultSetMetaData metaData = ret.getMetaData();
+				int count = metaData.getColumnCount();
+				Map<String, String> data = new HashMap<String,String>();
+				for (int i = 1; i <= count; i++) {
+					String key = metaData.getColumnLabel(i);
+					String value = ret.getString(i);
+					if(key.equals("pingluner_id")){
+						Admin_xinxi admin = Admin_xinxi_Business.getAdmin_xinxiInfoById(value);
+						String pingluner_name = admin.getName();
+						String pingluner_touxiang = admin.getTouxiang_picture();
+						data.put("pingluner_name", pingluner_name);
+						data.put("pingluner_touxiang", pingluner_touxiang);
+					}
+					data.put(key, value);
+				}
+				if(leftTableName.equals(Admin_xinxi.class.getSimpleName().toLowerCase())){
+					int fensi = GuanzhuBusiness.getZhuye_Friend_id(data.get("id"), 0).size();
+					int guanzhu = GuanzhuBusiness.getZhuye_My_id(data.get("id"), 0).size();
+					Renzheng renzheng = Server_Function.findDataByTableAndId(Renzheng.class.getSimpleName().toLowerCase(), data.get("id"), Renzheng.class);
+					String  renzheng_Tag = renzheng.getRenzheng_Tag();
+					String renzheng_message = "";
+					if(StringUtils.isNotBlank(renzheng_Tag)){
+						if (renzheng_Tag.equals("1")) {
+							renzheng_Tag = "未认证";
+						} else if (renzheng_Tag.equals("2")) {
+							renzheng_Tag = "认证中";
+						} else if (renzheng_Tag.equals("3")) {
+							renzheng_Tag = "已认证";
+						}
+					}
+					data.put("fensi", String.valueOf(fensi));
+					data.put("guanzhu", String.valueOf(guanzhu));
+					data.put("renzheng_Tag", String.valueOf(renzheng_message));
+				}
+				lists.add(data);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			db.close();
+		}
+		return lists;
+	}
+	
 	/**
 	 * 
 	 * @param params params 查询条件 及参数值 

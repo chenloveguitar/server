@@ -70,7 +70,7 @@ public class FileUploadServlet extends HttpServlet {
 			List<FileManagement> managements = CommonBusiness.getDataByTable("file_management", data, FileManagement.class);
 			String path = p.getProperty("path");
 			String picture = path + "absolutePath=zwtp.png,";
-			if(!tableName.equals(Admin_xinxi.class.getSimpleName().toLowerCase())&&
+			if(tableName != null && !tableName.equals(Admin_xinxi.class.getSimpleName().toLowerCase())&&
 				!tableName.equals(Advertisement.class.getSimpleName().toLowerCase())&&
 				!tableName.equals(Admin.class.getSimpleName().toLowerCase())){
 				for (FileManagement fileManagement : managements) {

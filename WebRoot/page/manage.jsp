@@ -61,11 +61,13 @@
 					
 			</p>
 			<p class="manage-all">
-				<a href="javascript:showImages(null,'images');">全部文件</a> <a href="###">返回上一级</a> <a href="##">这里是路径
-					></a> <a href="##">位置 ></a> 
-					<a href="##">某个文件夹</a> 
+				<a href="javascript:showImages(null,'images');">全部文件</a> 
+<!-- 				<a href="###">返回上一级</a> <a href="##">这里是路径 -->
+<!-- 					></a> <a href="##">位置 ></a>  -->
+<!-- 					<a href="##">某个文件夹</a>  -->
 					<span>
-						<input type="checkbox" onclick="selectAll();" name="" id="" value="" />已选中<b id="selectedCount">0</b>个文件夹 已全部加载，共<b id="folderCount">0</b>个
+<!-- 						<input type="checkbox" onclick="selectall();" name="" id="" value="" /> -->
+						已选中<b id="selectedCount">0</b>个文件夹 已全部加载，共<b id="folderCount">0</b>个
 					</span>
 			</p>
 		</div>
@@ -91,8 +93,8 @@
 	<div class="manage-cover-delete" style="display: none;">
 		<p>确定删除</p>
 		<p>
-			<a href="###" class="manage-cancel">取消</a> <a href="###"
-				class="manage-submit" id="manage-delete">确定</a>
+			<a href="###" class="manage-cancel" style="text-align: center;">取消</a> <a href="###"
+				class="manage-submit" id="manage-delete" style="text-align: center;">确定</a>
 		</p>
 	</div>
 	<div id="popup">
@@ -374,7 +376,7 @@
 		
 		//获取新增或修改文件夹弹出框
 		function getPopup(){
-			return '<div class="manage-cover-rename" style="display: none;"> <p> <input type="text" name="" id="" value="" placeholder="请输入文件夹名称" class="rename-value" /> </p> <p> <a href="###" class="manage-rename-cancel">取消</a> <a href="###" class="manage-rename-submit">确定</a> </p> </div>';
+			return '<div class="manage-cover-rename" style="display: none;"> <p> <input type="text" name="" id="" value="" placeholder="请输入文件夹名称" class="rename-value" /> </p> <p> <a href="###" style="text-align:center;" class="manage-rename-cancel">取消</a> <a href="###" style="text-align:center;" class="manage-rename-submit">确定</a> </p> </div>';
 		}
 		
 		//获取文件夹列表
