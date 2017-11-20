@@ -219,8 +219,12 @@ public class CommonBusiness {
 		return lists;
 	}
 	
-	public static List<Map<String, String>> getPageMapDataByTable(String table_name,Map<String, String> params){
-		String sql = "select * from " + table_name + " where 1=1 ";
+	public static List<Map<String, String>> getPageMapDataByTable(String table_name,Map<String, String> params,String...selectFields){
+		String selectField = "*";
+		if(selectFields != null){
+			selectField = selectFields[0];
+		}
+		String sql = "select "+selectField+" from " + table_name + " where 1=1 ";
 		Set<String> keys = params.keySet();
 		Iterator<String> iterator = keys.iterator();
 		while (iterator.hasNext()) {
@@ -231,6 +235,10 @@ public class CommonBusiness {
 					String symbol = values[0];
 					String value = values[1];
 					sql += " and " + key + " " + " " + symbol + " " + value;
+				}
+				if(params.get(key).equals("searchValue")){
+					String value = params.get("searchValue");
+					sql += " and " + value;
 				}
 			}
 		}

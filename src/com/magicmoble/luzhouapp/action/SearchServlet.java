@@ -1,6 +1,7 @@
 package com.magicmoble.luzhouapp.action;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +20,12 @@ import com.magicmoble.luzhouapp.json.core.ListObject;
 import com.magicmoble.luzhouapp.json.responseUtils.ResponseUtils;
 import com.magicmoble.luzhouapp.json.status.StatusHouse;
 import com.magicmoble.luzhouapp.json.utils.JackJsonUtils;
+import com.magicmoble.luzhouapp.model.Commodity;
+import com.magicmoble.luzhouapp.model.Faxian;
+import com.magicmoble.luzhouapp.model.Quchu;
+import com.magicmoble.luzhouapp.model.Toutiao;
+import com.magicmoble.luzhouapp.server.server_function.Server_Func;
+import com.magicmoble.luzhouapp.server.server_function.Server_Function;
 
 /**
  * Servlet implementation class SearchServlet
@@ -43,20 +50,34 @@ public class SearchServlet extends HttpServlet {
 			CommonBusiness.CURRENT_PAGE = StringUtils.isNotBlank(currentPage)?Integer.valueOf(currentPage):1;
 			CommonBusiness.PAGE_SIZE = StringUtils.isNotBlank(pageSize)?Integer.valueOf(pageSize):Integer.MAX_VALUE;
 			
-			String value = request.getParameter("value");
-			value = StringUtils.isNotBlank(value) ? value : "";
-	
-			Map<String, String> tableParams = new HashMap<String, String>();
-			tableParams.put("commodity", "id,title,content");
-			tableParams.put("faxian", "id,title,content");
-			tableParams.put("fuwu", "id,title,content");
-			tableParams.put("quchu", "id,title,content");
-			tableParams.put("toutiao", "id,title,content");
-			Map<String, String> params = new HashMap<String, String>();
-			params.put("searchValue", "(title like '%"+value+"%' or content like '%"+value+"%')" );
-			
-			List<Map<String, String>> list = CommonBusiness.findUnionAllDataQuery(tableParams, params);
-			
+			String searchValue = request.getParameter("searchValue");
+			String searchType = request.getParameter("searchType");
+			if(StringUtils.isBlank(searchType)){
+				DataObject dataObject = new DataObject();
+				dataObject.setdata("缺少查询类型参数:serchType,1为头条，2为.....!");
+				dataObject.setStatusObject(StatusHouse.COMMON_STATUS_ERROR);
+				String responseText = JackJsonUtils.toJson(dataObject);
+				ResponseUtils.renderJson(response, responseText);
+				return;
+			}
+			List<Map<String, String>> list = new ArrayList<Map<String,String>>();
+			Map<String, String> params = new HashMap<String,String>();
+			searchValue = StringUtils.isNotBlank(searchValue) ? searchValue : "";
+			params.put("searchValue", "( title like '%"+searchValue+"%' or content like '%"+searchValue+"%' )");
+			switch(searchType){
+				case "1":
+					list = CommonBusiness.getPageMapDataByTable(Toutiao.class.getSimpleName().toLowerCase(), params,"id,title,picture,(select name from admin_xinxi where id = releaser_id) name,DATE_FORMAT(time,'%Y-%m-%d %h:%i:%s') time");
+					break;
+				case "2":
+					list = CommonBusiness.getPageMapDataByTable(Faxian.class.getSimpleName().toLowerCase(), params,"id,title,picture,(select name from admin_xinxi where id = releaser_id) name,DATE_FORMAT(time,'%Y-%m-%d %h:%i:%s') time");
+					break;
+				case "3":
+					list = CommonBusiness.getPageMapDataByTable(Quchu.class.getSimpleName().toLowerCase(), params,"id,title,picture,(select name from admin_xinxi where id = releaser_id) name,DATE_FORMAT(time,'%Y-%m-%d %h:%i:%s') time");
+					break;
+				case "4":
+					list = CommonBusiness.getPageMapDataByTable(Commodity.class.getSimpleName().toLowerCase(), params,"id,title,picture,(select name from admin_xinxi where id = releaser_id) name,DATE_FORMAT(time,'%Y-%m-%d %h:%i:%s') time");
+					break;
+			}
 			ListObject listObject = new ListObject();
 			listObject.setResult(list);
 			DataObject dataObject = new DataObject();

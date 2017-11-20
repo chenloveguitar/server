@@ -9,11 +9,12 @@ public class DBHelper {
 //	public static final String url = "jdbc:mysql://122.152.216.95:3306/sjlz?characterEncoding=utf-8";
 //	public static final String user = "sjlz";
 //	public static final String password = "qwe123";
-	public static final String name = "com.mysql.jdbc.Driver";
+	public static final String name = "com.mysql.jdbc.Driver";	
 //	public static final String url = "jdbc:mysql://localhost:3306/sjlz_20171114?characterEncoding=utf-8";
-	public static final String url = "jdbc:mysql://localhost:3306/sjlz_pub?characterEncoding=utf-8";
+	public static final String url = "jdbc:mysql://127.0.0.1:3306/sjlz?characterEncoding=utf-8";
 	public static final String user = "root";
-	public static final String password = "admin123456";
+//	public static final String password = "admin123456";
+	public static final String password = "Guomuyun.2017";
 	public Connection conn = null;
 	public PreparedStatement pst = null;
 
@@ -37,6 +38,9 @@ public class DBHelper {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	public static void main(String[] args) {
+		System.out.println(new DBHelper("").conn);
 	}
 }
 

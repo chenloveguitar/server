@@ -10,3 +10,4 @@ public class Constants {
 	public static final String uploadPath = "/www/server/tomcat/webapps/upload/";
 	
 }
+	
