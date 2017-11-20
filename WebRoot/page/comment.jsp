@@ -262,13 +262,16 @@
 								"<span class=\"position-share\">阅读量:" + /*data[i]["yuedu_count"]*/ 0 + "&nbsp;分享:" + /*data[i]["share_count"]*/ 0 + "&nbsp;点赞:"+data[i]["dianzan_count"]+"&nbsp;收藏:"+ /*data[i]["shoucang_count"]*/ 0 +"&nbsp;时间:" + data[i]["time"] + "</span>"+
 								"</span>"+
 							"</p>"+
-							"<p class=\"position-author column-author\">"+
-								"<img class=\"icon-author\" src=\""+data[i]["pingluner_touxiang"]+"\">" +
-								"<span class=\"position-title\" id=\"position-title-2\"> " +
+							"<p class=\"position-author column-author\">";
+							if(data[i]["pingluner_name"]){
+								str += "<img class=\"icon-author\" src=\""+data[i]["pingluner_touxiang"]+"\">";								
+							}
+							str += "<span class=\"position-title\" id=\"position-title-2\"> " +
 									"<span>" + data[i]["pingluner_name"] + "</span>" +
 //									"<span class=\"position-share\">" + data[i]["qianming"] + "</span>"+
 								"</span>"+
 							"</p>"+
+							
 							"<p class=\"position-public column-status\">"+
 								"<span class=\"position-title position-p\" id=\"position-title-3\">"+
 									"<span>" + lianmu + "</span>"+
@@ -329,13 +332,16 @@
 								"<span class=\"position-share\">阅读量:" + /*data[i]["yuedu_count"]*/ 0 + "&nbsp;分享:" + /*data[i]["share_count"]*/ 0 + "&nbsp;点赞:"+data[i]["dianzan_count"]+"&nbsp;收藏:"+ /*data[i]["shoucang_count"]*/ 0 +"&nbsp;时间:" + data[i]["time"] + "</span>"+
 								"</span>"+
 							"</p>"+
-							"<p class=\"position-author column-author\">"+
-								"<img class=\"icon-author\" src=\""+data[i]["pingluner_touxiang"]+"\">" +
-								"<span class=\"position-title\" id=\"position-title-2\"> " +
+							"<p class=\"position-author column-author\">";
+							if(data[i]["pingluner_name"]){
+								str += "<img class=\"icon-author\" src=\""+data[i]["pingluner_touxiang"]+"\">";								
+							}
+							str += "<span class=\"position-title\" id=\"position-title-2\"> " +
 									"<span>" + data[i]["pingluner_name"] + "</span>" +
 //									"<span class=\"position-share\">" + data[i]["qianming"] + "</span>"+
 								"</span>"+
 							"</p>"+
+							
 							"<p class=\"position-public column-status\">"+
 								"<span class=\"position-title position-p\" id=\"position-title-3\">"+
 									"<span>" + lianmu + "</span>"+
@@ -396,13 +402,16 @@
 								"<span class=\"position-share\">阅读量:" + /*data[i]["yuedu_count"]*/ 0 + "&nbsp;分享:" + /*data[i]["share_count"]*/ 0 + "&nbsp;点赞:"+data[i]["dianzan_count"]+"&nbsp;收藏:"+ /*data[i]["shoucang_count"]*/ 0 +"&nbsp;时间:" + data[i]["time"] + "</span>"+
 								"</span>"+
 							"</p>"+
-							"<p class=\"position-author column-author\">"+
-								"<img class=\"icon-author\" src=\""+data[i]["pingluner_touxiang"]+"\">" +
-								"<span class=\"position-title\" id=\"position-title-2\"> " +
+							"<p class=\"position-author column-author\">";
+							if(data[i]["pingluner_name"]){
+								str += "<img class=\"icon-author\" src=\""+data[i]["pingluner_touxiang"]+"\">";								
+							}
+							str += "<span class=\"position-title\" id=\"position-title-2\"> " +
 									"<span>" + data[i]["pingluner_name"] + "</span>" +
 //									"<span class=\"position-share\">" + data[i]["qianming"] + "</span>"+
 								"</span>"+
 							"</p>"+
+							
 							"<p class=\"position-public column-status\">"+
 								"<span class=\"position-title position-p\" id=\"position-title-3\">"+
 									"<span>" + lianmu + "</span>"+
@@ -456,31 +465,34 @@
 								break;
 							}
 							str +=  "<li>"+
-								"<p class=\"position-show-title column-content\">"+
-//								 <img class=\"position-square\"src=\"#\" /> " +//" + data["pictures"][0]["picture_url"] + 
-									"<i class=\"position-circle\"></i>"+
-									"<span class=\"position-title\" id=\"position-title-1\"> " +
-									"<span>" + data[i]["content"] + "</span>"+
-									"<span class=\"position-share\">阅读量:" + /*data[i]["yuedu_count"]*/ 0 + "&nbsp;分享:" + /*data[i]["share_count"]*/ 0 + "&nbsp;点赞:"+data[i]["dianzan_count"]+"&nbsp;收藏:"+ /*data[i]["shoucang_count"]*/ 0 +"&nbsp;时间:" + data[i]["time"] + "</span>"+
-									"</span>"+
-								"</p>"+
-								"<p class=\"position-author column-author\">"+
-									"<img class=\"icon-author\" src=\""+data[i]["pingluner_touxiang"]+"\">" +
-									"<span class=\"position-title\" id=\"position-title-2\"> " +
-										"<span>" + data[i]["pingluner_name"] + "</span>" +
-//										"<span class=\"position-share\">" + data[i]["qianming"] + "</span>"+
-									"</span>"+
-								"</p>"+
-								"<p class=\"position-public column-status\">"+
-									"<span class=\"position-title position-p\" id=\"position-title-3\">"+
-										"<span>" + lianmu + "</span>"+
-									"</span>"+
-								"</p>"+
-								"<p class=\"edit-exit column-operate\">"+
-									"<a class=\"icon-edit icon-webpage\" href='comment-add.jsp?updete_id=" + data[i]["id"] + "'></a>"+
-									"<a class=\"icon-edit icon-del\" href=/mServer/PinglunServlet?type=delete&id=" + data[i]["id"] + " \"></a>"+
-								"</p>"+
-							"</li>";
+							"<p class=\"position-show-title column-content\">"+
+//							 <img class=\"position-square\"src=\"#\" /> " +//" + data["pictures"][0]["picture_url"] + 
+								"<i class=\"position-circle\"></i>"+
+								"<span class=\"position-title\" id=\"position-title-1\"> " +
+								"<span>" + data[i]["content"] + "</span>"+
+								"<span class=\"position-share\">阅读量:" + /*data[i]["yuedu_count"]*/ 0 + "&nbsp;分享:" + /*data[i]["share_count"]*/ 0 + "&nbsp;点赞:"+data[i]["dianzan_count"]+"&nbsp;收藏:"+ /*data[i]["shoucang_count"]*/ 0 +"&nbsp;时间:" + data[i]["time"] + "</span>"+
+								"</span>"+
+							"</p>"+
+							"<p class=\"position-author column-author\">";
+							if(data[i]["pingluner_name"]){
+								str += "<img class=\"icon-author\" src=\""+data[i]["pingluner_touxiang"]+"\">";								
+							}
+							str += "<span class=\"position-title\" id=\"position-title-2\"> " +
+									"<span>" + data[i]["pingluner_name"] + "</span>" +
+//									"<span class=\"position-share\">" + data[i]["qianming"] + "</span>"+
+								"</span>"+
+							"</p>"+
+							
+							"<p class=\"position-public column-status\">"+
+								"<span class=\"position-title position-p\" id=\"position-title-3\">"+
+									"<span>" + lianmu + "</span>"+
+								"</span>"+
+							"</p>"+
+							"<p class=\"edit-exit column-operate\">"+
+								"<a class=\"icon-edit icon-webpage\" href='comment-add.jsp?updete_id=" + data[i]["id"] + "'></a>"+
+								"<a class=\"icon-edit icon-del\" href=/mServer/PinglunServlet?type=delete&id=" + data[i]["id"] + " \"></a>"+
+							"</p>"+
+						"</li>";
 						}
 						$("#clear-fix").html(str);
 					},

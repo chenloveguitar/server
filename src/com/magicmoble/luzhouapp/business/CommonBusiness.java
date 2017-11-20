@@ -221,7 +221,7 @@ public class CommonBusiness {
 	
 	public static List<Map<String, String>> getPageMapDataByTable(String table_name,Map<String, String> params,String...selectFields){
 		String selectField = "*";
-		if(selectFields != null){
+		if(selectFields != null && selectFields.length > 0){
 			selectField = selectFields[0];
 		}
 		String sql = "select "+selectField+" from " + table_name + " where 1=1 ";

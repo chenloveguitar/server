@@ -9,7 +9,7 @@ public class DBHelper {
 //	public static final String url = "jdbc:mysql://122.152.216.95:3306/sjlz?characterEncoding=utf-8";
 //	public static final String user = "sjlz";
 //	public static final String password = "qwe123";
-	public static final String name = "com.mysql.jdbc.Driver";	
+	public static final String name = "com.mysql.jdbc.Driver";
 //	public static final String url = "jdbc:mysql://localhost:3306/sjlz_20171114?characterEncoding=utf-8";
 	public static final String url = "jdbc:mysql://127.0.0.1:3306/sjlz?characterEncoding=utf-8";
 	public static final String user = "root";

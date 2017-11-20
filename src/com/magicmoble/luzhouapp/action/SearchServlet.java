@@ -54,7 +54,7 @@ public class SearchServlet extends HttpServlet {
 			String searchType = request.getParameter("searchType");
 			if(StringUtils.isBlank(searchType)){
 				DataObject dataObject = new DataObject();
-				dataObject.setdata("缺少查询类型参数:serchType,1为头条，2为.....!");
+				dataObject.setdata("缺少查询类型参数:serchType,1为头条，2为发现,3为去处,4为商品!");
 				dataObject.setStatusObject(StatusHouse.COMMON_STATUS_ERROR);
 				String responseText = JackJsonUtils.toJson(dataObject);
 				ResponseUtils.renderJson(response, responseText);

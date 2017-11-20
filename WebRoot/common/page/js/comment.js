@@ -53,8 +53,8 @@ function getLi(data,Tag) {
 		lianmu = "服务";
 		break;
 	}
-	
-	return  "<li>"+
+	str = "";
+	str += "<li>"+
 				"<p class=\"position-show-title column-content\">"+
 //				 <img class=\"position-square\"src=\"#\" /> " +//" + data["pictures"][0]["picture_url"] + 
 					"<i class=\"position-circle\"></i>"+
@@ -63,10 +63,12 @@ function getLi(data,Tag) {
 					"<span class=\"position-share\">阅读量:" + /*data["yuedu_count"]*/ 0 + "&nbsp;分享:" + /*data["share_count"]*/ 0 + "&nbsp;点赞:"+data["dianzan_count"]+"&nbsp;收藏:"+ /*data["shoucang_count"]*/ 0 +"&nbsp;时间:" + data["time"] + "</span>"+
 					"</span>"+
 				"</p>"+
-				"<p class=\"position-author column-author\">"+
-					"<img class=\"icon-author\" src=\""+data["pingluner_touxiang"]+"\">" +
-					"<span class=\"position-title\" id=\"position-title-2\"> " +
-						"<span>" + data["pingluner_name"] + "</span>" +
+				"<p class=\"position-author column-author\">";
+					if(data["pingluner_name"]){
+						str += "<img class=\"icon-author\" src=\""+data["pingluner_touxiang"]+"\">";
+					}
+					str += "<span class=\"position-title\" id=\"position-title-2\"> " +
+					"<span>" + data["pingluner_name"] + "</span>" +
 //						"<span class=\"position-share\">" + data["qianming"] + "</span>"+
 					"</span>"+
 				"</p>"+
@@ -80,4 +82,5 @@ function getLi(data,Tag) {
 					"<a class=\"icon-edit icon-del\" href=/mServer/PinglunServlet?type=delete&id=" + data["id"] + " \"></a>"+
 				"</p>"+
 			"</li>";
+		return str;
 }
