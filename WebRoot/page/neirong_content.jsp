@@ -89,7 +89,6 @@
 					<option value="服务">服务</option>
 				</select>
 				<select class="basic-second" id="status">
-					<option value="状态">状态</option>
 					<option value="待审核">待审核</option>
 					<option value="已发布">已发布</option>
 					<option value="已下架">已下架</option>
@@ -310,7 +309,7 @@
 			$(".save-clicked").on("click", function() {
 				var selectedNum = $("#clear-fix .select").parents("li").length;
 				var uploadNum = document.getElementById("file").files.length;
-				if(selectedNum && uploadNum){
+				if(selectedNum || uploadNum){
 					$.ajax({
 						url : "/mServer/Upload_file2",
 						type : "POST",
@@ -345,7 +344,8 @@
 // 							"content2" : $("#txtDefaultHtmlArea").val()
 							"described" : $("#textarea").val(),
 // 							"content" : $("#txtDefaultHtmlArea").val()
-							"content" : $("iframe").contents().find("body").html()
+							"content" : $("iframe").contents().find("body").html(),
+							"shenhe":$("#status").val()
 							},
 							dataType : "json",
 							success : function(data) {

@@ -96,6 +96,6 @@ function getLi(data,Tag) {
 			+ '<a class="icon-edit icon-webpage" href="/mServer/page/content-detail.jsp?chaxun_id='
 			+ data.id
 			+ '&Tag='+Tag+'"></a>'
-			+ '<a class="icon-del icon-webpage" href="/mServer/Handle_NoExamine_neirong?del_id='
+			+ '<a class="icon-del icon-edit" href="/mServer/Handle_NoExamine_neirong?del_id='
 			+ data.id + '&Tag='+Tag+'"></a>' + '</p>' + '</li>';
 }

@@ -100,6 +100,7 @@ public class Upload_file2 extends HttpServlet {
 		String fxhongbao_price = request.getParameter("fxhongbao_price");
 		String fxhongbao_count = request.getParameter("fxhongbao_count");
 		String dashang_count = request.getParameter("dashang_count");
+		String shenhe = request.getParameter("status");
 
 
 		// 图片
@@ -117,6 +118,7 @@ public class Upload_file2 extends HttpServlet {
 				data.put("dianzan_count", String.valueOf(dianzan_count));
 				data.put("described", described);
 				data.put("publish_date", publish_date);
+				data.put("shenhe", shenhe);
 				Server_Function.updateDataByTableAndId("toutiao", id, data);
 			}else{
 				id = Server_Function.add_toutiao(picture_str, title, user_name, content, muban_Tag, releaser_id, yuedu_count,dianzan_count,described,publish_date);
@@ -134,6 +136,7 @@ public class Upload_file2 extends HttpServlet {
 					data.put("dianzan_count", String.valueOf(dianzan_count));
 					data.put("described", described);
 					data.put("publish_date", publish_date);
+					data.put("shenhe", shenhe);
 					Server_Function.updateDataByTableAndId("toutiao", id, data);
 				}else{
 					id = Server_Function.add_riji(picture_str, title, user_name, content, muban_Tag, releaser_id,described,publish_date);
@@ -151,6 +154,7 @@ public class Upload_file2 extends HttpServlet {
 					data.put("dianzan_count", String.valueOf(dianzan_count));
 					data.put("described", described);
 					data.put("publish_date", publish_date);
+					data.put("shenhe", shenhe);
 					Server_Function.updateDataByTableAndId("faxian", id, data);
 				}else{
 					id = Server_Function.add_faxian(releaser_id, picture_str, title, user_name, content,muban_Tag,described,publish_date);
@@ -170,6 +174,7 @@ public class Upload_file2 extends HttpServlet {
 					data.put("dianzhan_count", String.valueOf(dianzan_count));
 					data.put("described", described);
 					data.put("publish_date", publish_date);
+					data.put("shenhe", shenhe);
 					Server_Function.updateDataByTableAndId("quchu", id, data);
 				}else{
 					id = Server_Function.add_quchu(releaser_id, title, address, phone, picture_str, content,muban_Tag,described,publish_date);
@@ -190,6 +195,7 @@ public class Upload_file2 extends HttpServlet {
 					data.put("dianzan_count", String.valueOf(dianzan_count));
 					data.put("described", described);
 					data.put("publish_date", publish_date);
+					data.put("shenhe", shenhe);
 					Server_Function.updateDataByTableAndId("commodity", id, data);
 				}else{
 					id =  Server_Function.add_commodity(title, price_commodity, shuliang, freight, phone, picture_str, content,releaser_id,muban_Tag,described,publish_date);
@@ -210,6 +216,7 @@ public class Upload_file2 extends HttpServlet {
 					data.put("dianzan_count", String.valueOf(dianzan_count));
 					data.put("described", described);
 					data.put("publish_date", publish_date);
+					data.put("shenhe", shenhe);
 					Server_Function.updateDataByTableAndId("fuwu", id, data);
 				}else{
 					id =  Server_Function.add_fuwu(releaser_id, title, price_fuwu, phone, picture_str, content,muban_Tag,described,publish_date);
@@ -222,7 +229,7 @@ public class Upload_file2 extends HttpServlet {
 		paramsWhere.put("tiaomu_id", id);
 		paramsWhere.put("hongbao_Tag", "1");
 		List<Hongbao> dzHongbao = CommonBusiness.getDataByTable("hongbao", paramsWhere, Hongbao.class);
-		if(dzHongbao.size() == 0){
+		if(dzHongbao.size() == 0 && StringUtils.isNotBlank(dzhongbao_price) && StringUtils.isNotBlank(dzhongbao_count)){
 			Map<String, String> params = new HashMap<String,String>();
 			params.put("hongbao_Tag", "1");
 			params.put("tiaomu_id", id);
@@ -241,7 +248,7 @@ public class Upload_file2 extends HttpServlet {
 		}
 		paramsWhere.put("hongbao_Tag", "2");
 		List<Hongbao> fxHongbao = CommonBusiness.getDataByTable("hongbao", paramsWhere, Hongbao.class);
-		if(fxHongbao.size() == 0){
+		if(fxHongbao.size() == 0 && StringUtils.isNotBlank(fxhongbao_price) && StringUtils.isNotBlank(fxhongbao_count)){
 			Map<String, String> params = new HashMap<String,String>();
 			params.put("hongbao_Tag", "2");
 			params.put("tiaomu_id", id);

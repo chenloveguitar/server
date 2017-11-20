@@ -524,8 +524,11 @@
 	 							str += "		</span>"
 	 							str += "	</p>"
 	 							str += "	<p class=\"edit-exit\">"
-	 							str += "	<i class=\"icon-edit icon-webpage\"></i> <i"
-	 							str += "	class=\"icon-edit icon-del\"></i>"
+	 								str +='<a class="icon-edit icon-webpage" href="/mServer/page/content-detail.jsp?chaxun_id='
+										str += message[i].id
+										str +='&Tag='+flag+'"></a>'
+										str += '<a class="icon-del icon-edit" href="/mServer/Handle_NoExamine_neirong?del_id='
+										str +=message[i].id + '&Tag='+flag+'"></a>'
 	 							str += "	</p>"
 	 							str += "	</li>"
 	 						}
@@ -583,8 +586,11 @@
 								str += "		</span>"
 								str += "	</p>"
 								str += "	<p class=\"edit-exit\">"
-								str += "	<i class=\"icon-edit icon-webpage\"></i> <i"
-								str += "	class=\"icon-edit icon-del\"></i>"
+									str +='<a class="icon-edit icon-webpage" href="/mServer/page/content-detail.jsp?chaxun_id='
+										str += message[i].id
+										str +='&Tag='+flag+'"></a>'
+										str += '<a class="icon-del icon-edit" href="/mServer/Handle_NoExamine_neirong?del_id='
+										str +=message[i].id + '&Tag='+flag+'"></a>'
 								str += "	</p>"
 								str += "	</li>"
 							}
@@ -638,8 +644,11 @@
 									str += "		</span>"
 									str += "	</p>"
 									str += "	<p class=\"edit-exit\">"
-									str += "	<i class=\"icon-edit icon-webpage\"></i> <i"
-									str += "	class=\"icon-edit icon-del\"></i>"
+										str +='<a class="icon-edit icon-webpage" href="/mServer/page/content-detail.jsp?chaxun_id='
+											str += message[i].id
+											str +='&Tag='+flag+'"></a>'
+											str += '<a class="icon-del icon-edit" href="/mServer/Handle_NoExamine_neirong?del_id='
+											str +=message[i].id + '&Tag='+flag+'"></a>'
 									str += "	</p>"
 									str += "	</li>"
 								}
@@ -694,8 +703,11 @@
 								str += "		</span>"
 								str += "	</p>"
 								str += "	<p class=\"edit-exit\">"
-								str += "	<i class=\"icon-edit icon-webpage\"></i> <i"
-								str += "	class=\"icon-edit icon-del\"></i>"
+									str +='<a class="icon-edit icon-webpage" href="/mServer/page/content-detail.jsp?chaxun_id='
+										str += message[i].id
+										str +='&Tag='+flag+'"></a>'
+										str += '<a class="icon-del icon-edit" href="/mServer/Handle_NoExamine_neirong?del_id='
+										str +=message[i].id + '&Tag='+flag+'"></a>'
 								str += "	</p>"
 								str += "	</li>"
 		
@@ -753,8 +765,11 @@
 								str += "		</span>"
 								str += "	</p>"
 								str += "	<p class=\"edit-exit\">"
-								str += "	<i class=\"icon-edit icon-webpage\"></i> <i"
-								str += "	class=\"icon-edit icon-del\"></i>"
+										str +='<a class="icon-edit icon-webpage" href="/mServer/page/content-detail.jsp?chaxun_id='
+										str += message[i].id
+										str +='&Tag='+flag+'"></a>'
+										str += '<a class="icon-del icon-edit" href="/mServer/Handle_NoExamine_neirong?del_id='
+										str +=message[i].id + '&Tag='+flag+'"></a>'
 								str += "	</p>"
 								str += "	</li>"
 							}

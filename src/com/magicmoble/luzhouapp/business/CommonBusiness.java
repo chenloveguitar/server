@@ -380,7 +380,7 @@ public class CommonBusiness {
 	
 	public List<Admin_xinxi> getUsers(){
 		List<Admin_xinxi> lists = new ArrayList<Admin_xinxi>();
-		String sql = "select * from Admin_xinxi";
+		String sql = "select * from admin_xinxi";
 		DBHelper db = new DBHelper(sql);
 		try {
 			ResultSet resultSet = db.pst.executeQuery();
