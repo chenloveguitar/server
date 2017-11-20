@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -54,6 +55,75 @@ public class CommonBusiness {
 	public static String getLimitSql(String sql){
 		String limitSql = "SELECT results.* FROM (" + sql +") as results limit "+(CURRENT_PAGE - 1) * PAGE_SIZE+" ," +PAGE_SIZE;
 		return limitSql;
+	}
+	
+	public static List<Map<String, String>> findUnionAllDataQuery(Map<String, String> TableNames,Map<String, String> params) {
+		StringBuilder sql = new StringBuilder();
+//		sql.append(" select * from(");
+		Set<String> keySet = TableNames.keySet();
+		List<String> keyList = new ArrayList<>(keySet);
+		for (int i = 0; i < keyList.size(); i++) {
+			sql.append(" select ");
+			sql.append(TableNames.get(keyList.get(i)) + ",'" + keyList.get(i) + "' as " + "table_name") ;  
+			sql.append(" from ");
+			sql.append(keyList.get(i));
+			sql.append(" where 1=1 ");
+			Set<String> keys = params.keySet();
+			for (Iterator<String> iterator = keys.iterator(); iterator.hasNext();) {
+				String key =  iterator.next();
+				if(!key.equals("orderBy") && !key.equals("searchValue")){
+					String value = params.get(key);
+					if(value.contains(",")){
+						String[] symbol = value.split(",");
+						sql.append(" and " + key + " " + symbol[0] + " " + " " + symbol[1]);
+					}
+				}
+				if(key.equals("searchValue")){
+					String value = params.get(key);
+						sql.append(" and " + value);
+				}
+			}
+			if(i < keyList.size() - 1){
+				sql.append(" union all ");
+			}
+		}
+//		sql.append(" )");
+		TOTAL_SIZE = getTotalSize(sql.toString());
+		if(params.containsKey("orderBy")){
+			String[] values = params.get("orderBy").split(",");
+			sql.append(" order by " + values[0] + " " + values[1]);
+		}
+		String limitSql = getLimitSql(sql.toString());
+		DBHelper db = null;
+		ResultSet ret = null;
+		List<Map<String, String>> lists = new ArrayList<Map<String,String>>();
+		try {
+			db = new DBHelper(limitSql);
+			ret = db.pst.executeQuery();
+			while(ret.next()){
+				ResultSetMetaData metaData = ret.getMetaData();
+				Map<String, String> data = new HashMap<String,String>();
+				int count = metaData.getColumnCount();
+				for (int i = 1; i <= count; i++) {
+					String key = metaData.getColumnLabel(i);
+					String value = ret.getString(i);
+					if(key.equals("pingluner_id")){
+						Admin_xinxi admin = Admin_xinxi_Business.getAdmin_xinxiInfoById(value);
+						String pingluner_name = admin.getName();
+						String pingluner_touxiang = admin.getTouxiang_picture();
+						data.put("pingluner_name", pingluner_name);
+						data.put("pingluner_touxiang", pingluner_touxiang);
+					}
+					data.put(key, value);
+				}
+				lists.add(data);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			db.close();
+		}
+		return lists;
 	}
 	
 	/**
@@ -218,16 +288,22 @@ public class CommonBusiness {
 	
 	public static void main(String[] args) {
 		Map<String, String> params = new HashMap<>();
+		Map<String, String> tableParams = new HashMap<>();
+		tableParams.put("commodity", "id,title");
+		tableParams.put("faxian", "id,title");
+		tableParams.put("fuwu", "id,title");
+		tableParams.put("quchu", "id,title");
+		tableParams.put("toutiao", "id,title");
+		params.put("title", "like,'%%'");
 		CommonBusiness.CURRENT_PAGE = 1;
 //		params.put("tiaomu_id", "2");
 //		params.put("tuijian_user", "3C41163EAF3FED61BFB009766D58864D");
 //		List<Tuijian_list> list = getDataByTable("tuijian_list", params, Tuijian_list.class);
 //		params.put("content", "like,'%点滴滴%'");
 //		params.put("orderBy", "time,desc");
-		List<Shuoshuo> list = getPageDataByTable(Shuoshuo.class.getSimpleName().toLowerCase(), params, Shuoshuo.class);
+		List<Map<String, String>> list = findUnionAllDataQuery(tableParams, params);
 		
-		
-//		System.out.println(list);
+		System.out.println(list);
 	}
 	
 	public static <T>List<T> getDataByTable(String table_name,Map<String, String> params,Class<T> c){

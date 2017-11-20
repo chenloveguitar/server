@@ -11,7 +11,7 @@ public class DBHelper {
 //	public static final String password = "qwe123";
 	public static final String name = "com.mysql.jdbc.Driver";
 //	public static final String url = "jdbc:mysql://localhost:3306/sjlz_20171114?characterEncoding=utf-8";
-	public static final String url = "jdbc:mysql://localhost:3306/sjlz?characterEncoding=utf-8";
+	public static final String url = "jdbc:mysql://localhost:3306/sjlz_pub?characterEncoding=utf-8";
 	public static final String user = "root";
 	public static final String password = "admin123456";
 	public Connection conn = null;

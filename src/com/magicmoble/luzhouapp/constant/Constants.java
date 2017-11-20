@@ -6,6 +6,7 @@ package com.magicmoble.luzhouapp.constant;
  *
  */
 public class Constants {
-	public static final String uploadPath = "G://upload//";
+//	public static final String uploadPath = "G://upload/";
+	public static final String uploadPath = "/www/server/tomcat/webapps/upload/";
 	
 }
