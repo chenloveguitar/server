@@ -21,6 +21,7 @@ import com.alipay.api.response.AlipayTradePayResponse;
 import com.magicmoble.luzhouapp.alipay.service.zhifubao.OrderConfig;
 import com.magicmoble.luzhouapp.alipay.service.zhifubao.PayUtil;
 import com.magicmoble.luzhouapp.business.Dingdan_Business;
+import com.magicmoble.luzhouapp.constant.Constants;
 import com.magicmoble.luzhouapp.json.core.DataObject;
 import com.magicmoble.luzhouapp.json.responseUtils.ResponseUtils;
 import com.magicmoble.luzhouapp.json.status.StatusHouse;
@@ -76,7 +77,7 @@ public class Ali_Pay_RechargeInq extends HttpServlet {
 		model.setTotalAmount(_price);
 		model.setProductCode("QUICK_MSECURITY_PAY");
 		request.setBizModel(model);
-		request.setNotifyUrl("http://122.152.216.95:8080/mServer/Ali_Notify_RechargeInq");
+		request.setNotifyUrl(Constants.SERVER_PATH+"/mServer/Ali_Notify_RechargeInq");
 		try {
 			// 这里和普通的接口调用不同，使用的是sdkExecute
 			response = alipayClient.sdkExecute(request);

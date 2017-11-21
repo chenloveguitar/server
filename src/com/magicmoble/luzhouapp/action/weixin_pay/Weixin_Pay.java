@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.magicmoble.luzhouapp.Util.Monery.weixin.WeiXinPayUtil;
 import com.magicmoble.luzhouapp.Util.Monery.weixin.util.ConstantUtil;
 import com.magicmoble.luzhouapp.business.Dingdan_Business;
+import com.magicmoble.luzhouapp.constant.Constants;
 import com.magicmoble.luzhouapp.json.core.DataObject;
 import com.magicmoble.luzhouapp.json.responseUtils.ResponseUtils;
 import com.magicmoble.luzhouapp.json.status.StatusHouse;
@@ -56,7 +57,7 @@ public class Weixin_Pay extends HttpServlet {
 		}
 		try {
 			map = WeiXinPayUtil.weiXinPay("192.168.0.1", orderContent, price, orderId,
-					"http://122.152.216.95:8080/mServer/Notify");
+					Constants.SERVER_PATH+"/mServer/Notify");
 
 			Dingdan_Business.addPaylist(my_id, orderId,"weixin");
 

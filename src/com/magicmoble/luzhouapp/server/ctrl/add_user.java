@@ -22,6 +22,7 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
+import com.magicmoble.luzhouapp.constant.Constants;
 import com.magicmoble.luzhouapp.server.server_function.Server_Func;
 import com.magicmoble.luzhouapp.server.server_function.Server_Function;
 
@@ -111,7 +112,7 @@ public class add_user extends HttpServlet {
 					}
 					in.close();
 					out.close();
-					str += "http://122.152.216.95:8080/mServer/upload/touxiang/" + filename;
+					str += Constants.SERVER_PATH+"/mServer/upload/touxiang/" + filename;
 
 				}
 

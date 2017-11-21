@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 import com.magicmoble.luzhouapp.business.FaxianBusiness;
 import com.magicmoble.luzhouapp.business.FunctionBusiness;
 import com.magicmoble.luzhouapp.business.ToutiaoBusiness;
+import com.magicmoble.luzhouapp.constant.Constants;
 import com.magicmoble.luzhouapp.json.core.DataObject;
 import com.magicmoble.luzhouapp.json.core.ListObject;
 import com.magicmoble.luzhouapp.json.responseUtils.ResponseUtils;
@@ -72,7 +73,7 @@ public class Set_Admin_XinxiInq extends HttpServlet {
 					String ServicePath = path + "/" + dataString;
 					UploadPicture.GenerateImage(img_base64, ServicePath);
 
-					touxiang += "http://122.152.216.95:8080/mServer/upload/touxiang/" + dataString;
+					touxiang += Constants.SERVER_PATH+"/mServer/upload/touxiang/" + dataString;
 				}
 				
 				boolean ax = FunctionBusiness.setadmin_xinxi(my_id, name, touxiang, weichat, sex, qianming);

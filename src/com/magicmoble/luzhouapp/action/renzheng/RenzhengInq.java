@@ -18,6 +18,7 @@ import javax.servlet.http.HttpSession;
 import com.google.gson.Gson;
 import com.magicmoble.luzhouapp.business.LoginBusiness;
 import com.magicmoble.luzhouapp.business.RenzhengBusiness;
+import com.magicmoble.luzhouapp.constant.Constants;
 import com.magicmoble.luzhouapp.json.core.DataObject;
 import com.magicmoble.luzhouapp.json.core.ListObject;
 import com.magicmoble.luzhouapp.json.responseUtils.ResponseUtils;
@@ -69,7 +70,7 @@ public class RenzhengInq extends HttpServlet {
 					String ServicePath = path + "/" + dataString;
 					UploadPicture.GenerateImage(img_base64, ServicePath);
 
-					picture += "http://122.152.216.95:8080/mServer/upload/touxiang/" + dataString + ",";
+					picture += Constants.SERVER_PATH+"/mServer/upload/touxiang/" + dataString + ",";
 				}
 
 				RenzhengBusiness.renzheng(my_id, picture, name, message, _renzheng_Tag);

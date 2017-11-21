@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.magicmoble.luzhouapp.business.FunctionBusiness;
 import com.magicmoble.luzhouapp.business.LoginBusiness;
 import com.magicmoble.luzhouapp.business.ShuoshuoBusiness;
+import com.magicmoble.luzhouapp.constant.Constants;
 import com.magicmoble.luzhouapp.json.core.DataObject;
 import com.magicmoble.luzhouapp.json.responseUtils.ResponseUtils;
 import com.magicmoble.luzhouapp.json.status.StatusHouse;
@@ -63,7 +64,7 @@ public class RegistInq extends HttpServlet {
 					dataObject.setStatusObject(StatusHouse.COMMON_STATUS_OK);
 					String responseText = JackJsonUtils.toJson(dataObject);
 					Yanzhengma.code = null;
-					ShuoshuoBusiness.addShuoshuo("http://122.152.216.95:8080/mServer/common/image/bg.png",
+					ShuoshuoBusiness.addShuoshuo(Constants.SERVER_PATH+"/mServer/common/image/bg.png",
 							"我第一次来到这里，发现了酒城的秘密，欢迎大家来关注我", id, 3);
 					ResponseUtils.renderJson(response, responseText);
 

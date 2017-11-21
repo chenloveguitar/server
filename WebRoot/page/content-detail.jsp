@@ -210,6 +210,7 @@
 	int shoucang_count = FunctionBusiness.getShoucangCount(id);
 	List<Pinglun> list2 = FunctionBusiness.getPinglun("1", list.getId(), 0);
 	request.setAttribute("list", list);
+	request.setAttribute("Tag", Tag);
 	request.setAttribute("list2", list2);
 	request.setAttribute("toutiao", toutiao);
 	request.setAttribute("faxian", faxian);
@@ -267,15 +268,17 @@
 				</select>
 				<select class="basic-second" id="status">
 					<option value="状态">状态</option>
-					<option value="待审核" <c:if test="${shenhe eq '正在审核中...' }">selected="selected"</c:if>>待审核</option>
+					<option value="正在审核中..." <c:if test="${shenhe eq '正在审核中...' }">selected="selected"</c:if>>待审核</option>
 					<option value="已发布" <c:if test="${shenhe eq '已发布' }">selected="selected"</c:if>>已发布</option>
 					<option value="已下架" <c:if test="${shenhe eq '已下架' }">selected="selected"</c:if>>已下架</option>
 				</select>
 				<input type="text" placeholder="发布日期" class="basic-input date-input" value="2017-10-26" id="publish_date">
-				<p class="content-title">
-					标题 <input type="text" placeholder="请输入标题" class="content-input" value="${title}"
-						maxlength="20" id="title" />
-				</p>
+				<c:if test="${Tag != '4'}">
+					<p class="content-title">
+						标题 <input type="text" placeholder="请输入标题" class="content-input" value="${title}"
+							maxlength="20" id="title" />
+					</p>
+				</c:if>
 				<p class="content-title">
 						作者<span style="margin-left:25px;"><select class="selectpicker" id="releaser_id" data-live-search="true" title="请选择或输入作者昵称"></select></span>
 				</p>
@@ -398,7 +401,7 @@
 				<div class="form-select" id="picture" >
 					<label><input type="radio" name="se" <c:if test="${muban_Tag eq '2'}">checked="checked"</c:if> value="2" />多缩略图</label>
 					<label><input type="radio" name="se" <c:if test="${muban_Tag eq '1'}">checked="checked"</c:if> value="1" />单缩略图</label>
-					<label><input type="radio" name="se" <c:if test="${muban_Tag eq '3'}">checked="checked"</c:if> value="3" />大图</label>
+					<label><input type="radio" name="se" <c:if test="${muban_Tag eq '4'}">checked="checked"</c:if> value="4" />大图</label>
 				</div>
 			</div>
 		</div>
@@ -408,14 +411,16 @@
 				<p>正文编辑</p>
 			</div>
 			<div class="text-edit-cont">
-				<ul style="height: 120px;" class="clearfix clone-ul" id="clone0">
-					<li class="add add-two image-show"><a href="###"></a>
-						<p>添加图片</p>
-						<p id="imageCount"></p>
-					</li>
-					<li class="text"><textarea id="textarea" name="text0" rows="" cols=""
-							class="textarea">${described}</textarea></li>
-				</ul>
+				<c:if test="${Tag != '4'}">
+					<ul style="height: 120px;" class="clearfix clone-ul" id="clone0">
+						<li class="add add-two image-show"><a href="###"></a>
+							<p>添加图片</p>
+							<p id="imageCount"></p>
+						</li>
+						<li class="text"><textarea id="textarea" name="text0" rows="" cols=""
+								class="textarea">${described}</textarea></li>
+					</ul>
+				</c:if>
 <!-- 				<div class="add-another"> -->
 
 <!-- 					<span style="position: relative;" class="span-two"><i -->
@@ -518,7 +523,7 @@
 			$(".save-clicked").on("click", function() {
 				var selectedNum = $("#clear-fix .select").parents("li").length;
 				var uploadNum = document.getElementById("file").files.length || $("#manage-list-ul li").length;
-				if(selectedNum || uploadNum){
+				if(selectedNum || uploadNum || "${Tag == '4'}"){
 					$.ajax({
 						url : "/mServer/Upload_file2",
 						type : "POST",
@@ -549,6 +554,7 @@
 							"fxhongbao_count": $("#fxhongbao_count").val(),
 							"dashang_count": $("#dashang_count").val(),
 							"muban_Tag" : $("input[type='radio']:checked").val(),
+							"status" : $("#status").val(),
 	//	 					"picture" : arr,
 // 							"content1" : $("#textarea").val(),
 // 							"content2" : $("#txtDefaultHtmlArea").val()
@@ -559,12 +565,13 @@
 							dataType : "json",
 							success : function(data) {
 								if(data.code === "0000"){
-									var id = data.data;
-									var success = imageRelAndUpload(id);
+									var id = data.data.id;
+									var tableName = data.data.tableName;
+									var success = imageRelAndUpload(id,tableName);
 									if(success){
 										alert("发布成功");
 									}
-	//	 							window.location.href = "page/Content_management_Release.jsp";
+		 							window.location.href = "Content_management_Release.jsp";
 								}else{
 									alert("发布失败");
 								}
@@ -649,7 +656,7 @@
 		
 	}
 	//图片关联和上传
-	function imageRelAndUpload(itemId){
+	function imageRelAndUpload(itemId,tableName){
 		var success = false;
 		//从图库中选择的
 		var data_ids = "";
@@ -669,7 +676,8 @@
 				data:{
 					type:'imageDataRel',
 					itemId:itemId,
-					id:data_ids
+					id:data_ids,
+					tableName:tableName
 				},
 				success:function(data){
 					if(data.code == "0000" ){//&& success
@@ -686,7 +694,7 @@
 		//文件上传
 		if(sum > 0){
 			$.ajaxFileUpload({
-	            url: '${pageContext.request.contextPath}/FileUploadServlet?parentId='+pid+"&deleteds="+deleteds+"&itemId="+itemId, //用于文件上传的服务器端请求地址
+	            url: '${pageContext.request.contextPath}/FileUploadServlet?parentId='+pid+"&deleteds="+deleteds+"&itemId="+itemId+"&tableName="+tableName, //用于文件上传的服务器端请求地址
 	            secureuri: false, //是否需要安全协议，一般设置为false
 	            fileElementId: 'file', //文件上传域的ID
 	            async:false,
@@ -704,7 +712,7 @@
 	            }
 	        });
 		}
-		if(!data_ids && sum == 0){
+		if(!data_ids && sum == 0 && "${Tag != '4'}" == "true" ){
 			alert("请上传或从图库中选择图片！");
 			return false;
 		}
@@ -796,7 +804,7 @@
 	function confirmSelected(){
 		var depotImageCount = $("#clear-fix .select").length;
 		var uploadImageCount = $("#manage-list-ul li").length;
-		if(depotImageCount == 0 && uploadImageCount == 0){
+		if(depotImageCount == 0 && uploadImageCount == 0 && "${Tag != '4'}" == "true"){
 			alert("请上传或选择图片后点击确认!");
 			return;
 		}

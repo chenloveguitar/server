@@ -1,5 +1,7 @@
 package com.magicmoble.luzhouapp.Util.Monery.weixin.util;
 
+import com.magicmoble.luzhouapp.constant.Constants;
+
 public class ConstantUtil {
 	/**
 	 * 商家可以考虑读取配置文件
@@ -10,6 +12,6 @@ public class ConstantUtil {
 	public static String mch_id = "1265960401";// 财付通商户号
 	public static String PARTNER_KEY = "luzhouappluzhouappluzhouapp08308";// 商户号对应的密钥
 
-	public static String notify_url = "http://122.152.216.95:8080/mServer/Notify";
+	public static String notify_url = Constants.SERVER_PATH+"/mServer/Notify";
 
 }

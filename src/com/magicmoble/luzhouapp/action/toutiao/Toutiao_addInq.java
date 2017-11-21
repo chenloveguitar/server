@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.taglibs.standard.lang.jstl.parser.Token;
 
 import com.alibaba.fastjson.JSONArray;
@@ -27,6 +28,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.magicmoble.luzhouapp.business.QuchuBusiness;
 import com.magicmoble.luzhouapp.business.ToutiaoBusiness;
+import com.magicmoble.luzhouapp.constant.Constants;
 import com.magicmoble.luzhouapp.json.core.DataObject;
 import com.magicmoble.luzhouapp.json.core.ListObject;
 import com.magicmoble.luzhouapp.json.responseUtils.ResponseUtils;
@@ -58,6 +60,7 @@ public class Toutiao_addInq extends HttpServlet {
 		String content = request.getParameter("content");
 		String releaser_id = request.getParameter("releaser_id");
 		int muban_Tag = 0;
+		int fenlei_Tag = 2;
 		// 内容
 		Type contentType = new TypeToken<List<Tou_content>>() {
 		}.getType();
@@ -88,7 +91,7 @@ public class Toutiao_addInq extends HttpServlet {
 						String ServicePath = path + "/" + dataString;
 						UploadPicture.GenerateImage(img_base64, ServicePath);
 
-						picture += "http://122.152.216.95:8080/mServer/upload/picture/" + dataString + ",";
+						picture += Constants.SERVER_PATH+"/mServer/upload/picture/" + dataString + ",";
 					}
 
 				}
@@ -109,18 +112,28 @@ public class Toutiao_addInq extends HttpServlet {
 							content += text + "<--分隔符-->";
 						}
 						if (img_base64 != null && !img_base64.equals("")) {
-							content += "http://122.152.216.95:8080/mServer/upload/textpicture/" + dataString + "<--分隔符-->";
+							content += Constants.SERVER_PATH+"/mServer/upload/textpicture/" + dataString + "<--分隔符-->";
+							if(StringUtils.isBlank(title)){
+								picture += Constants.SERVER_PATH+"/mServer/upload/textpicture/" + dataString + ",";
+							}
 						}
 
 					}
 				}
 				if (toutiao_picture.size() >= 3) {
 					muban_Tag = 1;
+					fenlei_Tag = 2;
 				} else {
 					muban_Tag = 2;
+					fenlei_Tag = 2;
 				}
-
-				String ret = ToutiaoBusiness.addToutiao(picture, title, name, content, muban_Tag, releaser_id);
+				if(StringUtils.isBlank(title)){
+					
+					muban_Tag = 4;
+					fenlei_Tag = 3;
+					title = "";
+				}
+				String ret = ToutiaoBusiness.addToutiao(picture, title, name, content, muban_Tag, releaser_id,fenlei_Tag);
 				DataObject dataObject = new DataObject();
 				dataObject.setdata(ret);
 				dataObject.setStatusObject(StatusHouse.COMMON_STATUS_OK);

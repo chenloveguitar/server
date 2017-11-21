@@ -22,6 +22,7 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
+import com.magicmoble.luzhouapp.constant.Constants;
 import com.magicmoble.luzhouapp.server.server_function.Server_Func;
 import com.magicmoble.luzhouapp.server.server_function.Server_Function;
 
@@ -106,7 +107,7 @@ public class APK_Upload_file extends HttpServlet {
 					item.delete();
 					message = "文件上传成功！";
 					Server_Func.addApk(map.get("version"), map.get("miaosu"),
-							("http://122.152.216.95:8080/mServer/upload/apk/" + filename));
+							(Constants.SERVER_PATH+"/mServer/upload/apk/" + filename));
 				}
 
 			}

@@ -22,6 +22,7 @@ import com.google.gson.reflect.TypeToken;
 import com.magicmoble.luzhouapp.business.CommodityBusiness;
 import com.magicmoble.luzhouapp.business.QuchuBusiness;
 import com.magicmoble.luzhouapp.business.ToutiaoBusiness;
+import com.magicmoble.luzhouapp.constant.Constants;
 import com.magicmoble.luzhouapp.json.core.DataObject;
 import com.magicmoble.luzhouapp.json.core.ListObject;
 import com.magicmoble.luzhouapp.json.responseUtils.ResponseUtils;
@@ -84,7 +85,7 @@ public class Quchu_addInq extends HttpServlet {
 						String path = request.getRealPath("/upload/picture");
 						String ServicePath = path + "/" + dataString;
 						UploadPicture.GenerateImage(img_base64, ServicePath);
-						picture += "http://122.152.216.95:8080/mServer/upload/picture/" + dataString + ",";
+						picture += Constants.SERVER_PATH+"/mServer/upload/picture/" + dataString + ",";
 					}
 				}
 				if (touxiang != null) {
@@ -95,7 +96,7 @@ public class Quchu_addInq extends HttpServlet {
 					String ServicePath = path + "/" + dataString;
 					UploadPicture.GenerateImage(img_base64, ServicePath);
 
-					touxiang += "http://122.152.216.95:8080/mServer/upload/touxiang/" + dataString;
+					touxiang += Constants.SERVER_PATH+"/mServer/upload/touxiang/" + dataString;
 				}
 
 				if (content != null) {
@@ -113,7 +114,7 @@ public class Quchu_addInq extends HttpServlet {
 							content += text + "<--分隔符-->";
 						}
 						if (img_base64 != null && !img_base64.equals("")) {
-							content += "http://122.152.216.95:8080/mServer/upload/textpicture/" + dataString + "<--分隔符-->";
+							content += Constants.SERVER_PATH+"/mServer/upload/textpicture/" + dataString + "<--分隔符-->";
 						}
 					}
 				}

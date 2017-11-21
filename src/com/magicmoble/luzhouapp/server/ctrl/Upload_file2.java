@@ -295,7 +295,9 @@ public class Upload_file2 extends HttpServlet {
 		//没有推荐人从新添加一个关联
 		}else{
 			params.put("tiaomu_id", id);
-			Server_Function.insertDataByTable("tuijian_list",params);
+			if(StringUtils.isNotBlank(tuijian_user) && StringUtils.isNotBlank(start_time) && StringUtils.isNotBlank(end_time)){
+				Server_Function.insertDataByTable("tuijian_list",params);
+			}
 		}
 		if(StringUtils.isNotBlank(id)){
 			Map<String, String> data = new HashMap<String,String>();

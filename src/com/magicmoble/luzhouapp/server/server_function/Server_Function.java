@@ -2225,7 +2225,7 @@ public class Server_Function<T> {
 				int count = metaData.getColumnCount();
 				for (int i = 1; i <= count; i++) {
 					String columnLabel = metaData.getColumnLabel(i);
-					data.put(columnLabel, ret.getObject(i));
+					data.put(columnLabel, ret.getString(i));
 				}
 				String id = ret.getString(1);
 				String content = ret.getString(2);

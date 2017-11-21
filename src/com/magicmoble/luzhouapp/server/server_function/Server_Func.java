@@ -28,6 +28,7 @@ import com.magicmoble.luzhouapp.business.Dingdan_Business;
 import com.magicmoble.luzhouapp.business.FunctionBusiness;
 import com.magicmoble.luzhouapp.business.GuanzhuBusiness;
 import com.magicmoble.luzhouapp.business.RenzhengBusiness;
+import com.magicmoble.luzhouapp.constant.Constants;
 import com.magicmoble.luzhouapp.model.Admin_xinxi;
 import com.magicmoble.luzhouapp.model.Commodity;
 import com.magicmoble.luzhouapp.model.Dianzan_Number;
@@ -2599,13 +2600,13 @@ public class Server_Func {
 				}
 
 				if (fenlei_Tag == 1) {
-					url = "http://122.152.216.95:8080/mServer/Toutiao_clickInq?id=" + guanggao_id;
+					url = Constants.SERVER_PATH+"/mServer/Toutiao_clickInq?id=" + guanggao_id;
 				} else if (fenlei_Tag == 2) {
-					url = "http://122.152.216.95:8080/mServer/Faxian_clickInq?id=" + guanggao_id;
+					url = Constants.SERVER_PATH+"/mServer/Faxian_clickInq?id=" + guanggao_id;
 				} else if (fenlei_Tag == 3) {
-					url = "http://122.152.216.95:8080/mServer/Quchu_clickInq?id=" + guanggao_id;
+					url = Constants.SERVER_PATH+"/mServer/Quchu_clickInq?id=" + guanggao_id;
 				} else if (fenlei_Tag == 4) {
-					url = "http://122.152.216.95:8080/mServer/Guangjie_clickInq?id=" + guanggao_id + "&guangjie_fenlei_Tag="
+					url = Constants.SERVER_PATH+"/mServer/Guangjie_clickInq?id=" + guanggao_id + "&guangjie_fenlei_Tag="
 							+ guangjie_fenlei_Tag;
 				}
 

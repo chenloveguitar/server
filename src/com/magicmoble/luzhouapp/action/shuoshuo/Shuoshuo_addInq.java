@@ -20,6 +20,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.magicmoble.luzhouapp.business.QuchuBusiness;
 import com.magicmoble.luzhouapp.business.ShuoshuoBusiness;
+import com.magicmoble.luzhouapp.constant.Constants;
 import com.magicmoble.luzhouapp.json.core.DataObject;
 import com.magicmoble.luzhouapp.json.core.ListObject;
 import com.magicmoble.luzhouapp.json.responseUtils.ResponseUtils;
@@ -74,7 +75,7 @@ public class Shuoshuo_addInq extends HttpServlet {
 						String ServicePath = path + "/" + dataString;
 						UploadPicture.GenerateImage(img_base64, ServicePath);
 
-						picture += "http://122.152.216.95:8080/mServer/upload/picture/" + dataString + ",";
+						picture += Constants.SERVER_PATH+"/mServer/upload/picture/" + dataString + ",";
 					}
 
 				}

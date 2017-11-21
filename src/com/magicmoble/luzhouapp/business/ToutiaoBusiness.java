@@ -458,7 +458,31 @@ public class ToutiaoBusiness {
 					+ (page - 1) * 12 + "," + 12 * page;
 
 		} else if (fenlei_Tag == 4) {
-			
+			if (my_id != null) {
+
+				if (page == 1) {
+					sql = "select id,title,name,picture,laiyuan,pinglun_count,dianzan_count,muban_Tag from toutiao WHERE shenhe LIKE '已发布%' and fenlei_Tag=3 ";
+					if (guanzhus.size() != 0) {
+						for (int i = 0; i < guanzhus.size(); i++) {
+							if (i == 0) {
+								sql += "and (releaser_id=" + guanzhus.get(i);
+							}
+							if ((i != 0 && i != guanzhus.size())) {
+								sql += "releaser_id=" + guanzhus.get(i);
+							}
+							if (i == guanzhus.size() - 1) {
+								sql += ")";
+							}
+							if (guanzhus.size() - 1 > i) {
+								sql += " or ";
+							}
+						}
+					}
+					sql += " and fufei_Tag=0 order by rand() LIMIT 0,12";
+				}
+			}
+			sql1 = "select id,title,name,picture,laiyuan,pinglun_count,dianzan_count,muban_Tag from toutiao WHERE shenhe LIKE '已发布%' and fenlei_Tag=3 and fufei_Tag=0 order by time desc LIMIT "
+					+ (page - 1) * 12 + "," + 12 * page;
 		}
 		sql2 = "select * from advertisement order by  rand() LIMIT 1";
 		if (my_id != null && fenlei_Tag == 1 && page == 1) {
@@ -597,20 +621,18 @@ public class ToutiaoBusiness {
 	}
 
 	public static String addToutiao(String picture, String title, String name, String content, int muban_Tag,
-			String releaser_id) {
+			String releaser_id,Integer fenlei_Tag) {
 		String sql = null;
 		DBHelper db1 = null;
 		String uuid = UUID.randomUUID().toString();
 		int fufei_Tag = 0;
-		int fenlei_Tag = 0;
 		String releaser_name = Admin_xinxi_Business.getAdmin_xinxiInfoById(releaser_id).getName();
-		fenlei_Tag = 2;
 		String shenhe = "正在审核中...";
 		Timestamp time = new Timestamp(new Date().getTime());
-		sql = "INSERT INTO toutiao(id,picture,title,name,content,fufei_Tag,fenlei_Tag,muban_Tag,releaser_id,releaser_name,shenhe,time) VALUES ('"
+		sql = "INSERT INTO toutiao(id,picture,title,name,content,fufei_Tag,fenlei_Tag,muban_Tag,releaser_id,releaser_name,shenhe,time,publish_date) VALUES ('"
 				+ uuid + "', '" + picture + "', '" + title + "', '" + name + "', '" + content + "', " + fufei_Tag + ", "
 				+ fenlei_Tag + "," + muban_Tag + ",'" + releaser_id + "','" + releaser_name + "','" + shenhe + "','"
-				+ time + "')";
+				+ time + "','"+time+"')";
 		db1 = new DBHelper(sql);
 		try {
 			boolean ret = db1.pst.execute();
