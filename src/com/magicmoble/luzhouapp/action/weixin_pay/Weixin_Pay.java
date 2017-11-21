@@ -56,7 +56,7 @@ public class Weixin_Pay extends HttpServlet {
 		}
 		try {
 			map = WeiXinPayUtil.weiXinPay("192.168.0.1", orderContent, price, orderId,
-					"http://120.92.169.86/mServer/Notify");
+					"http://122.152.216.95:8080/mServer/Notify");
 
 			Dingdan_Business.addPaylist(my_id, orderId,"weixin");
 

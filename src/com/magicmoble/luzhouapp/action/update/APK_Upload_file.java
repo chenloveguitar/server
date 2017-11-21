@@ -106,7 +106,7 @@ public class APK_Upload_file extends HttpServlet {
 					item.delete();
 					message = "文件上传成功！";
 					Server_Func.addApk(map.get("version"), map.get("miaosu"),
-							("http://120.92.169.86/mServer/upload/apk/" + filename));
+							("http://122.152.216.95:8080/mServer/upload/apk/" + filename));
 				}
 
 			}

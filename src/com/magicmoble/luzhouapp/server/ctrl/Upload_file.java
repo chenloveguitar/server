@@ -120,7 +120,7 @@ public class Upload_file extends HttpServlet {
 						}
 						in.close();
 						out.close();
-						str += "http://120.92.169.86/mServer/upload/picture/" + filename + ",";
+						str += "http://122.152.216.95:8080/mServer/upload/picture/" + filename + ",";
 
 					}
 
@@ -178,7 +178,7 @@ public class Upload_file extends HttpServlet {
 						}
 						in.close();
 						out.close();
-						str += "http://120.92.169.86/mServer/upload/picture/" + filename + ",";
+						str += "http://122.152.216.95:8080/mServer/upload/picture/" + filename + ",";
 					}
 
 				}

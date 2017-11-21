@@ -112,6 +112,19 @@
 	String muban_Tag = (String)data.get("muban_Tag");
 	String described = (String)data.get("described");
 	String content = (String)data.get("content");
+	if(StringUtils.isNotBlank(content) && content.contains("<--分隔符-->")){
+		String[] contents = content.split("<--分隔符-->");
+		String str = "<div  class=\"article-content\">";
+		for (int i = 0; i < contents.length; i++) {
+			if (contents[i].contains("http://")) {
+				str += "<img src=\"" + contents[i] + "\">";
+			} else {
+				str += "<p>" + contents[i] + "</p>";
+			}
+		}
+		str += "</div>";
+		content = str;
+	}
 	String share_count = String.valueOf(data.get("share_count"));
 	Toutiao toutiao = new Toutiao();
 	Faxian faxian = new Faxian();

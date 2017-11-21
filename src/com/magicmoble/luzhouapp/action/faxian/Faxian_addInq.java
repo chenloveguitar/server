@@ -79,7 +79,7 @@ public class Faxian_addInq extends HttpServlet {
 						String ServicePath = path + "/" + dataString;
 						UploadPicture.GenerateImage(img_base64, ServicePath);
 
-						picture += "http://120.92.169.86/mServer/upload/picture/" + dataString + ",";
+						picture += "http://122.152.216.95:8080/mServer/upload/picture/" + dataString + ",";
 					}
 
 				}
@@ -100,7 +100,7 @@ public class Faxian_addInq extends HttpServlet {
 							content += text + "<--分隔符-->";
 						}
 						if (img_base64 != null && !img_base64.equals("")) {
-							content += "http://120.92.169.86/mServer/upload/textpicture/" + dataString + "<--分隔符-->";
+							content += "http://122.152.216.95:8080/mServer/upload/textpicture/" + dataString + "<--分隔符-->";
 						}
 					}
 				}

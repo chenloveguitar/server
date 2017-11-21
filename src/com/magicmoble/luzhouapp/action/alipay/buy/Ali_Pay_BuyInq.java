@@ -76,7 +76,7 @@ public class Ali_Pay_BuyInq extends HttpServlet {
 		model.setTotalAmount(_price);
 		model.setProductCode("QUICK_MSECURITY_PAY");
 		request.setBizModel(model);
-		request.setNotifyUrl("http://120.92.169.86/mServer/Ali_Notify_BuyInq");
+		request.setNotifyUrl("http://122.152.216.95:8080/mServer/Ali_Notify_BuyInq");
 		try {
 			// 这里和普通的接口调用不同，使用的是sdkExecute
 			response = alipayClient.sdkExecute(request);

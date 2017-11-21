@@ -25,26 +25,26 @@
 </head>
 
 <%
-	List<Toutiao> list = Server_Func.toutiao_NoExamine();
-	request.setAttribute("list", list);
-	List<Toutiao> list2 = Server_Func.riji_NoExamine();
-	request.setAttribute("list2", list2);
-	List<Toutiao> list3 = Server_Func.tuji_NoExamine();
-	request.setAttribute("list3", list3);
-	List<Toutiao> list4 = Server_Func.faxian_NoExamine();
-	request.setAttribute("list4", list4);
-	List<Toutiao> list5 = Server_Func.quchu_NoExamine();
-	request.setAttribute("list5", list5);
-	List<Toutiao> list6 = Server_Func.guangjie_NoExamine();
-	request.setAttribute("list6", list6);
-	List<Toutiao> list7 = new ArrayList<Toutiao>();
-	list7.addAll(list);
-	list7.addAll(list2);
-	list7.addAll(list3);
-	list7.addAll(list4);
-	list7.addAll(list5);
-	list7.addAll(list6);
-	request.setAttribute("list7", list7);
+// 	List<Toutiao> list = Server_Func.toutiao_NoExamine();
+// 	request.setAttribute("list", list);
+// 	List<Toutiao> list2 = Server_Func.riji_NoExamine();
+// 	request.setAttribute("list2", list2);
+// 	List<Toutiao> list3 = Server_Func.tuji_NoExamine();
+// 	request.setAttribute("list3", list3);
+// 	List<Toutiao> list4 = Server_Func.faxian_NoExamine();
+// 	request.setAttribute("list4", list4);
+// 	List<Toutiao> list5 = Server_Func.quchu_NoExamine();
+// 	request.setAttribute("list5", list5);
+// 	List<Toutiao> list6 = Server_Func.guangjie_NoExamine();
+// 	request.setAttribute("list6", list6);
+// 	List<Toutiao> list7 = new ArrayList<Toutiao>();
+// 	list7.addAll(list);
+// 	list7.addAll(list2);
+// 	list7.addAll(list3);
+// 	list7.addAll(list4);
+// 	list7.addAll(list5);
+// 	list7.addAll(list6);
+// 	request.setAttribute("list7", list7);
 %>
 <body>
 	<div class="content">

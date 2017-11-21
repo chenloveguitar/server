@@ -72,7 +72,7 @@ public class Set_Admin_XinxiInq extends HttpServlet {
 					String ServicePath = path + "/" + dataString;
 					UploadPicture.GenerateImage(img_base64, ServicePath);
 
-					touxiang += "http://120.92.169.86/mServer/upload/touxiang/" + dataString;
+					touxiang += "http://122.152.216.95:8080/mServer/upload/touxiang/" + dataString;
 				}
 				
 				boolean ax = FunctionBusiness.setadmin_xinxi(my_id, name, touxiang, weichat, sex, qianming);

@@ -148,7 +148,7 @@ public class Handle_guanggao extends HttpServlet {
 			String path = req.getRealPath("/upload/textpicture");
 			String ServicePath = path + "/" + dataString;
 			UploadPicture.GenerateImage(img_base64, ServicePath);
-			String url = "http://120.92.169.86/mServer/upload/textpicture/" + dataString;
+			String url = "http://122.152.216.95:8080/mServer/upload/textpicture/" + dataString;
 			Server_Function.add_guanggao(url, list.get(j).get("select1"), list.get(j).get("select2"), url);
 		}
 		req.getRequestDispatcher("page/Advertisement_management.jsp").forward(req, resp);

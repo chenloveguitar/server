@@ -89,7 +89,7 @@ public class Push extends HttpServlet {
 						String ServicePath = path + "/" + dataString;
 						UploadPicture.GenerateImage(img_base64, ServicePath);
 
-						picture += "http://120.92.169.86/mServer/upload/picture/" + dataString + ",";
+						picture += "http://122.152.216.95:8080/mServer/upload/picture/" + dataString + ",";
 					}
 
 				}
@@ -107,7 +107,7 @@ public class Push extends HttpServlet {
 						UploadPicture.GenerateImage(img_base64, ServicePath);
 
 						content += text + "<--分隔符-->";
-						content += "http://123.207.253.251:8080/mServer/upload/textpicture/" + dataString + "<--分隔符-->";
+						content += "http://122.152.216.95:8080/mServer/upload/textpicture/" + dataString + "<--分隔符-->";
 					}
 				}
 				if (toutiao_picture.size() >= 3) {

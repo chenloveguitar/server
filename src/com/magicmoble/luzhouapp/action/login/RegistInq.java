@@ -63,7 +63,7 @@ public class RegistInq extends HttpServlet {
 					dataObject.setStatusObject(StatusHouse.COMMON_STATUS_OK);
 					String responseText = JackJsonUtils.toJson(dataObject);
 					Yanzhengma.code = null;
-					ShuoshuoBusiness.addShuoshuo("http://120.92.169.86/mServer/common/image/bg.png",
+					ShuoshuoBusiness.addShuoshuo("http://122.152.216.95:8080/mServer/common/image/bg.png",
 							"我第一次来到这里，发现了酒城的秘密，欢迎大家来关注我", id, 3);
 					ResponseUtils.renderJson(response, responseText);
 

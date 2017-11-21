@@ -2599,13 +2599,13 @@ public class Server_Func {
 				}
 
 				if (fenlei_Tag == 1) {
-					url = "http://120.92.169.86/mServer/Toutiao_clickInq?id=" + guanggao_id;
+					url = "http://122.152.216.95:8080/mServer/Toutiao_clickInq?id=" + guanggao_id;
 				} else if (fenlei_Tag == 2) {
-					url = "http://120.92.169.86/mServer/Faxian_clickInq?id=" + guanggao_id;
+					url = "http://122.152.216.95:8080/mServer/Faxian_clickInq?id=" + guanggao_id;
 				} else if (fenlei_Tag == 3) {
-					url = "http://120.92.169.86/mServer/Quchu_clickInq?id=" + guanggao_id;
+					url = "http://122.152.216.95:8080/mServer/Quchu_clickInq?id=" + guanggao_id;
 				} else if (fenlei_Tag == 4) {
-					url = "http://120.92.169.86/mServer/Guangjie_clickInq?id=" + guanggao_id + "&guangjie_fenlei_Tag="
+					url = "http://122.152.216.95:8080/mServer/Guangjie_clickInq?id=" + guanggao_id + "&guangjie_fenlei_Tag="
 							+ guangjie_fenlei_Tag;
 				}
 

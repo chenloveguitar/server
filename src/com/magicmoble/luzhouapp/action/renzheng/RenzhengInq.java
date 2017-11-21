@@ -69,7 +69,7 @@ public class RenzhengInq extends HttpServlet {
 					String ServicePath = path + "/" + dataString;
 					UploadPicture.GenerateImage(img_base64, ServicePath);
 
-					picture += "http://120.92.169.86/mServer/upload/touxiang/" + dataString + ",";
+					picture += "http://122.152.216.95:8080/mServer/upload/touxiang/" + dataString + ",";
 				}
 
 				RenzhengBusiness.renzheng(my_id, picture, name, message, _renzheng_Tag);

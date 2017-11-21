@@ -74,7 +74,7 @@ public class Shuoshuo_addInq extends HttpServlet {
 						String ServicePath = path + "/" + dataString;
 						UploadPicture.GenerateImage(img_base64, ServicePath);
 
-						picture += "http://120.92.169.86/mServer/upload/picture/" + dataString + ",";
+						picture += "http://122.152.216.95:8080/mServer/upload/picture/" + dataString + ",";
 					}
 
 				}

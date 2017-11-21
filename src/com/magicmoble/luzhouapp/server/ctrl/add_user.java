@@ -111,7 +111,7 @@ public class add_user extends HttpServlet {
 					}
 					in.close();
 					out.close();
-					str += "http://120.92.169.86/mServer/upload/touxiang/" + filename;
+					str += "http://122.152.216.95:8080/mServer/upload/touxiang/" + filename;
 
 				}
 
