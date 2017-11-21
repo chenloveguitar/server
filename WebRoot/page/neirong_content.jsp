@@ -350,8 +350,9 @@
 							dataType : "json",
 							success : function(data) {
 								if(data.code === "0000"){
-									var id = data.data;
-									var success = imageRelAndUpload(id);
+									var id = data.data.id;
+									var tableName = data.data.tableName;
+									var success = imageRelAndUpload(id,tableName);
 									if(success){
 										alert("发布成功");
 									}
@@ -371,7 +372,7 @@
 			});
 		});
 	//图片关联和上传
-	function imageRelAndUpload(itemId){
+	function imageRelAndUpload(itemId,tableName){
 		var success = false;
 		//从图库中选择的
 		var data_ids = "";
@@ -391,7 +392,8 @@
 				data:{
 					type:'imageDataRel',
 					itemId:itemId,
-					id:data_ids
+					id:data_ids,
+					tableName:tableName
 				},
 				success:function(data){
 					if(data.code == "0000" ){//&& success
@@ -408,7 +410,7 @@
 		//文件上传
 		if(sum > 0){
 			$.ajaxFileUpload({
-	            url: '${pageContext.request.contextPath}/FileUploadServlet?parentId='+pid+"&deleteds="+deleteds+"&itemId="+itemId, //用于文件上传的服务器端请求地址
+	            url: '${pageContext.request.contextPath}/FileUploadServlet?parentId='+pid+"&deleteds="+deleteds+"&itemId="+itemId+"&tableName="+tableName, //用于文件上传的服务器端请求地址
 	            secureuri: false, //是否需要安全协议，一般设置为false
 	            fileElementId: 'file', //文件上传域的ID
 	            async:false,

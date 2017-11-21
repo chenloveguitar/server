@@ -27,6 +27,7 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.lang3.StringUtils;
 
+import com.magicmoble.luzhouapp.business.Admin_xinxi_Business;
 import com.magicmoble.luzhouapp.business.CommonBusiness;
 import com.magicmoble.luzhouapp.business.FunctionBusiness;
 import com.magicmoble.luzhouapp.json.core.DataObject;
@@ -34,6 +35,7 @@ import com.magicmoble.luzhouapp.json.responseUtils.ResponseUtils;
 import com.magicmoble.luzhouapp.json.status.StatusHouse;
 import com.magicmoble.luzhouapp.json.utils.JackJsonUtils;
 import com.magicmoble.luzhouapp.json.utils.UploadPicture;
+import com.magicmoble.luzhouapp.model.Admin_xinxi;
 import com.magicmoble.luzhouapp.model.Hongbao;
 import com.magicmoble.luzhouapp.model.Tuijian_list;
 import com.magicmoble.luzhouapp.server.server_function.Server_Func;
@@ -101,7 +103,11 @@ public class Upload_file2 extends HttpServlet {
 		String fxhongbao_count = request.getParameter("fxhongbao_count");
 		String dashang_count = request.getParameter("dashang_count");
 		String shenhe = request.getParameter("status");
-
+		String tableName = "";
+		if(StringUtils.isNotBlank(releaser_id)){
+			Admin_xinxi admin_xinxi = Admin_xinxi_Business.getAdmin_xinxiInfoById(releaser_id);
+			user_name = admin_xinxi.getName();
+		}
 
 		// 图片
 		String picture_str = "";
@@ -123,6 +129,7 @@ public class Upload_file2 extends HttpServlet {
 			}else{
 				id = Server_Function.add_toutiao(picture_str, title, user_name, content, muban_Tag, releaser_id, yuedu_count,dianzan_count,described,publish_date);
 			}
+			tableName = "toutiao";
 		} else if (select_val.equals("酒城日记")) {
 			 if(StringUtils.isNotBlank(id)){
 					Map<String, String> data = new HashMap<String,String>();
@@ -141,6 +148,7 @@ public class Upload_file2 extends HttpServlet {
 				}else{
 					id = Server_Function.add_riji(picture_str, title, user_name, content, muban_Tag, releaser_id,described,publish_date);
 				}
+			 tableName = "toutiao";
 		} else if (select_val.equals("发现秘密")) {
 			 if(StringUtils.isNotBlank(id)){
 					Map<String, String> data = new HashMap<String,String>();
@@ -159,6 +167,7 @@ public class Upload_file2 extends HttpServlet {
 				}else{
 					id = Server_Function.add_faxian(releaser_id, picture_str, title, user_name, content,muban_Tag,described,publish_date);
 				}
+			 tableName = "faxian";
 		} else if (select_val.equals("有去处")) {
 			 if(StringUtils.isNotBlank(id)){
 					Map<String, String> data = new HashMap<String,String>();
@@ -179,6 +188,7 @@ public class Upload_file2 extends HttpServlet {
 				}else{
 					id = Server_Function.add_quchu(releaser_id, title, address, phone, picture_str, content,muban_Tag,described,publish_date);
 				}
+			 tableName = "quchu";
 		} else if (select_val.equals("商品")) {
 			 if(StringUtils.isNotBlank(id)){
 					Map<String, String> data = new HashMap<String,String>();
@@ -200,6 +210,7 @@ public class Upload_file2 extends HttpServlet {
 				}else{
 					id =  Server_Function.add_commodity(title, price_commodity, shuliang, freight, phone, picture_str, content,releaser_id,muban_Tag,described,publish_date);
 				}
+			 tableName = "commodity";
 		} else if (select_val.equals("服务")) {
 			 if(StringUtils.isNotBlank(id)){
 					Map<String, String> data = new HashMap<String,String>();
@@ -221,6 +232,7 @@ public class Upload_file2 extends HttpServlet {
 				}else{
 					id =  Server_Function.add_fuwu(releaser_id, title, price_fuwu, phone, picture_str, content,muban_Tag,described,publish_date);
 				}
+			 tableName = "fuwu";
 		}
 		//
 		//更新红包数量金额
@@ -286,8 +298,11 @@ public class Upload_file2 extends HttpServlet {
 			Server_Function.insertDataByTable("tuijian_list",params);
 		}
 		if(StringUtils.isNotBlank(id)){
+			Map<String, String> data = new HashMap<String,String>();
+			data.put("id", id);
+			data.put("tableName", tableName);
 			DataObject dataObject = new DataObject();
-			dataObject.setdata(id);
+			dataObject.setdata(data);
 			dataObject.setStatusObject(StatusHouse.COMMON_STATUS_OK);
 			String responseText = JackJsonUtils.toJson(dataObject);
 			ResponseUtils.renderJson(response, responseText);
