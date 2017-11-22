@@ -21,8 +21,8 @@ import cn.jpush.api.push.model.notification.Notification;
 @SuppressWarnings({ "deprecation", "restriction" })
 public class JiguangPush {
 	private static final Logger log = LoggerFactory.getLogger(JiguangPush.class);
-	private static String masterSecret = "768ec36577d5389e796dc84f";
-	private static String appKey = "ca9aa3a7a66c93e4a218b9a2";
+	private static String masterSecret = "7b68545916b439b2afa0fd0d";
+	private static String appKey = "a084742e817a012341dbbb8d";
 
 	/**
 	 * 极光推送

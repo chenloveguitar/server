@@ -61,7 +61,7 @@ public class Toutiao_addInq extends HttpServlet {
 		String releaser_id = request.getParameter("releaser_id");
 		int muban_Tag = 0;
 		int fenlei_Tag = 2;
-		// 内容
+		// 内容 
 		Type contentType = new TypeToken<List<Tou_content>>() {
 		}.getType();
 		Gson gson = new Gson();
@@ -82,7 +82,7 @@ public class Toutiao_addInq extends HttpServlet {
 				ResponseUtils.renderJson(response, responseText);
 			} else {
 
-				if (picture != null) {
+				if (StringUtils.isNotBlank(picture)) {
 					picture = "";
 					for (int i = 0; i < toutiao_picture.size(); i++) {
 						String img_base64 = toutiao_picture.get(i).getBase64Picture();
@@ -96,9 +96,9 @@ public class Toutiao_addInq extends HttpServlet {
 
 				}
 
-				if (content != null) {
+				if (StringUtils.isNotBlank(content)) {
 					content = "";
-					for (int i = 0; i < toutiao_content.size(); i++) {
+					for (int i = 0; toutiao_content != null && i < toutiao_content.size(); i++) {
 
 						String text = toutiao_content.get(i).getInputStr();
 						String img_base64 = toutiao_content.get(i).getBitmap();
@@ -120,7 +120,7 @@ public class Toutiao_addInq extends HttpServlet {
 
 					}
 				}
-				if (toutiao_picture.size() >= 3) {
+				if (toutiao_picture != null && toutiao_picture.size() >= 3) {
 					muban_Tag = 1;
 					fenlei_Tag = 2;
 				} else {
@@ -131,7 +131,7 @@ public class Toutiao_addInq extends HttpServlet {
 					
 					muban_Tag = 4;
 					fenlei_Tag = 3;
-					title = "";
+					title = "图集";
 				}
 				String ret = ToutiaoBusiness.addToutiao(picture, title, name, content, muban_Tag, releaser_id,fenlei_Tag);
 				DataObject dataObject = new DataObject();
