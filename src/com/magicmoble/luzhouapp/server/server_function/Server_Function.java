@@ -2158,41 +2158,41 @@ public class Server_Function<T> {
 			if (flag == 1) {
 				if (change_rec != null) {
 
-					sql = "SELECT id,title,releaser_id,content,'toutiao' as table_name,shenhe,time,publish_date,muban_Tag,described,share_count FROM toutiao where id='" + change_rec
-							+ "' UNION all SELECT id,title,releaser_id,content,'faxian' as table_name,shenhe,time,publish_date,muban_Tag,described,share_count FROM faxian where id='" + change_rec
-							+ "' UNION all SELECT id,title,releaser_id,content,'quchu' as table_name,shenhe,time,publish_date,muban_Tag,described,share_count FROM quchu where id='" + change_rec
-							+ "' UNION all SELECT id,title,releaser_id,content,'commodity' as table_name,shenhe,time,publish_date,muban_Tag,described,share_count FROM commodity where id='" + change_rec
-							+ "' UNION all SELECT id,title,releaser_id,content,'fuwu' as table_name,shenhe,time,publish_date,muban_Tag,described,share_count FROM fuwu where id='" + change_rec + "' ";
+					sql = "SELECT id,picture,title,releaser_id,content,'toutiao' as table_name,shenhe,time,publish_date,muban_Tag,described,share_count FROM toutiao where id='" + change_rec
+							+ "' UNION all SELECT id,picture,title,releaser_id,content,'faxian' as table_name,shenhe,time,publish_date,muban_Tag,described,share_count FROM faxian where id='" + change_rec
+							+ "' UNION all SELECT id,picture,title,releaser_id,content,'quchu' as table_name,shenhe,time,publish_date,muban_Tag,described,share_count FROM quchu where id='" + change_rec
+							+ "' UNION all SELECT id,picture,title,releaser_id,content,'commodity' as table_name,shenhe,time,publish_date,muban_Tag,described,share_count FROM commodity where id='" + change_rec
+							+ "' UNION all SELECT id,picture,title,releaser_id,content,'fuwu' as table_name,shenhe,time,publish_date,muban_Tag,described,share_count FROM fuwu where id='" + change_rec + "' ";
 
 				}
 			} else if (flag == 2) {
 				if (change_rec != null) {
 
-					sql = "select id,title,releaser_id,content,'toutiao' as table_name,shenhe,time,publish_date,muban_Tag,described,share_count from toutiao  where fenlei_Tag=1 and id='" + change_rec + "'";
+					sql = "select id,picture,title,releaser_id,content,'toutiao' as table_name,shenhe,time,publish_date,muban_Tag,described,share_count from toutiao  where fenlei_Tag=1 and id='" + change_rec + "'";
 
 				}
 			} else if (flag == 3) {
 				if (change_rec != null) {
 
-					sql = "select id,title,releaser_id,content,'toutiao' as table_name,shenhe,time,publish_date,muban_Tag,described,share_count from toutiao where fenlei_Tag=2 and id='" + change_rec + "'";
+					sql = "select id,picture,title,releaser_id,content,'toutiao' as table_name,shenhe,time,publish_date,muban_Tag,described,share_count from toutiao where fenlei_Tag=2 and id='" + change_rec + "'";
 
 				}
 			} else if (flag == 4) {
 				if (change_rec != null) {
 
-					sql = "select id,title,releaser_id,content,'toutiao' as table_name,shenhe,time,publish_date,muban_Tag,described,share_count from toutiao where fenlei_Tag=3 and id='" + change_rec + "'";
+					sql = "select id,picture,title,releaser_id,content,'toutiao' as table_name,shenhe,time,publish_date,muban_Tag,described,share_count from toutiao where fenlei_Tag=3 and id='" + change_rec + "'";
 
 				}
 			} else if (flag == 5) {
 				if (change_rec != null) {
 
-					sql = "select id,title,releaser_id,content,'faxian' as table_name,shenhe,time,publish_date,muban_Tag,described,share_count from faxian where id='" + change_rec + "'";
+					sql = "select id,picture,title,releaser_id,content,'faxian' as table_name,shenhe,time,publish_date,muban_Tag,described,share_count from faxian where id='" + change_rec + "'";
 
 				}
 			} else if (flag == 6) {
 				if (change_rec != null) {
 
-					sql = "select id,title,releaser_id,content,'quchu' as table_name,shenhe,time,publish_date,muban_Tag,described,share_count from quchu where id='" + change_rec + "'";
+					sql = "select id,picture,title,releaser_id,content,'quchu' as table_name,shenhe,time,publish_date,muban_Tag,described,share_count from quchu where id='" + change_rec + "'";
 
 				}
 			} else if (flag == 7) {

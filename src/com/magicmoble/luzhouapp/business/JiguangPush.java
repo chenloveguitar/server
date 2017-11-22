@@ -55,7 +55,7 @@ public class JiguangPush {
 						.addPlatformNotification(
 								IosNotification.newBuilder().addExtra("type", "infomation").setAlert(alert).build())
 						.build())
-				.setOptions(Options.newBuilder().setApnsProduction(false)// true-推送生产环境
+				.setOptions(Options.newBuilder().setApnsProduction(true)// true-推送生产环境
 																			// false-推送开发环境（测试使用参数）
 						.setTimeToLive(90)// 消息在JPush服务器的失效时间（测试使用参数）
 						.build())

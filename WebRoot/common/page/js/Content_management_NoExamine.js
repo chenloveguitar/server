@@ -33,9 +33,13 @@ $(function() {
 },"pagination");
 
 function getLi(data,Tag) {
+	var imgSrc = "/mServer/FileDownLoadServlet?itemId=" + data.id;
+	if(data.pictures && data.pictures.length > 0){
+		imgSrc = data.pictures[0]["picture_url"];
+	}
 	return '<li>' + '<p class="position-show-title">'
 			+ '<i class="position-circle"></i> '
-			+ '<img class="position-square" src="/mServer/FileDownLoadServlet?itemId='+data.id+'"/>'
+			+ '<img class="position-square" src="'+imgSrc+'"/>'
 			+ '<span class="position-title">'
 			+ '<span>'
 			+ data.title

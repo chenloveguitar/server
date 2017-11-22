@@ -49,10 +49,12 @@ public class Login extends HttpServlet {
 					req.getRequestDispatcher("page/index.jsp").forward(req, resp);
 
 				} else {
-					resp.sendRedirect("page/login.jsp");
+					req.setAttribute("message", "用户名或密码错误!");
+					req.getRequestDispatcher("page/Login.jsp").forward(req, resp);
 				}
 			} else {
-				resp.sendRedirect("page/login.jsp");
+				req.setAttribute("message", "用户名或密码错误!");
+				req.getRequestDispatcher("page/Login.jsp").forward(req, resp);
 			}
 		}
 	}

@@ -114,7 +114,7 @@ public class Upload_file2 extends HttpServlet {
 		if (select_val.equals("今日头条")) {
 			if(StringUtils.isNotBlank(id)){
 				Map<String, String> data = new HashMap<String,String>();
-				data.put("picture", picture_str);
+//				data.put("picture", picture_str);
 				data.put("title", title);
 				data.put("name", user_name);
 				data.put("content", content);
@@ -133,7 +133,7 @@ public class Upload_file2 extends HttpServlet {
 		} else if (select_val.equals("酒城日记")) {
 			 if(StringUtils.isNotBlank(id)){
 					Map<String, String> data = new HashMap<String,String>();
-					data.put("picture", picture_str);
+//					data.put("picture", picture_str);
 					data.put("title", title);
 					data.put("name", user_name);
 					data.put("content", content);
@@ -152,7 +152,7 @@ public class Upload_file2 extends HttpServlet {
 		} else if (select_val.equals("发现秘密")) {
 			 if(StringUtils.isNotBlank(id)){
 					Map<String, String> data = new HashMap<String,String>();
-					data.put("picture", picture_str);
+//					data.put("picture", picture_str);
 					data.put("title", title);
 					data.put("name", user_name);
 					data.put("content", content);
@@ -171,7 +171,7 @@ public class Upload_file2 extends HttpServlet {
 		} else if (select_val.equals("有去处")) {
 			 if(StringUtils.isNotBlank(id)){
 					Map<String, String> data = new HashMap<String,String>();
-					data.put("picture", picture_str);
+//					data.put("picture", picture_str);
 					data.put("title", title);
 					data.put("address", address);
 					data.put("phone", phone);
@@ -192,7 +192,7 @@ public class Upload_file2 extends HttpServlet {
 		} else if (select_val.equals("商品")) {
 			 if(StringUtils.isNotBlank(id)){
 					Map<String, String> data = new HashMap<String,String>();
-					data.put("picture", picture_str);
+//					data.put("picture", picture_str);
 					data.put("title", title);
 					data.put("shuliang", shuliang);
 					data.put("phone", phone);
@@ -214,7 +214,7 @@ public class Upload_file2 extends HttpServlet {
 		} else if (select_val.equals("服务")) {
 			 if(StringUtils.isNotBlank(id)){
 					Map<String, String> data = new HashMap<String,String>();
-					data.put("picture", picture_str);
+//					data.put("picture", picture_str);
 					data.put("title", title);
 					data.put("shuliang", shuliang);
 					data.put("phone", phone);

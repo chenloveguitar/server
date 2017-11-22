@@ -194,7 +194,7 @@ var deleteds = [];
 							$("#clear-fix").append(getImagesHtml(results[i].id,results[i].absolutePath));
 						}
 					}else{
-						alert("图片库中无图片显示!");
+//						alert("图片库中无图片显示!");
 					}
 				}else{
 					alert("获取图片库图片失败!");

@@ -108,6 +108,7 @@
 	String publish_date = data.get("publish_date") != null?data.get("publish_date").toString():"";
 	String time = data.get("time") != null?data.get("time").toString():"";
 	String title = (String)data.get("title");
+	String picture = (String)data.get("picture");
 	String releaser_id = (String)data.get("releaser_id");
 	String muban_Tag = (String)data.get("muban_Tag");
 	String described = (String)data.get("described");
@@ -211,6 +212,7 @@
 	List<Pinglun> list2 = FunctionBusiness.getPinglun("1", list.getId(), 0);
 	request.setAttribute("list", list);
 	request.setAttribute("Tag", Tag);
+	request.setAttribute("picture", picture);
 	request.setAttribute("list2", list2);
 	request.setAttribute("toutiao", toutiao);
 	request.setAttribute("faxian", faxian);
@@ -411,16 +413,16 @@
 				<p>正文编辑</p>
 			</div>
 			<div class="text-edit-cont">
-				<c:if test="${Tag != '4'}">
-					<ul style="height: 120px;" class="clearfix clone-ul" id="clone0">
-						<li class="add add-two image-show"><a href="###"></a>
-							<p>添加图片</p>
-							<p id="imageCount"></p>
-						</li>
-						<li class="text"><textarea id="textarea" name="text0" rows="" cols=""
-								class="textarea">${described}</textarea></li>
-					</ul>
-				</c:if>
+<%-- 				<c:if test="${Tag != '4'}"> --%>
+<!-- 					<ul style="height: 120px;" class="clearfix clone-ul" id="clone0"> -->
+<!-- 						<li class="add add-two image-show"><a href="###"></a> -->
+<!-- 							<p>添加图片</p> -->
+<!-- 							<p id="imageCount"></p> -->
+<!-- 						</li> -->
+<!-- 						<li class="text"><textarea id="textarea" name="text0" rows="" cols="" -->
+<%-- 								class="textarea">${described}</textarea></li> --%>
+<!-- 					</ul> -->
+<%-- 				</c:if> --%>
 <!-- 				<div class="add-another"> -->
 
 <!-- 					<span style="position: relative;" class="span-two"><i -->
@@ -568,7 +570,7 @@
 									var id = data.data.id;
 									var tableName = data.data.tableName;
 									var success = imageRelAndUpload(id,tableName);
-									if(success){
+									if(success || "${picture}"){
 										alert("发布成功");
 									}
 		 							window.location.href = "Content_management_Release.jsp";
@@ -712,7 +714,7 @@
 	            }
 	        });
 		}
-		if(!data_ids && sum == 0 && "${Tag != '4'}" == "true" ){
+		if(!data_ids && sum == 0 && "${Tag != '4'}" == "true" && !"${picture}"){
 			alert("请上传或从图库中选择图片！");
 			return false;
 		}
@@ -861,7 +863,7 @@
 							$("#clear-fix").append(getImagesHtml(results[i].id,results[i].absolutePath));
 						}
 					}else{
-						alert("图片库中无图片显示!");
+// 						alert("图片库中无图片显示!");
 					}
 				}else{
 					alert("获取图片库图片失败!");
