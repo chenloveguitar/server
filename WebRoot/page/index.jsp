@@ -34,8 +34,8 @@
 				<li class="header-bar-nav"><a href="javascript:;"> ${str}<i
 						class="icon-font" style="margin-left:5px;">&#xe60c;</i></a>
 					<ul class="header-dropdown-menu">
-						<li><a href="page/login.jsp">切换账户</a></li>
-						<li><a href="page/login.jsp">退出</a></li>
+						<li><a href="page/Login.jsp">切换账户</a></li>
+						<li><a href="page/Login.jsp">退出</a></li>
 					</ul></li>
 				<li class="header-bar-nav"><a href="javascript:;" title="换肤"><i
 						class="icon-font">&#xe608;</i></a>
