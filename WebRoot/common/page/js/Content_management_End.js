@@ -31,6 +31,12 @@ function getLi(data,Tag) {
 	if(data.pictures && data.pictures.length > 0){
 		imgSrc = data.pictures[0]["picture_url"];
 	}
+	
+	var touxiangImgSrc = "../common/image/zwtp.png";
+	
+	if(data.releaser_touxiang){
+		touxiangImgSrc = data.releaser_touxiang;
+	}
 	return '<li>' + '<p class="position-show-title">'
 			+ '<i class="position-circle"></i> '
 			+ '<img class="position-square" src="'+imgSrc+'"/>'
@@ -49,7 +55,7 @@ function getLi(data,Tag) {
 			+ '</p>'
 			+ '<p class="position-author">'
 			+ '<img class="icon-author" src="'
-			+ data.releaser_touxiang
+			+ touxiangImgSrc
 			+ '" />'
 			+ '<span class="position-title">'
 			+ '<span>'

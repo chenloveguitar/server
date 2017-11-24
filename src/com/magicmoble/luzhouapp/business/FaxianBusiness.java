@@ -84,11 +84,11 @@ public class FaxianBusiness {
 
 	public static List<Faxian_Shouye> getAllFaxian(int page, String my_id, int num) {
 		List<Faxian_Shouye> list = new ArrayList<Faxian_Shouye>();
-		List<Faxian_Shouye> list3 = new ArrayList<Faxian_Shouye>();
+//		List<Faxian_Shouye> list3 = new ArrayList<Faxian_Shouye>();
 
 		DBHelper db1 = null;
-		DBHelper db2 = null;
-		String sql1 = null;
+//		DBHelper db2 = null;
+//		String sql1 = null;
 		String sql = null;
 		ResultSet ret = null;
 		List<String> guanzhus = new ArrayList<String>();
@@ -118,14 +118,14 @@ public class FaxianBusiness {
 			sql += " shenhe like '%已发布%' order by rand() LIMIT  6 ";
 		}
 
-		sql1 = "select * from faxian where  shenhe like '%已发布%' order by time LIMIT " + (page - 1) * 12 + ","
-				+ 12 * page;
+//		sql1 = "select * from faxian where  shenhe like '%已发布%' order by time LIMIT " + (page - 1) * 12 + ","
+//				+ 12 * page;
 
 		if (my_id != null) {
 			db1 = new DBHelper(sql);
 		}
 
-		ResultSet ret2 = null;
+//		ResultSet ret2 = null;
 		try {
 			if (my_id != null) {
 				if (page == 1) {
@@ -160,49 +160,49 @@ public class FaxianBusiness {
 					}
 				}
 			}
-			db2 = new DBHelper(sql1);
-			ret2 = db2.pst.executeQuery();
-			while (ret2.next()) {
-				String id = ret2.getString(1);
-
-				String picture = ret2.getString(2);
-				String[] aa = picture.split(",");
-
-				List<Picture> list2 = new ArrayList<Picture>();
-				for (int i = 0; i < aa.length; i++) {
-					Picture picture_url = new Picture();
-					picture_url.setPicture_url(aa[i]);
-					list2.add(picture_url);
-				}
-
-				String title = ret2.getString(3);
-				String name = ret2.getString(4);
-				int pinglun_count = FunctionBusiness.getPinglun_size(id);
-
-				int dianzan_counts = FunctionBusiness.getDianzanNumber(id, 4).getDianzan_count();
-				Faxian_Shouye faxian = new Faxian_Shouye();
-				faxian.setFaxian_id(id);
-				faxian.setPicture(list2);
-				faxian.setTitle(title);
-				faxian.setReleaser_name(name);
-				faxian.setPinglun_count(pinglun_count);
-				faxian.setDianzan_count(dianzan_counts);
-
-				list3.add(faxian);
-			}
-
-			list3.removeAll(list);
-			Collections.shuffle(list3);
+//			db2 = new DBHelper(sql1);
+//			ret2 = db2.pst.executeQuery();
+//			while (ret2.next()) {
+//				String id = ret2.getString(1);
+//
+//				String picture = ret2.getString(2);
+//				String[] aa = picture.split(",");
+//
+//				List<Picture> list2 = new ArrayList<Picture>();
+//				for (int i = 0; i < aa.length; i++) {
+//					Picture picture_url = new Picture();
+//					picture_url.setPicture_url(aa[i]);
+//					list2.add(picture_url);
+//				}
+//
+//				String title = ret2.getString(3);
+//				String name = ret2.getString(4);
+//				int pinglun_count = FunctionBusiness.getPinglun_size(id);
+//
+//				int dianzan_counts = FunctionBusiness.getDianzanNumber(id, 4).getDianzan_count();
+//				Faxian_Shouye faxian = new Faxian_Shouye();
+//				faxian.setFaxian_id(id);
+//				faxian.setPicture(list2);
+//				faxian.setTitle(title);
+//				faxian.setReleaser_name(name);
+//				faxian.setPinglun_count(pinglun_count);
+//				faxian.setDianzan_count(dianzan_counts);
+//
+//				list3.add(faxian);
+//			}
+//
+//			list3.removeAll(list);
+//			Collections.shuffle(list3);
 			Collections.shuffle(list);
-			for (int i = 0; i < list3.size(); i++) {
-				list.add(list3.get(i));
-			}
+//			for (int i = 0; i < list3.size(); i++) {
+//				list.add(list3.get(i));
+//			}
 
 			if (my_id != null) {
 				db1.close();
 			}
 
-			db2.close();
+//			db2.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

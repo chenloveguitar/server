@@ -169,7 +169,7 @@
 									if(success){
 										alert("发布成功");
 									}
-	//	 							window.location.href = "page/Content_management_Release.jsp";
+		 							window.location.href = "Shuoshuo_management.jsp";
 								}else{
 									alert("发布失败");
 								}

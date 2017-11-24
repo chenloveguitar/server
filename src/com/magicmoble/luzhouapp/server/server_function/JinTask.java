@@ -35,7 +35,7 @@ public class JinTask extends TimerTask {
 					db2 = new DBHelper(sql1);
 					boolean ret2 = db2.pst.execute();
 //System.out.println("11111111111111");
-					 JiguangPush.push(buyer_id, "你的订单超出时间未付款 系统自动取消");
+//					 JiguangPush.push(buyer_id, "你的订单超出时间未付款 系统自动取消");
 				}
 
 			}

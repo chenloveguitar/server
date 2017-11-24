@@ -1,6 +1,7 @@
 package com.magicmoble.luzhouapp.model;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Zhuye_Model {
@@ -13,7 +14,7 @@ public class Zhuye_Model {
 	int fensi_count;
 	boolean isguanzhu;
 	String sex;
-List<Dianpu>  dianpu;
+List<Dianpu>  dianpu = new ArrayList<Dianpu>();
 
 
 

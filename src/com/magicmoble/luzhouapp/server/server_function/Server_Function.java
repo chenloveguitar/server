@@ -1769,7 +1769,7 @@ public class Server_Function<T> {
 		String shenhe = "已发布";
 		Timestamp time = new Timestamp(new Date().getTime());
 
-		sql = "INSERT INTO toutiao(id,picture,title,name,content,fufei_Tag,fenlei_Tag,muban_Tag,releaser_id,releaser_name,shenhe,time,yuedu,described,publish_date) VALUES ('"
+		sql = "INSERT INTO toutiao(id,picture,title,name,content,fufei_Tag,fenlei_Tag,muban_Tag,releaser_id,releaser_name,shenhe,time,described,publish_date) VALUES ('"
 				+ uuid + "', '" + picture + "', '" + title + "', '" + name + "', '" + content + "', " + fufei_Tag + ", "
 				+ fenlei_Tag + "," + muban_Tag + ",'" + releaser_id + "','" + releaser_name + "','" + shenhe + "','"
 				+ time + "','"+described+"','"+publish_date+"')";

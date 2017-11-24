@@ -35,8 +35,10 @@ public class ToutiaoBusiness {
 			while (ret.next()) {
 				String id = ret.getString(1);
 				String picture = ret.getString(2);
-				String[] aa = picture.split(",");
-
+				String[] aa = new String[]{};
+				if(picture != null){
+					aa = picture.split(",");
+				}
 				List<Picture> list2 = new ArrayList<Picture>();
 				for (int i = 0; i < aa.length; i++) {
 					Picture picture_url = new Picture();
@@ -579,8 +581,10 @@ public class ToutiaoBusiness {
 			while (ret2.next()) {
 				String id = ret2.getString(1);
 				String picture = ret2.getString(2);
-				String[] aa = picture.split(",");
-
+				String[] aa = new String[]{};
+				if(picture != null){
+					aa = picture.split(",");
+				}
 				List<Picture> list2 = new ArrayList<Picture>();
 				for (int i = 0; i < aa.length; i++) {
 					Picture picture_url = new Picture();

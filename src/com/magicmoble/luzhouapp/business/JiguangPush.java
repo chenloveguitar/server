@@ -46,21 +46,21 @@ public class JiguangPush {
 	 * @param alert
 	 * @return PushPayload
 	 */
-	public static PushPayload buildPushObject_android_ios_alias_alert(String alias, String alert) {
-		return PushPayload.newBuilder().setPlatform(Platform.android_ios()).setAudience(Audience.alias(alias))
-				.setNotification(
-						Notification.newBuilder()
-								.addPlatformNotification(AndroidNotification.newBuilder().addExtra("type", "infomation")
-										.setAlert(alert).build())
-						.addPlatformNotification(
-								IosNotification.newBuilder().addExtra("type", "infomation").setAlert(alert).build())
-						.build())
-				.setOptions(Options.newBuilder().setApnsProduction(true)// true-推送生产环境
-																			// false-推送开发环境（测试使用参数）
-						.setTimeToLive(90)// 消息在JPush服务器的失效时间（测试使用参数）
-						.build())
-				.build();
-	}
+//	public static PushPayload buildPushObject_android_ios_alias_alert(String alias, String alert) {
+//		return PushPayload.newBuilder().setPlatform(Platform.android_ios()).setAudience(Audience.registrationId(alias))
+//				.setNotification(
+//						Notification.newBuilder()
+//								.addPlatformNotification(AndroidNotification.newBuilder().addExtra("type", "infomation")
+//										.setAlert(alert).build())
+//						.addPlatformNotification(
+//								IosNotification.newBuilder().addExtra("type", "infomation").setAlert(alert).build())
+//						.build())
+//				.setOptions(Options.newBuilder().setApnsProduction(true)// true-推送生产环境
+//																			// false-推送开发环境（测试使用参数）
+//						.setTimeToLive(90)// 消息在JPush服务器的失效时间（测试使用参数）
+//						.build())
+//				.build();
+//	}
 
 	/**
 	 * 极光推送方法(采用java SDK)
@@ -86,6 +86,11 @@ public class JiguangPush {
 			log.info("Msg ID: " + e.getMsgId());
 			return null;
 		}
+	}
+	
+	public static PushPayload buildPushObject_android_ios_alias_alert(String alias, String alert) {
+		return PushPayload.newBuilder().setPlatform(Platform.all()).setAudience(Audience.registrationId(alias))
+				.setNotification(Notification.alert(alert)).build();
 	}
 	
 }

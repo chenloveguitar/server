@@ -65,7 +65,7 @@ public class AddGuanzhuInq extends HttpServlet {
 			} else {
 				String str = GuanzhuBusiness.addGuanzhu(my_id, friend_id, focus_Tags);
 				FunctionBusiness.addmessage(my_id, friend_id, null, "有人关注了你", "");
-				JiguangPush.push(friend_id, "有人关注了你");
+//				JiguangPush.push(friend_id, "有人关注了你");
 				DataObject dataObject = new DataObject();
 				dataObject.setdata(str);
 				dataObject.setStatusObject(StatusHouse.COMMON_STATUS_OK);

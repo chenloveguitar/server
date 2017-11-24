@@ -401,9 +401,9 @@
 			</div>
 			<div class="pattem-cont">
 				<div class="form-select" id="picture" >
-					<label><input type="radio" name="se" <c:if test="${muban_Tag eq '2'}">checked="checked"</c:if> value="2" />多缩略图</label>
-					<label><input type="radio" name="se" <c:if test="${muban_Tag eq '1'}">checked="checked"</c:if> value="1" />单缩略图</label>
-					<label><input type="radio" name="se" <c:if test="${muban_Tag eq '4'}">checked="checked"</c:if> value="4" />大图</label>
+					<label><input type="radio" name="se" <c:if test="${muban_Tag eq '1'}">checked="checked"</c:if> value="1" />多缩略图</label>
+					<label><input type="radio" name="se" <c:if test="${muban_Tag eq '2'}">checked="checked"</c:if> value="2" />单缩略图</label>
+					<label><input type="radio" name="se" <c:if test="${muban_Tag eq '3'}">checked="checked"</c:if> value="3" />大图</label>
 				</div>
 			</div>
 		</div>
@@ -525,6 +525,10 @@
 			$(".save-clicked").on("click", function() {
 				var selectedNum = $("#clear-fix .select").parents("li").length;
 				var uploadNum = document.getElementById("file").files.length || $("#manage-list-ul li").length;
+				if(!$("#releaser_id").val()){
+					alert("请选择作者!");
+					return;
+				}
 				if(selectedNum || uploadNum || "${Tag == '4'}"){
 					$.ajax({
 						url : "/mServer/Upload_file2",

@@ -220,8 +220,8 @@
 			</div>
 			<div class="pattem-cont">
 				<div class="form-select" id="picture">
-					<label><input type="radio" name="se" checked="checked" value="2" />多缩略图</label>
-					<label><input type="radio" name="se" value="1" />单缩略图</label>
+					<label><input type="radio" name="se" value="1" />多缩略图</label>
+					<label><input type="radio" name="se" checked="checked" value="2" />单缩略图</label>
 					<label><input type="radio" name="se" value="3" />大图</label>
 				</div>
 			</div>
@@ -309,6 +309,10 @@
 			$(".save-clicked").on("click", function() {
 				var selectedNum = $("#clear-fix .select").parents("li").length;
 				var uploadNum = document.getElementById("file").files.length;
+				if(!$("#releaser_id").val()){
+					alert("请选择作者!");
+					return;
+				}
 				if(selectedNum || uploadNum){
 					$.ajax({
 						url : "/mServer/Upload_file2",
@@ -356,7 +360,7 @@
 									if(success){
 										alert("发布成功");
 									}
-		 							window.location.href = "page/Content_management_Release.jsp";
+		 							window.location.href = "Content_management_Release.jsp";
 								}else{
 									alert("发布失败");
 								}
@@ -367,7 +371,7 @@
 							}
 						});
 				}else{
-					alert("请上传或从图库中选择图片！");
+// 					alert("请上传或从图库中选择图片！");
 				}
 			});
 		});
@@ -430,7 +434,7 @@
 		}
 		
 		if(data_ids && sum == 0){
-			alert("请上传或从图库中选择图片！");
+// 			alert("请上传或从图库中选择图片！");
 			return false;
 		}
 		return success;
